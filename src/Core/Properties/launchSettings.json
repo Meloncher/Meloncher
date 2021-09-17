@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Core": {
+      "commandName": "Project"
+    },
+    "Core (Offline)": {
+      "commandName": "Project"
+    }
+  }
+}
