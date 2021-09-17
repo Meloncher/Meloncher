@@ -11,9 +11,10 @@
         Width="800" 
         FontFamily="Roboto" 
         FontWeight="Normal" 
-        AllowsTransparency="True" 
+        AllowsTransparency="False" 
         WindowStyle="None" 
-        Background="Transparent">
+        Background="Transparent"
+        >
 
     <Window.DataContext>
         <vm:MainWindowViewModel />
@@ -62,12 +63,12 @@
                         <ColumnDefinition></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <StackPanel>
-                        <TextBox Grid.Row="1" Text="{Binding Verison}" Height="16" Width="128" />
+                        <TextBox Grid.Row="1" Text="{Binding McVersionName}" Height="16" Width="128" />
                         <TextBox Grid.Row="1" Text="{Binding Username}" Height="16" Width="128" />
                         <CheckBox IsChecked="{Binding Optifine}" Content="Optifine" Foreground="White" Height="16" Width="128" />
                         <CheckBox IsChecked="{Binding Offline}" Content="Offline" Foreground="White" Height="16" Width="128" />
                     </StackPanel>
-                    <Button Command="{Binding PlayButtonCommand}" Grid.Column="1" Content="Play" Height="48" Width="192"></Button>
+                    <Button Command="{Binding PlayButtonCommand}" IsEnabled="{Binding IsNotStarted}" Grid.Column="1" Content="Play" Height="48" Width="192"></Button>
                 </Grid>
                 <ProgressBar Grid.Row="2" Background="#323232" Value="{Binding ProgressValue}" Foreground="Red" BorderThickness="0" />
             </Grid>
