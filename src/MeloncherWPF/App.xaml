@@ -1,7 +1,7 @@
-﻿<Application x:Class="Meloncher.WPF.App"
+﻿<Application x:Class="MeloncherWPF.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:Meloncher.WPF"
+             xmlns:local="clr-namespace:MeloncherWPF"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
          
