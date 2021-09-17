@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace MeloncherCore.Launcher
 {
-	class McLauncher
+	public class McLauncher
 	{
 		public McLauncher() { }
 
