@@ -1,9 +1,6 @@
 {
   "profiles": {
-    "Core": {
-      "commandName": "Project"
-    },
-    "Core (Offline)": {
+    "MeloncherCore": {
       "commandName": "Project"
     }
   }

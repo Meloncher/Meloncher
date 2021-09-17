@@ -1,5 +1,6 @@
 ﻿using CmlLib.Core;
 using CmlLib.Core.Auth;
+using CmlLib.Core.Downloader;
 using CmlLib.Core.Installer;
 using CmlLib.Core.Version;
 using CmlLib.Core.VersionLoader;
@@ -7,6 +8,7 @@ using MeloncherCore.Optifine;
 using MeloncherCore.Options;
 using MeloncherCore.Version;
 using System;
+using System.ComponentModel;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -16,9 +18,14 @@ namespace MeloncherCore.Launcher
 	{
 		public McLauncher() { }
 
+		public event DownloadFileChangedHandler FileChanged;
+		public event ProgressChangedEventHandler ProgressChanged;
+
 		public async Task Launch(McVersion version, MSession session, bool offline, bool optifine)
 		{
-			var path = new ExtMinecraftPath("D:\\MeloncherNetTest", $"D:\\MeloncherNetTest\\profiles\\versions\\{version.ProfileName}");
+			ProgressChanged?.Invoke(null, new ProgressChangedEventArgs(50, null));
+			//var path = new ExtMinecraftPath("D:\\MeloncherNetTest", $"D:\\MeloncherNetTest\\profiles\\versions\\{version.ProfileName}");
+			var path = new ExtMinecraftPath("Data", $"Data\\profiles\\versions\\{version.ProfileName}");
 			//var path = new MinecraftPath("D:\\MeloncherNetTest\\testvanillalike");
 			var launcher = new CMLauncher(path);
 			if (offline)
@@ -26,12 +33,15 @@ namespace MeloncherCore.Launcher
 				launcher.VersionLoader = new LocalVersionLoader(path);
 				launcher.FileDownloader = null;
 			}
+
 			launcher.FileChanged += (e) =>
 			{
+				FileChanged?.Invoke(e);
 				Console.WriteLine("[{0}] {1} - {2}/{3}", e.FileKind.ToString(), e.FileName, e.ProgressedFileCount, e.TotalFileCount);
 			};
 			launcher.ProgressChanged += (s, e) =>
 			{
+				ProgressChanged?.Invoke(s, e);
 				Console.WriteLine("{0}%", e.ProgressPercentage);
 			};
 			var launchOption = new MLaunchOption

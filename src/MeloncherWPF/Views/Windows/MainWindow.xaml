@@ -55,7 +55,9 @@
                     <RowDefinition Height="64" />
                     <RowDefinition Height="20" />
                 </Grid.RowDefinitions>
-                <Border Background="Aqua"></Border>
+                <Border Background="Aqua">
+                    <TextBox Text="{Binding TestConsole}" VerticalScrollBarVisibility="Auto"/>
+                </Border>
                 <Grid Grid.Row="1" Background="#252525">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition></ColumnDefinition>

@@ -108,6 +108,7 @@ namespace MeloncherCore.Optifine
 		public async Task<string> IsLatestInstalled(string mcVersionName, ExtMinecraftPath path)
 		{
 			var latest = await GetLatestOptifineVersion(mcVersionName);
+			if (latest == null) return null;
 			var name = mcVersionName + "-Optifine_" + latest.Type + "_" + latest.Patch;
 			var versionLoader = new LocalVersionLoader(path);
 			foreach (var mtd in versionLoader.GetVersionMetadatas())
@@ -120,6 +121,7 @@ namespace MeloncherCore.Optifine
 		public async Task<string> installOptifine(string mcVersionName, ExtMinecraftPath path, string javaPath)
 		{
 			var latest = await GetLatestOptifineVersion(mcVersionName);
+			if (latest == null) return null;
 			Console.WriteLine(latest.FileName);
 			return await installOptifine(latest, path, javaPath);
 		}
