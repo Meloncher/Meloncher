@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MeloncherCore.Launcher;
+using CmlLib.Core;
 using Newtonsoft.Json;
 using SharpCompress.Archives;
 
@@ -16,7 +16,7 @@ namespace MeloncherCore.Optifine.Bobcat
         public string JavaExecutablePath { get; set; }
         public string OptifineJarPath { get; set; }
         //public string RootPath { get; set; }
-        public ExtMinecraftPath MinecraftPath { get; set; }
+        public MinecraftPath MinecraftPath { get; set; }
         public string CustomId { get; set; }
         public OptifineDownloadVersionModel OptifineDownloadVersion { get; set; }
 

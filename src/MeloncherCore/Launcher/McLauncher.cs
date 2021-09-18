@@ -24,8 +24,8 @@ namespace MeloncherCore.Launcher
 		public async Task Launch(McVersion version, MSession session, bool offline, bool optifine)
 		{
 			ProgressChanged?.Invoke(null, new ProgressChangedEventArgs(50, null));
-			//var path = new ExtMinecraftPath("D:\\MeloncherNetTest", $"D:\\MeloncherNetTest\\profiles\\versions\\{version.ProfileName}");
-			var path = new ExtMinecraftPath("Data", $"Data\\profiles\\versions\\{version.ProfileName}");
+			var path = new ExtMinecraftPath("D:\\MeloncherNetTest", $"D:\\MeloncherNetTest\\profiles\\versions\\{version.ProfileName}");
+			//var path = new ExtMinecraftPath("Data", $"Data\\profiles\\versions\\{version.ProfileName}");
 			//var path = new MinecraftPath("D:\\MeloncherNetTest\\testvanillalike");
 			var launcher = new CMLauncher(path);
 			if (offline)

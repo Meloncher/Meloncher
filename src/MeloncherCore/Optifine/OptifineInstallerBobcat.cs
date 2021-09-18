@@ -1,5 +1,5 @@
-﻿using CmlLib.Core.VersionLoader;
-using MeloncherCore.Launcher;
+﻿using CmlLib.Core;
+using CmlLib.Core.VersionLoader;
 using MeloncherCore.Optifine.Bobcat;
 using Newtonsoft.Json.Linq;
 using System;
@@ -77,7 +77,7 @@ namespace MeloncherCore.Optifine
 			return false;
 		}
 
-		public string? GetLatestInstalled(string mcVersionName, ExtMinecraftPath path)
+		public string? GetLatestInstalled(string mcVersionName, MinecraftPath path)
 		{
 			var versionLoader = new LocalVersionLoader(path);
 			string latestName = null;
@@ -105,7 +105,7 @@ namespace MeloncherCore.Optifine
 			return latestName;
 		}
 
-		public async Task<string> IsLatestInstalled(string mcVersionName, ExtMinecraftPath path)
+		public async Task<string> IsLatestInstalled(string mcVersionName, MinecraftPath path)
 		{
 			var latest = await GetLatestOptifineVersion(mcVersionName);
 			if (latest == null) return null;
@@ -118,14 +118,14 @@ namespace MeloncherCore.Optifine
 			return null;
 		}
 
-		public async Task<string> installOptifine(string mcVersionName, ExtMinecraftPath path, string javaPath)
+		public async Task<string> installOptifine(string mcVersionName, MinecraftPath path, string javaPath)
 		{
 			var latest = await GetLatestOptifineVersion(mcVersionName);
 			if (latest == null) return null;
 			Console.WriteLine(latest.FileName);
 			return await installOptifine(latest, path, javaPath);
 		}
-		public async Task<string> installOptifine(OptifineDownloadVersionModel ofVer, ExtMinecraftPath path, string javaPath)
+		public async Task<string> installOptifine(OptifineDownloadVersionModel ofVer, MinecraftPath path, string javaPath)
 		{
 			var installerPath = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
 			using (var wc = new WebClient())

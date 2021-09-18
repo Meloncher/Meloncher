@@ -8,10 +8,13 @@ namespace MeloncherCore.Launcher
         public string RootPath { get; set; }
         public string MinecraftPath { get; set; }
 
+        public ExtMinecraftPath(string rootPath, string profileType, string profileName)
+		{
+		}
         public ExtMinecraftPath(string rootPath, string profilePath)
         {
             BasePath = NormalizePath(profilePath);
-            RootPath = NormalizePath(rootPath);
+            RootPath = NormalizePath(rootPath + "/" + profilePath);
             MinecraftPath = NormalizePath(rootPath + "/minecraft");
 
             Library = NormalizePath(MinecraftPath + "/libraries");
