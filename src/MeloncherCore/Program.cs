@@ -19,7 +19,19 @@ namespace MeloncherCore
             bool optifine = Confirm("Optifine?");
             var version = new McVersion(versionName, "Test", "Test-" + versionName);
             var launcher = new McLauncher();
+            launcher.FileChanged += (e) =>
+            {
+                //FileChanged?.Invoke(e);
+                Console.WriteLine("[{0}] {1} - {2}/{3}", e.FileKind.ToString(), e.FileName, e.ProgressedFileCount, e.TotalFileCount);
+            };
+            launcher.ProgressChanged += (s, e) =>
+            {
+                //ProgressChanged?.Invoke(s, e);
+                Console.WriteLine("{0}%", e.ProgressPercentage);
+            };
             var session = MSession.GetOfflineSession("tester123");
+            //var qwe = new MicrosoftAuth();
+            //var session = qwe.test();
             await launcher.Launch(version, session, offline, optifine);
         }
 

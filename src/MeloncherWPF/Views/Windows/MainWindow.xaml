@@ -73,6 +73,7 @@
                     <Button Command="{Binding PlayButtonCommand}" IsEnabled="{Binding IsNotStarted}" Grid.Column="1" Content="Play" Height="48" Width="192"></Button>
                 </Grid>
                 <ProgressBar Grid.Row="2" Background="#323232" Value="{Binding ProgressValue}" Foreground="Red" BorderThickness="0" />
+                <TextBlock Grid.Row="2" Foreground="White" Text="Loading..." HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14"/>
             </Grid>
         </Border>
     </Grid>

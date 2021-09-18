@@ -1,21 +1,16 @@
-﻿using CmlLib.Core;
-using MeloncherCore.Launcher;
-using System;
-using System.Collections.Generic;
+﻿using MeloncherCore.Launcher;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace MeloncherCore.Options
 {
-	class Sync
+	class McOptionsSync
 	{
 		private string profileOpts;
 		private string syncOpts;
 		private string[] noSyncKeys = new string[] { "resourcePacks", "incompatibleResourcePacks", "skin" };
 
-		public Sync(ExtMinecraftPath path)
+		public McOptionsSync(ExtMinecraftPath path)
 		{
 			profileOpts = Path.Combine(path.BasePath, "options.txt");
 			syncOpts = Path.Combine(path.RootPath, "options.txt");

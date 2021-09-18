@@ -1,13 +1,11 @@
 ﻿using CmlLib.Core.Auth;
+using CmlLib.Core.Auth.Microsoft.UI.Wpf;
 using MeloncherCore.Launcher;
 using MeloncherCore.Version;
 using MeloncherWPF.Infrastructure.Commands;
-using MeloncherWPF.ViewModels.Base;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -53,30 +51,28 @@ namespace MeloncherWPF.ViewModels
 			Username = "Steve";
 			Optifine = true;
 			Offline = false;
-			ProgressValue = 0;
+			ProgressValue = -1;
 			IsNotStarted = true;
 			PlayButtonCommand = new LambdaCommand(OnPlayButtonCommandExecuted, CanPlayButtonCommandExecute);
 			TestConsole = "";
 
-			using (var consoleWriter = new ConsoleWriter())
-			{
-				consoleWriter.WriteEvent += consoleWriter_WriteEvent;
-				consoleWriter.WriteLineEvent += consoleWriter_WriteLineEvent;
-
-				Console.SetOut(consoleWriter);
-			}
-
 			mcLauncher = new McLauncher();
+			mcLauncher.FileChanged += (e) =>
+			{
+				//FileChanged?.Invoke(e);
+				TestLog(String.Format("[{0}] {1} - {2}/{3}", e.FileKind.ToString(), e.FileName, e.ProgressedFileCount, e.TotalFileCount));
+			};
+			mcLauncher.ProgressChanged += (s, e) =>
+			{
+				//ProgressChanged?.Invoke(s, e);
+				//TestLog(String.Format("{0}%", e.ProgressPercentage));
+				ProgressValue = e.ProgressPercentage;
+			};
 		}
 
-		void consoleWriter_WriteLineEvent(object sender, ConsoleWriterEventArgs e)
+		void TestLog(string text)
 		{
-			TestConsole =  e.Value + "\n" + TestConsole;
-		}
-
-		void consoleWriter_WriteEvent(object sender, ConsoleWriterEventArgs e)
-		{
-			TestConsole += e.Value;
+			TestConsole = text + "\n" + TestConsole;
 		}
 
 		public string TestConsole { get; set; }
@@ -100,11 +96,15 @@ namespace MeloncherWPF.ViewModels
 		}
 		private void OnPlayButtonCommandExecuted(object p)
 		{
-			mcLauncher = new McLauncher();
+			MicrosoftLoginWindow loginWindow = new MicrosoftLoginWindow();
+			MSession session = loginWindow.ShowLoginDialog();
 			new Task(async () => {
 				IsNotStarted = false;
 				Title = "Meloncher " + McVersionName;
-				await mcLauncher.Launch(new McVersion(McVersionName, "Test", "Test-" + McVersionName), MSession.GetOfflineSession(Username), Offline, Optifine);
+				
+				//MSession asdsdaf = MSession.GetOfflineSession(Username);
+				await mcLauncher.Launch(new McVersion(McVersionName, "Test", "Test-" + McVersionName), session, Offline, Optifine);
+				ProgressValue = -1;
 				IsNotStarted = true;
 				Title = "Meloncher";
 			}).Start();
