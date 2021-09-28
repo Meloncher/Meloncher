@@ -15,7 +15,7 @@
                             CornerRadius="4">
                         <StackPanel Orientation="Horizontal">
                             <StackPanel>
-                                <Label Content="{Binding Username}"></Label>
+                                <Label Content="{Binding Username}" Foreground="White"></Label>
                             </StackPanel>
                         </StackPanel>
                         

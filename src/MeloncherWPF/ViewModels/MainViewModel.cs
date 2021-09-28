@@ -38,7 +38,8 @@ namespace MeloncherWPF.ViewModels
 			AddMicrosoftCommand = new LambdaCommand(OnAddMicrosoftCommandExecuted);
 			AddMojangCommand = new LambdaCommand(OnAddMojangCommandExecuted);
 			AddOfflineCommand = new LambdaCommand(OnAddOfflineCommandExecuted);
-			mcLauncher = new McLauncher(new ExtMinecraftPath("D:\\MeloncherNetTest"));
+			//mcLauncher = new McLauncher(new ExtMinecraftPath("D:\\MeloncherNetTest"));
+			mcLauncher = new McLauncher(new ExtMinecraftPath("Data"));
 			mcLauncher.FileChanged += (e) =>
 			{
 				TestLog(String.Format("[{0}] {1} - {2}/{3}", e.FileKind.ToString(), e.FileName, e.ProgressedFileCount, e.TotalFileCount));
@@ -56,7 +57,7 @@ namespace MeloncherWPF.ViewModels
 			var dispatcher = Dispatcher.CurrentDispatcher;
 			new Task(async () =>
 			{
-				accountStorage = new AccountStorage(new ExtMinecraftPath("D:\\MeloncherNetTest"));
+				accountStorage = new AccountStorage(mcLauncher.MinecraftPath);
 				await accountStorage.ReadFile();
 				dispatcher.Invoke(reloadAccList);
 			}).Start();
@@ -138,7 +139,9 @@ namespace MeloncherWPF.ViewModels
 		{
 			//MicrosoftLoginWindow loginWindow = new MicrosoftLoginWindow();
 			//MSession session = loginWindow.ShowLoginDialog();
-			MSession session = Accounts[selectedAccount];
+			MSession session = MSession.GetOfflineSession("Gomosek228");
+			if (Accounts.Count > 0)
+				session = Accounts[selectedAccount];
 			new Task(async () => {
 
 				//var path = new ExtMinecraftPath("D:\\MeloncherNetTest", $"profiles\\qwe");
