@@ -18,7 +18,8 @@ namespace MeloncherCore
             bool offline = Confirm("Offline?");
             bool optifine = Confirm("Optifine?");
             var version = new McVersion(versionName, "Test", "Test-" + versionName);
-            var launcher = new McLauncher();
+            var path = new ExtMinecraftPath("D:\\MeloncherNetTest");
+            var launcher = new McLauncher(path);
             launcher.FileChanged += (e) =>
             {
                 //FileChanged?.Invoke(e);

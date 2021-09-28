@@ -7,7 +7,6 @@ using CmlLib.Core.VersionLoader;
 using MeloncherCore.Optifine;
 using MeloncherCore.Options;
 using MeloncherCore.Version;
-using System;
 using System.ComponentModel;
 using System.IO;
 using System.Threading.Tasks;
@@ -16,7 +15,11 @@ namespace MeloncherCore.Launcher
 {
 	public class McLauncher
 	{
-		public McLauncher() { }
+		public ExtMinecraftPath MinecraftPath { get; set; }
+		public McLauncher(ExtMinecraftPath MinecraftPath)
+		{
+			this.MinecraftPath = MinecraftPath;
+		}
 
 		public event DownloadFileChangedHandler FileChanged;
 		public event ProgressChangedEventHandler ProgressChanged;
@@ -24,13 +27,14 @@ namespace MeloncherCore.Launcher
 		public async Task Launch(McVersion version, MSession session, bool offline, bool optifine)
 		{
 			ProgressChanged?.Invoke(null, new ProgressChangedEventArgs(50, null));
-			var path = new ExtMinecraftPath("D:\\MeloncherNetTest", $"profiles\\versions\\{version.ProfileName}");
+			//var path = new ExtMinecraftPath("D:\\MeloncherNetTest", $"profiles\\versions\\{version.ProfileName}");
+			var path = MinecraftPath.CloneWithProfile("versions", version.ProfileName);
 			//var path = new ExtMinecraftPath("Data", $"profiles\\versions\\{version.ProfileName}");
 			//var path = new MinecraftPath("D:\\MeloncherNetTest\\testvanillalike");
 			var launcher = new CMLauncher(path);
 			if (offline)
 			{
-				launcher.VersionLoader = new LocalVersionLoader(path);
+				launcher.VersionLoader = new LocalVersionLoader(MinecraftPath);
 				launcher.FileDownloader = null;
 			}
 
@@ -53,11 +57,11 @@ namespace MeloncherCore.Launcher
 				GameLauncherName = "Meloncher"
 			};
 
-			var sync = new Sync(path);
+			var sync = new McOptionsSync(path);
 
 			if (!offline) await launcher.CheckAndDownloadAsync(launchOption.StartVersion);
 
-			FixJavaBinaryPath(path, launchOption.StartVersion);
+			FixJavaBinaryPath(MinecraftPath, launchOption.StartVersion);
 
 			if (optifine)
 			{
@@ -65,18 +69,18 @@ namespace MeloncherCore.Launcher
 				string ofVerName = null;
 				if (offline)
 				{
-					ofVerName = optifineInstaller.GetLatestInstalled(version.Name, path);
+					ofVerName = optifineInstaller.GetLatestInstalled(version.Name, MinecraftPath);
 				} else
 				{
-					ofVerName = await optifineInstaller.IsLatestInstalled(version.Name, path);
+					ofVerName = await optifineInstaller.IsLatestInstalled(version.Name, MinecraftPath);
 					if (ofVerName == null) {
-						ofVerName = await optifineInstaller.installOptifine(version.Name, path, launchOption.StartVersion.JavaBinaryPath);
+						ofVerName = await optifineInstaller.installOptifine(version.Name, MinecraftPath, launchOption.StartVersion.JavaBinaryPath);
 					} 
 				}
 
 				if (ofVerName != null) {
-					launchOption.StartVersion = new LocalVersionLoader(path).GetVersionMetadatas().GetVersion(ofVerName);		
-					FixJavaBinaryPath(path, launchOption.StartVersion);
+					launchOption.StartVersion = new LocalVersionLoader(MinecraftPath).GetVersionMetadatas().GetVersion(ofVerName);		
+					FixJavaBinaryPath(MinecraftPath, launchOption.StartVersion);
 				}
 			}
 
@@ -84,7 +88,7 @@ namespace MeloncherCore.Launcher
 			sync.Load();
 			process.Start();
 			var wt = new WindowTweaks(process);
-			wt.Borderless();
+			_ = wt.Borderless();
 			process.WaitForExit();
 			sync.Save();
 		}

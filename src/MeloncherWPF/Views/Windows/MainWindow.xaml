@@ -17,9 +17,9 @@
         >
 
     <Window.DataContext>
-        <vm:MainWindowViewModel />
+        <vm:MainViewModel />
     </Window.DataContext>
-    
+
     <WindowChrome.WindowChrome>
         <WindowChrome 
         CaptionHeight="0"
@@ -56,7 +56,8 @@
                     <RowDefinition Height="20" />
                 </Grid.RowDefinitions>
                 <Border Background="Aqua">
-                    <TextBox Text="{Binding TestConsole}" VerticalScrollBarVisibility="Auto"/>
+                    <!--<TextBox Text="{Binding TestConsole}" VerticalScrollBarVisibility="Auto"/>-->
+                    
                 </Border>
                 <Grid Grid.Row="1" Background="#252525">
                     <Grid.ColumnDefinitions>
@@ -65,15 +66,31 @@
                         <ColumnDefinition></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <StackPanel>
-                        <TextBox Grid.Row="1" Text="{Binding McVersionName}" Height="16" Width="128" />
-                        <TextBox Grid.Row="1" Text="{Binding Username}" Height="16" Width="128" />
+                        <TextBox Text="{Binding McVersionName}" Height="16" Width="128" />
+                        <!--<TextBox Grid.Row="1" Text="{Binding Username}" Height="16" Width="128" />-->
                         <CheckBox IsChecked="{Binding Optifine}" Content="Optifine" Foreground="White" Height="16" Width="128" />
                         <CheckBox IsChecked="{Binding Offline}" Content="Offline" Foreground="White" Height="16" Width="128" />
                     </StackPanel>
-                    <Button Command="{Binding PlayButtonCommand}" IsEnabled="{Binding IsNotStarted}" Grid.Column="1" Content="Play" Height="48" Width="192"></Button>
+                    <Button Style="{StaticResource PlayButton}" Command="{Binding PlayButtonCommand}" IsEnabled="{Binding IsNotStarted}" Grid.Column="1" Content="Play" Height="40" Width="200" />
+                    <Button Grid.Column="2" Height="32" Width="128" Content="Аккаунты" Command="{Binding OpenAccountsWindowCommand}"/>
                 </Grid>
                 <ProgressBar Grid.Row="2" Background="#323232" Value="{Binding ProgressValue}" Foreground="Red" BorderThickness="0" />
                 <TextBlock Grid.Row="2" Foreground="White" Text="Loading..." HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14"/>
+            </Grid>
+        </Border>
+        <Border Height="256" Width="512" Grid.RowSpan="2">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <ListView SelectedIndex="{Binding selectedAccount}" ItemsSource="{Binding Accounts}" ItemContainerStyle="{StaticResource Account}"></ListView>
+                <StackPanel Grid.Row="1" Orientation="Horizontal">
+                    <Button Command="{Binding AddOfflineCommand}" Content="Добавить Пиратку" Height="32" Width="128" />
+                    <Button Command="{Binding AddMojangCommand}" Content="Добавить Mojang" Height="32" Width="128" />
+                    <Button Command="{Binding AddMicrosoftCommand}" Content="Добавить Microsoft" Height="32" Width="128" />
+                    <Button Command="{Binding DeleteAccountCommand}" Content="Удалить выбранное" Height="32" Width="128" />
+                </StackPanel>
             </Grid>
         </Border>
     </Grid>

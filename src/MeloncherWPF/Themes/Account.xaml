@@ -1,0 +1,27 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Style TargetType="ListViewItem" x:Key="Account">
+        <Style.Triggers>
+            <Trigger Property="IsSelected" Value="True">
+                <Setter Property="Background" Value="#292929"/>
+            </Trigger>
+        </Style.Triggers>
+        <Setter Property="Background" Value="#505050"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListBoxItem">
+                    <Border Background="{TemplateBinding Background}"
+                            Height="50"
+                            CornerRadius="4">
+                        <StackPanel Orientation="Horizontal">
+                            <StackPanel>
+                                <Label Content="{Binding Username}"></Label>
+                            </StackPanel>
+                        </StackPanel>
+                        
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

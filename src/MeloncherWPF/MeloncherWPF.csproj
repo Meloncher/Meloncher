@@ -7,7 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Models\" />
+    <None Remove="Assets\Fonts\MinecraftSeven.ttf" />
+    <None Remove="Assets\Images\button2.png" />
+    <None Remove="Assets\Images\button3.png" />
+    <None Remove="Views\Windows\button1.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -19,6 +22,13 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MeloncherCore\MeloncherCore.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\Fonts\MinecraftSeven.ttf" />
+    <Resource Include="Assets\Images\button1.png" />
+    <Resource Include="Assets\Images\button2.png" />
+    <Resource Include="Assets\Images\button3.png" />
   </ItemGroup>
 
 </Project>

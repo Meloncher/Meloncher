@@ -4,6 +4,11 @@
              xmlns:local="clr-namespace:MeloncherWPF"
              StartupUri="Views/Windows/MainWindow.xaml">
     <Application.Resources>
-         
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Themes/Test.xaml"/>
+                <ResourceDictionary Source="Themes/Account.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

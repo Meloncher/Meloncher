@@ -98,9 +98,9 @@ namespace MeloncherCore.Optifine.Bobcat
                     },
                     new()
                     {
-                        Name = $"optifine:Optifine:{OptifineDownloadVersion.McVersion}_{editionRelease}"
-                    }
-                },
+						Name = $"optifine:Optifine:{OptifineDownloadVersion.McVersion}_{editionRelease}"
+					}
+				},
                 MainClass = "net.minecraft.launchwrapper.Launch",
                 MinimumLauncherVersion = 21
             };
