@@ -1,9 +1,9 @@
-﻿using CmlLib.Core.Auth;
+﻿using Apex.MVVM;
+using CmlLib.Core.Auth;
 using CmlLib.Core.Auth.Microsoft.UI.Wpf;
 using MeloncherCore.Account;
 using MeloncherCore.Launcher;
 using MeloncherCore.Version;
-using MeloncherWPF.Infrastructure.Commands;
 using MeloncherWPF.Views.Windows;
 using System;
 using System.Collections.ObjectModel;
@@ -27,37 +27,33 @@ namespace MeloncherWPF.ViewModels
 		public bool Optifine { get; set; } = true;
 		public bool Offline { get; set; } = false;
 		public int ProgressValue { get; set; } = -1;
+		public string ProgressText { get; set; } = "";
 		public bool IsNotStarted { get; set; } = true;
 
 		private McLauncher mcLauncher;
 		public MainViewModel()
 		{
-			PlayButtonCommand = new LambdaCommand(OnPlayButtonCommandExecuted);
-			OpenAccountsWindowCommand = new LambdaCommand(OnOpenAccountsWindowCommandExecuted);
-			DeleteAccountCommand = new LambdaCommand(OnDeleteAccountCommandExecuted);
-			AddMicrosoftCommand = new LambdaCommand(OnAddMicrosoftCommandExecuted);
-			AddMojangCommand = new LambdaCommand(OnAddMojangCommandExecuted);
-			AddOfflineCommand = new LambdaCommand(OnAddOfflineCommandExecuted);
+			PlayButtonCommand = new Command(OnPlayButtonCommandExecuted);
+			OpenAccountsWindowCommand = new Command(OnOpenAccountsWindowCommandExecuted);
+			DeleteAccountCommand = new Command(OnDeleteAccountCommandExecuted);
+			AddMicrosoftCommand = new Command(OnAddMicrosoftCommandExecuted);
+			AddMojangCommand = new Command(OnAddMojangCommandExecuted);
+			AddOfflineCommand = new Command(OnAddOfflineCommandExecuted);
 			//mcLauncher = new McLauncher(new ExtMinecraftPath("D:\\MeloncherNetTest"));
 			mcLauncher = new McLauncher(new ExtMinecraftPath("Data"));
 			mcLauncher.FileChanged += (e) =>
 			{
-				TestLog(String.Format("[{0}] {1} - {2}/{3}", e.FileKind.ToString(), e.FileName, e.ProgressedFileCount, e.TotalFileCount));
+				//TestLog(String.Format("[{0}] {1} - {2}/{3}", e.FileKind.ToString(), e.FileName, e.ProgressedFileCount, e.TotalFileCount));
+				ProgressText = String.Format("[{0}] {1} - {2}/{3}", e.FileKind.ToString(), e.FileName, e.ProgressedFileCount, e.TotalFileCount);
 			};
 			mcLauncher.ProgressChanged += (s, e) =>
 			{
 				ProgressValue = e.ProgressPercentage;
 			};
-			testAccountsViewModel();
-		}
-
-		public void testAccountsViewModel()
-		{
-			
 			var dispatcher = Dispatcher.CurrentDispatcher;
+			accountStorage = new AccountStorage(mcLauncher.MinecraftPath);
 			new Task(async () =>
 			{
-				accountStorage = new AccountStorage(mcLauncher.MinecraftPath);
 				await accountStorage.ReadFile();
 				dispatcher.Invoke(reloadAccList);
 			}).Start();
@@ -77,7 +73,7 @@ namespace MeloncherWPF.ViewModels
 		public ObservableCollection<MSession> Accounts { get; set; }
 		public int selectedAccount { get; set; } = 0;
 
-		public ICommand DeleteAccountCommand { get; }
+		public Command DeleteAccountCommand { get; }
 		private void OnDeleteAccountCommandExecuted(Object p)
 		{
 			accountStorage.RemoveAt(selectedAccount);
@@ -85,7 +81,7 @@ namespace MeloncherWPF.ViewModels
 			_ = accountStorage.SaveFile();
 		}
 
-		public ICommand AddMicrosoftCommand { get; }
+		public Command AddMicrosoftCommand { get; }
 		private void OnAddMicrosoftCommandExecuted(object p)
 		{
 			MicrosoftLoginWindow loginWindow = new MicrosoftLoginWindow();
@@ -95,7 +91,7 @@ namespace MeloncherWPF.ViewModels
 			_ = accountStorage.SaveFile();
 		}
 
-		public ICommand AddMojangCommand { get; }
+		public Command AddMojangCommand { get; }
 		private void OnAddMojangCommandExecuted(object p)
 		{
 			var dialog = new AddAccountWindow();
@@ -110,7 +106,7 @@ namespace MeloncherWPF.ViewModels
 			}
 		}
 
-		public ICommand AddOfflineCommand { get; }
+		public Command AddOfflineCommand { get; }
 		private void OnAddOfflineCommandExecuted(object p)
 		{
 			var dialog = new AddAccountWindow();
@@ -128,7 +124,7 @@ namespace MeloncherWPF.ViewModels
 			TestConsole = text + "\n" + TestConsole;
 		}
 
-		public ICommand OpenAccountsWindowCommand { get; }
+		public Command OpenAccountsWindowCommand { get; }
 		private void OnOpenAccountsWindowCommandExecuted(object p)
 		{
 			//accountsWindow.Activate();

@@ -4,6 +4,7 @@ using MeloncherCore.Optifine.Bobcat;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
@@ -12,6 +13,8 @@ namespace MeloncherCore.Optifine
 {
 	class OptifineInstallerBobcat
 	{
+		public event ProgressChangedEventHandler ProgressChanged;
+
 		private const string OptifineBmclUrl = "https://bmclapi2.bangbang93.com/optifine/versionlist/";
 		private OptifineDownloadVersionModel[] ParseVersions(string res)
 		{
@@ -132,10 +135,11 @@ namespace MeloncherCore.Optifine
 			{
 				var url = new Uri("https://optifine.net/download?f=" + ofVer.FileName);
 				wc.DownloadProgressChanged += (sender, e) => {
-					Console.WriteLine("Крч джарник оптифайна качается: " + e.ProgressPercentage + "%");
+					//Console.WriteLine("Крч джарник оптифайна качается: " + e.ProgressPercentage + "%");
+					ProgressChanged?.Invoke(sender, e);
 				};
 				await wc.DownloadFileTaskAsync(url, installerPath);
-				Console.WriteLine("Ура Оптифайн сканчался!");
+				//Console.WriteLine("Ура Оптифайн сканчался!");
 			}
 
 			var ofInstaller = new OptifineInstaller();

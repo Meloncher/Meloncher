@@ -27,6 +27,10 @@
     </WindowChrome.WindowChrome>
 
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="800*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="88" />
             <RowDefinition />
@@ -48,7 +52,7 @@
             </Grid>
         </Border>
         <Border Background="#252525" Grid.Row="1" />
-        <Border Grid.Row="2">
+        <Border Grid.Row="1">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition />
@@ -86,8 +90,28 @@
                     <Button Style="{StaticResource PlayButton}" Command="{Binding PlayButtonCommand}" IsEnabled="{Binding IsNotStarted}" Grid.Column="1" Content="Играть" Height="40" Width="200" />
                     <!--<Button Grid.Column="2" Height="32" Width="128" Content="Аккаунты" Command="{Binding OpenAccountsWindowCommand}"/>-->
                 </Grid>
-                <ProgressBar Grid.Row="2" Background="#323232" Value="{Binding ProgressValue}" Foreground="Red" BorderThickness="0" />
-                <TextBlock Grid.Row="2" Foreground="White" Text="Loading..." HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14"/>
+                <ProgressBar Grid.Row="2" Background="#323232" Value="{Binding ProgressValue}" Foreground="Red" BorderThickness="0" >
+                    <ProgressBar.Style>
+                        <Style TargetType="ProgressBar">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ProgressValue}" Value="-1">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ProgressBar.Style>
+                </ProgressBar>
+                <TextBlock Grid.Row="2" Foreground="White" Text="{Binding ProgressText}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ProgressValue}" Value="-1">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
             </Grid>
         </Border>
         <!--<Border Height="256" Width="512" Grid.RowSpan="2">

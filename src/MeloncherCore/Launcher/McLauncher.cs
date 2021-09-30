@@ -38,16 +38,8 @@ namespace MeloncherCore.Launcher
 				launcher.FileDownloader = null;
 			}
 
-			launcher.FileChanged += (e) =>
-			{
-				FileChanged?.Invoke(e);
-				//Console.WriteLine("[{0}] {1} - {2}/{3}", e.FileKind.ToString(), e.FileName, e.ProgressedFileCount, e.TotalFileCount);
-			};
-			launcher.ProgressChanged += (s, e) =>
-			{
-				ProgressChanged?.Invoke(s, e);
-				//Console.WriteLine("{0}%", e.ProgressPercentage);
-			};
+			launcher.FileChanged += (e) => FileChanged?.Invoke(e);
+			launcher.ProgressChanged += (s, e) => ProgressChanged?.Invoke(s, e);
 			var launchOption = new MLaunchOption
 			{
 				StartVersion = launcher.GetVersion(version.Name),
@@ -66,6 +58,7 @@ namespace MeloncherCore.Launcher
 			if (optifine)
 			{
 				var optifineInstaller = new OptifineInstallerBobcat();
+				optifineInstaller.ProgressChanged += (s, e) => ProgressChanged?.Invoke(s, e);
 				string ofVerName = null;
 				if (offline)
 				{
@@ -74,6 +67,7 @@ namespace MeloncherCore.Launcher
 				{
 					ofVerName = await optifineInstaller.IsLatestInstalled(version.Name, MinecraftPath);
 					if (ofVerName == null) {
+						FileChanged?.Invoke(new DownloadFileChangedEventArgs(MFile.Others, this, "Optifine", 1, 1));
 						ofVerName = await optifineInstaller.installOptifine(version.Name, MinecraftPath, launchOption.StartVersion.JavaBinaryPath);
 					} 
 				}
