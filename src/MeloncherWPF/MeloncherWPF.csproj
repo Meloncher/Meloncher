@@ -8,8 +8,10 @@
 
   <ItemGroup>
     <None Remove="Resources\Fonts\MinecraftSeven.ttf" />
+    <None Remove="Resources\Fonts\MinecraftTen.ttf" />
     <None Remove="Resources\Images\button2.png" />
     <None Remove="Resources\Images\button3.png" />
+    <None Remove="Resources\Images\PlayButton.png" />
     <None Remove="Views\Windows\button1.png" />
   </ItemGroup>
 
@@ -27,9 +29,11 @@
 
   <ItemGroup>
     <Resource Include="Resources\Fonts\MinecraftSeven.ttf" />
+    <Resource Include="Resources\Fonts\MinecraftTen.ttf" />
     <Resource Include="Resources\Images\button1.png" />
     <Resource Include="Resources\Images\button2.png" />
     <Resource Include="Resources\Images\button3.png" />
+    <Resource Include="Resources\Images\PlayButton.png" />
   </ItemGroup>
 
 </Project>

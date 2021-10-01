@@ -8,6 +8,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Themes/Test.xaml"/>
                 <ResourceDictionary Source="Themes/Account.xaml"/>
+                <ResourceDictionary Source="Themes/PlayButton.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

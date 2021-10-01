@@ -1,0 +1,54 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <BitmapImage x:Key="masterImage" UriSource="../Resources/Images/PlayButton.png" />
+    <CroppedBitmap x:Key="croppedImage1" Source="{StaticResource masterImage}" SourceRect="0 0 248 54"/>
+    <CroppedBitmap x:Key="croppedImage2" Source="{StaticResource masterImage}" SourceRect="0 54 248 54"/>
+    <CroppedBitmap x:Key="croppedImage3" Source="{StaticResource masterImage}" SourceRect="0 108 248 54"/>
+    <CroppedBitmap x:Key="croppedImage4" Source="{StaticResource masterImage}" SourceRect="0 162 248 54"/>
+    
+    <Style x:Key="PlayButton" TargetType="Button">
+        <Setter Property="OverridesDefaultStyle" Value="True"/>
+        <Setter Property="Margin" Value="5"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="FontFamily" Value="Minecraft Ten"/>
+        <Setter Property="FontSize" Value="24"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="RenderOptions.BitmapScalingMode" Value="NearestNeighbor"></Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border Name="border" 
+                        BorderThickness="0">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        <Border.Background>
+                            <ImageBrush ImageSource="{StaticResource croppedImage1}" />
+                        </Border.Background>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" TargetName="border">
+                                <Setter.Value>
+                                    <ImageBrush ImageSource="{StaticResource croppedImage2}" />
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Background" TargetName="border">
+                                <Setter.Value>
+                                    <ImageBrush ImageSource="{StaticResource croppedImage3}" />
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Background" TargetName="border">
+                                <Setter.Value>
+                                    <ImageBrush ImageSource="{StaticResource croppedImage4}" />
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

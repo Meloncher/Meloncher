@@ -29,7 +29,8 @@
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="800*"/>
+            <ColumnDefinition Width="799*"/>
+            <ColumnDefinition/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -88,12 +89,10 @@
                         <CheckBox IsChecked="{Binding Optifine}" Content="Optifine" Foreground="White" Height="16" Width="128" />
                         <CheckBox IsChecked="{Binding Offline}" Content="Offline" Foreground="White" Height="16" Width="128" />
                     </StackPanel>
-                    <Button Style="{StaticResource PlayButton}" Command="{Binding PlayButtonCommand}" IsEnabled="{Binding IsNotStarted}" Grid.Column="1" Content="Играть" Height="40" Width="200" />
+                    <Button Style="{StaticResource PlayButton}" Command="{Binding PlayButtonCommand}" IsEnabled="{Binding IsNotStarted}" Grid.Column="1" Content="Играть" Height="54" Width="248" />
                     <!--<Button Grid.Column="2" Height="32" Width="128" Content="Аккаунты" Command="{Binding OpenAccountsWindowCommand}"/>-->
                 </Grid>
-                <!--<ProgressBar Height="20" Grid.Row="2" Value="{Binding loadingBarModel}" Style="{StaticResource LoadingBar}"/>-->
                 <uc:LoadingBar Grid.Row="2" Text="{Binding ProgressText}" Value="{Binding ProgressValue}" Hidden="{Binding ProgressHidden}" />
-                <!--<uc:LoadingBar Grid.Row="2" Text="{Binding ProgressText}" Value="25" Hidden="False" />-->
             </Grid>
         </Border>
         <!--<Border Height="256" Width="512" Grid.RowSpan="2">
