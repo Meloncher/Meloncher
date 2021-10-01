@@ -10,11 +10,9 @@
         Title="{Binding Title}" 
         Height="480" 
         Width="800" 
-        FontFamily="Roboto" 
         FontWeight="Normal" 
         AllowsTransparency="False" 
-        WindowStyle="None" 
-        Background="Transparent"
+        WindowStyle="None"
         >
 
     <Window.DataContext>
@@ -22,17 +20,10 @@
     </Window.DataContext>
 
     <WindowChrome.WindowChrome>
-        <WindowChrome 
-        CaptionHeight="0"
-        ResizeBorderThickness="5" />
+        <WindowChrome CaptionHeight="24" />
     </WindowChrome.WindowChrome>
 
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="799*"/>
-            <ColumnDefinition/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="88" />
             <RowDefinition />
@@ -43,9 +34,9 @@
                     <RowDefinition Height="24" />
                     <RowDefinition />
                 </Grid.RowDefinitions>
-                <Grid HorizontalAlignment="Stretch">
+                <Grid Background="Black" HorizontalAlignment="Stretch">
                     <Label Content="{Binding Title}" Foreground="White" />
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <StackPanel WindowChrome.IsHitTestVisibleInChrome="True" Orientation="Horizontal" HorizontalAlignment="Right">
                         <Button Content="🗕︎" Height="24" Width="24" Background="Transparent" Foreground="White" BorderThickness="0" Click="ButtonMinimize_Click" />
                         <Button Content="🗖︎" Height="24" Width="24" Background="Transparent" Foreground="White" BorderThickness="0" Click="ButtonMaximize_Click" />
                         <Button Content="🗙︎" Height="24" Width="24" Background="Transparent" Foreground="White" BorderThickness="0" Click="ButtonClose_Click" />
