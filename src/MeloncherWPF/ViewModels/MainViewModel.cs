@@ -8,8 +8,6 @@ using MeloncherWPF.Views.Windows;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.IO;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows.Threading;
@@ -26,8 +24,9 @@ namespace MeloncherWPF.ViewModels
 		public string Username { get; set; } = "Steve";
 		public bool Optifine { get; set; } = true;
 		public bool Offline { get; set; } = false;
-		public int ProgressValue { get; set; } = -1;
-		public string ProgressText { get; set; } = "";
+		public int ProgressValue { get; set; }
+		public string ProgressText { get; set; }
+		public bool ProgressHidden { get; set; } = true;
 		public bool IsNotStarted { get; set; } = true;
 
 		private McLauncher mcLauncher;
@@ -147,10 +146,13 @@ namespace MeloncherWPF.ViewModels
 				//await accountStorage.SaveFile();
 
 				IsNotStarted = false;
+				ProgressHidden = false;
 				Title = "Meloncher " + McVersionName;
 				//MSession asdsdaf = MSession.GetOfflineSession(Username);
 				await mcLauncher.Launch(new McVersion(McVersionName, "Test", "Test-" + McVersionName), session, Offline, Optifine);
-				ProgressValue = -1;
+				ProgressValue = 0;
+				ProgressText = null;
+				ProgressHidden = true;
 				IsNotStarted = true;
 				Title = "Meloncher";
 			}).Start();

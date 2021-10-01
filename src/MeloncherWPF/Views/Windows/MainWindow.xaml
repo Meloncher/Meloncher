@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:MeloncherWPF.ViewModels"
+        xmlns:uc="clr-namespace:MeloncherWPF.UserControls"
         xmlns:local="clr-namespace:MeloncherWPF"
         mc:Ignorable="d"
         Title="{Binding Title}" 
@@ -57,7 +58,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition />
                     <RowDefinition Height="64" />
-                    <RowDefinition Height="20" />
+                    <RowDefinition Height="auto" />
                 </Grid.RowDefinitions>
                 <Border>
                     <!--<TextBox Text="{Binding TestConsole}" VerticalScrollBarVisibility="Auto"/>-->
@@ -90,28 +91,9 @@
                     <Button Style="{StaticResource PlayButton}" Command="{Binding PlayButtonCommand}" IsEnabled="{Binding IsNotStarted}" Grid.Column="1" Content="Играть" Height="40" Width="200" />
                     <!--<Button Grid.Column="2" Height="32" Width="128" Content="Аккаунты" Command="{Binding OpenAccountsWindowCommand}"/>-->
                 </Grid>
-                <ProgressBar Grid.Row="2" Background="#323232" Value="{Binding ProgressValue}" Foreground="Red" BorderThickness="0" >
-                    <ProgressBar.Style>
-                        <Style TargetType="ProgressBar">
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding ProgressValue}" Value="-1">
-                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </ProgressBar.Style>
-                </ProgressBar>
-                <TextBlock Grid.Row="2" Foreground="White" Text="{Binding ProgressText}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14">
-                    <TextBlock.Style>
-                        <Style TargetType="TextBlock">
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding ProgressValue}" Value="-1">
-                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </TextBlock.Style>
-                </TextBlock>
+                <!--<ProgressBar Height="20" Grid.Row="2" Value="{Binding loadingBarModel}" Style="{StaticResource LoadingBar}"/>-->
+                <uc:LoadingBar Grid.Row="2" Text="{Binding ProgressText}" Value="{Binding ProgressValue}" Hidden="{Binding ProgressHidden}" />
+                <!--<uc:LoadingBar Grid.Row="2" Text="{Binding ProgressText}" Value="25" Hidden="False" />-->
             </Grid>
         </Border>
         <!--<Border Height="256" Width="512" Grid.RowSpan="2">

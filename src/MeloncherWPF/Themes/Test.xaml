@@ -15,21 +15,21 @@
                         BorderThickness="0">
                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                         <Border.Background>
-                            <ImageBrush ImageSource="../Assets/Images/button1.png" />
+                            <ImageBrush ImageSource="../Resources/Images/button1.png" />
                         </Border.Background>
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Background" TargetName="border">
                                 <Setter.Value>
-                                    <ImageBrush ImageSource="../Assets/Images/button2.png" />
+                                    <ImageBrush ImageSource="../Resources/Images/button2.png" />
                                 </Setter.Value>
                             </Setter>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Background" TargetName="border">
                                 <Setter.Value>
-                                    <ImageBrush ImageSource="../Assets/Images/button3.png" />
+                                    <ImageBrush ImageSource="../Resources/Images/button3.png" />
                                 </Setter.Value>
                             </Setter>
                         </Trigger>
