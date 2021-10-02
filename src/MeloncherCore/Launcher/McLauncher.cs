@@ -4,6 +4,7 @@ using CmlLib.Core.Downloader;
 using CmlLib.Core.Installer;
 using CmlLib.Core.Version;
 using CmlLib.Core.VersionLoader;
+using MeloncherCore.Launcher.Events;
 using MeloncherCore.Optifine;
 using MeloncherCore.Options;
 using MeloncherCore.Version;
@@ -21,12 +22,11 @@ namespace MeloncherCore.Launcher
 			this.MinecraftPath = MinecraftPath;
 		}
 
-		public event DownloadFileChangedHandler FileChanged;
+		public event McDownloadFileChangedHandler FileChanged;
 		public event ProgressChangedEventHandler ProgressChanged;
 
 		public async Task Launch(McVersion version, MSession session, bool offline, bool optifine)
 		{
-			ProgressChanged?.Invoke(null, new ProgressChangedEventArgs(50, null));
 			//var path = new ExtMinecraftPath("D:\\MeloncherNetTest", $"profiles\\versions\\{version.ProfileName}");
 			var path = MinecraftPath.CloneWithProfile("versions", version.ProfileName);
 			//var path = new ExtMinecraftPath("Data", $"profiles\\versions\\{version.ProfileName}");
@@ -38,7 +38,7 @@ namespace MeloncherCore.Launcher
 				launcher.FileDownloader = null;
 			}
 
-			launcher.FileChanged += (e) => FileChanged?.Invoke(e);
+			launcher.FileChanged += (e) => FileChanged?.Invoke(new McDownloadFileChangedEventArgs(e.FileKind.ToString()));
 			launcher.ProgressChanged += (s, e) => ProgressChanged?.Invoke(s, e);
 			var launchOption = new MLaunchOption
 			{
@@ -67,7 +67,8 @@ namespace MeloncherCore.Launcher
 				{
 					ofVerName = await optifineInstaller.IsLatestInstalled(version.Name, MinecraftPath);
 					if (ofVerName == null) {
-						FileChanged?.Invoke(new DownloadFileChangedEventArgs(MFile.Others, this, "Optifine", 1, 1));
+						ProgressChanged?.Invoke(null, new ProgressChangedEventArgs(0, null));
+						FileChanged?.Invoke(new McDownloadFileChangedEventArgs("Optifine"));
 						ofVerName = await optifineInstaller.installOptifine(version.Name, MinecraftPath, launchOption.StartVersion.JavaBinaryPath);
 					} 
 				}

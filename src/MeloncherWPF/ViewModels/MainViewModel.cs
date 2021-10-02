@@ -44,7 +44,8 @@ namespace MeloncherWPF.ViewModels
 			mcLauncher.FileChanged += (e) =>
 			{
 				//TestLog(String.Format("[{0}] {1} - {2}/{3}", e.FileKind.ToString(), e.FileName, e.ProgressedFileCount, e.TotalFileCount));
-				ProgressText = String.Format("[{0}] {1} - {2}/{3}", e.FileKind.ToString(), e.FileName, e.ProgressedFileCount, e.TotalFileCount);
+				//ProgressText = String.Format("[{0}] {1} - {2}/{3}", e.FileKind.ToString(), e.FileName, e.ProgressedFileCount, e.TotalFileCount);
+				ProgressText = "Загрузка " + e.Type;
 			};
 			mcLauncher.ProgressChanged += (s, e) =>
 			{

@@ -23,7 +23,8 @@ namespace MeloncherCore
             launcher.FileChanged += (e) =>
             {
                 //FileChanged?.Invoke(e);
-                Console.WriteLine("[{0}] {1} - {2}/{3}", e.FileKind.ToString(), e.FileName, e.ProgressedFileCount, e.TotalFileCount);
+                //Console.WriteLine("[{0}] {1} - {2}/{3}", e.FileKind.ToString(), e.FileName, e.ProgressedFileCount, e.TotalFileCount);
+                Console.WriteLine("Загрузка " + e.Type);
             };
             launcher.ProgressChanged += (s, e) =>
             {
