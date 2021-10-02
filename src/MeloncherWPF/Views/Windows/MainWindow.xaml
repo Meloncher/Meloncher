@@ -12,7 +12,7 @@
         Width="800" 
         FontWeight="Normal" 
         AllowsTransparency="False" 
-        WindowStyle="None"
+        WindowStyle="None" Icon="/Resources/Images/icon.ico"
         >
 
     <Window.DataContext>

@@ -43,6 +43,7 @@ namespace MeloncherCore.Launcher
             return new ExtMinecraftPath(RootPath, profilePath, MinecraftPath, Library, Versions, Resource, Runtime, Assets, Natives);
 		}
 
+        public ExtMinecraftPath() : this(GetOSDefaultPath()) { }
         public ExtMinecraftPath(string rootPath) : this(rootPath, null) { }
         public ExtMinecraftPath(string rootPath, string profileType, string profileName) : this(rootPath, "profiles/" + profileType + "/" + profileName) { }
         public ExtMinecraftPath(string rootPath, string profilePath)

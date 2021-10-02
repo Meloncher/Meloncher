@@ -4,6 +4,17 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net5.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
+    <PackageId>Meloncher</PackageId>
+    <Company />
+    <Authors>MelonHell</Authors>
+    <Product>Meloncher</Product>
+    <PackageProjectUrl>https://github.com/MelonHell/Meloncher/</PackageProjectUrl>
+    <PackageIcon>icon.ico</PackageIcon>
+    <PackageIconUrl />
+    <RepositoryUrl>https://github.com/MelonHell/Meloncher/</RepositoryUrl>
+    <RepositoryType />
+    <ApplicationIcon>icon.ico</ApplicationIcon>
+    <AssemblyName>Meloncher</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,6 +24,10 @@
     <None Remove="Resources\Images\button3.png" />
     <None Remove="Resources\Images\PlayButton.png" />
     <None Remove="Views\Windows\button1.png" />
+    <Resource Include="Resources\Images\icon.ico">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </Resource>
   </ItemGroup>
 
   <ItemGroup>

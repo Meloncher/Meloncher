@@ -39,7 +39,7 @@ namespace MeloncherWPF.ViewModels
 			AddMojangCommand = new Command(OnAddMojangCommandExecuted);
 			AddOfflineCommand = new Command(OnAddOfflineCommandExecuted);
 			//mcLauncher = new McLauncher(new ExtMinecraftPath("D:\\MeloncherNetTest"));
-			mcLauncher = new McLauncher(new ExtMinecraftPath("Data"));
+			mcLauncher = new McLauncher(new ExtMinecraftPath());
 			mcLauncher.FileChanged += (e) =>
 			{
 				//TestLog(String.Format("[{0}] {1} - {2}/{3}", e.FileKind.ToString(), e.FileName, e.ProgressedFileCount, e.TotalFileCount));
