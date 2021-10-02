@@ -36,6 +36,20 @@ namespace MeloncherCore.Optifine.Bobcat
             });
         }
 
+        private bool isNewArguments(string mcVer)
+		{
+            var var0 = mcVer.Split(".");
+            if (var0.Length >= 2)
+            {
+                var var1 = var0[1];
+                int var2;
+                if (int.TryParse(var1, out var2))
+                {
+                    if (var2 > 12) return true;
+                }
+            }
+            return false;
+        }
         public async Task<string> InstallTaskAsync()
         {
             InvokeStatusChangedEvent("Start installing Optifine", 0);
@@ -77,17 +91,7 @@ namespace MeloncherCore.Optifine.Bobcat
             {
                 Id = id,
                 InheritsFrom = mcVersion,
-                //Arguments = new Arguments
-                //{
-                //    Game = new List<object>
-                //    {
-                //        "--tweakClass",
-                //        "optifine.OptiFineTweaker"
-                //    },
-                //    Jvm = new List<object>()
-                //},
-                MinecraftArguments = "--username ${auth_player_name} --version ${version_name} --gameDir ${game_directory} --assetsDir ${assets_root} --assetIndex ${assets_index_name} --uuid ${auth_uuid} --accessToken ${auth_access_token} --userType ${user_type} --versionType ${version_type} --tweakClass optifine.OptiFineTweaker",
-                ReleaseTime = DateTime.Now,
+				ReleaseTime = DateTime.Now,
                 Time = DateTime.Now,
                 BuildType = "release",
                 Libraries = new List<Library>
@@ -104,6 +108,24 @@ namespace MeloncherCore.Optifine.Bobcat
                 MainClass = "net.minecraft.launchwrapper.Launch",
                 MinimumLauncherVersion = 21
             };
+
+            if (isNewArguments(mcVersion))
+			{
+                versionModel.Arguments = new Arguments
+                {
+                    Game = new List<object>
+                    {
+                        "--tweakClass",
+                        "optifine.OptiFineTweaker"
+                    },
+                    Jvm = new List<object>()
+                };
+            } else
+			{
+                versionModel.MinecraftArguments = "--username ${auth_player_name} --version ${version_name} --gameDir ${game_directory} --assetsDir ${assets_root} --assetIndex ${assets_index_name} --uuid ${auth_uuid} --accessToken ${auth_access_token} --userType ${user_type} --versionType ${version_type} --tweakClass optifine.OptiFineTweaker";
+			}
+
+
 
             var versionJsonPath = MinecraftPath.GetVersionJsonPath(id);
             //var versionJsonPath = GamePathHelper.GetGameJsonPath(RootPath, id);
