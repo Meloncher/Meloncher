@@ -1,5 +1,6 @@
 ﻿using CmlLib.Core.Auth;
 using MeloncherCore.Launcher;
+using MeloncherCore.Options;
 using MeloncherCore.Version;
 using System;
 using System.Net;
@@ -12,13 +13,14 @@ namespace MeloncherCore
         static async Task Main(string[] args)
         {
             ServicePointManager.DefaultConnectionLimit = 512;
+            //Console.WriteLine(McOptionsUtils.GetDefaultScale());
             Console.WriteLine("Hello Meloncher!");
             Console.Write("Version: ");
             string versionName = Console.ReadLine();
             bool offline = Confirm("Offline?");
             bool optifine = Confirm("Optifine?");
             var version = new McVersion(versionName, "Test", "Test-" + versionName);
-            var path = new ExtMinecraftPath("D:\\MeloncherNetTest");
+            var path = new ExtMinecraftPath();
             var launcher = new McLauncher(path);
             launcher.FileChanged += (e) =>
             {

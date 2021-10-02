@@ -35,6 +35,13 @@ namespace MeloncherCore.Options
 		}
 		public void Load()
 		{
+			if (!File.Exists(syncOpts)) {
+				File.WriteAllText(syncOpts, "", Encoding.Default);
+				ExtGameOptionsFile sync = ExtGameOptionsFile.ReadFile(syncOpts, Encoding.Default);
+				McOptionsUtils.SetDefaults(sync);
+				sync.Save(syncOpts, Encoding.Default);
+			}
+
 			if (File.Exists(syncOpts))
 			{
 				ExtGameOptionsFile sync = ExtGameOptionsFile.ReadFile(syncOpts, Encoding.Default);

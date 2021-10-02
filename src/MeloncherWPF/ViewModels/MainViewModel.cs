@@ -9,6 +9,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Net;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows.Threading;
@@ -33,6 +34,7 @@ namespace MeloncherWPF.ViewModels
 		private McLauncher mcLauncher;
 		public MainViewModel()
 		{
+			ServicePointManager.DefaultConnectionLimit = 512;
 			PlayButtonCommand = new Command(OnPlayButtonCommandExecuted);
 			OpenAccountsWindowCommand = new Command(OnOpenAccountsWindowCommandExecuted);
 			DeleteAccountCommand = new Command(OnDeleteAccountCommandExecuted);

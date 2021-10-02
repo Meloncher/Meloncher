@@ -11,6 +11,8 @@ namespace MeloncherCore.Options
 	{
 		// Overrides
 		public ExtGameOptionsFile(Dictionary<string, string> options, string path) : base(options, path) { }
+		public ExtGameOptionsFile(Dictionary<string, string> options) : base(options) { }
+		public ExtGameOptionsFile() : base() { }
 
 		public static new ExtGameOptionsFile ReadFile(string filepath, Encoding encoding)
 		{
@@ -40,6 +42,7 @@ namespace MeloncherCore.Options
 		}
 		public new void Save(string path, Encoding encoding)
 		{
+			File.Delete(path);
 			using (var fs = File.OpenWrite(path))
 			using (var writer = new StreamWriter(fs, encoding))
 			{
@@ -49,6 +52,7 @@ namespace MeloncherCore.Options
 					{
 						var line = keyvalue.Key + ":" + keyvalue.Value;
 						writer.WriteLine(line);
+						Console.WriteLine(line);
 					}
 				}
 			}
