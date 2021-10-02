@@ -7,6 +7,7 @@ using MeloncherCore.Version;
 using MeloncherWPF.Views.Windows;
 using System;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -49,23 +50,9 @@ namespace MeloncherWPF.ViewModels
 			{
 				ProgressValue = e.ProgressPercentage;
 			};
-			var dispatcher = Dispatcher.CurrentDispatcher;
 			accountStorage = new AccountStorage(mcLauncher.MinecraftPath);
-			new Task(async () =>
-			{
-				await accountStorage.ReadFile();
-				dispatcher.Invoke(reloadAccList);
-			}).Start();
-		}
-
-		private void reloadAccList() 
-		{
-			Accounts = new ObservableCollection<MSession>();
-			var list = accountStorage.GetList();
-			list.ForEach((acc) =>
-			{
-				Accounts.Add(acc);
-			});
+			accountStorage.CollectionChanged += (object sender, NotifyCollectionChangedEventArgs e) => Accounts = new ObservableCollection<MSession>(accountStorage);
+			Accounts = new ObservableCollection<MSession>(accountStorage);
 		}
 
 		private AccountStorage accountStorage;
@@ -76,8 +63,6 @@ namespace MeloncherWPF.ViewModels
 		private void OnDeleteAccountCommandExecuted(Object p)
 		{
 			accountStorage.RemoveAt(selectedAccount);
-			reloadAccList();
-			_ = accountStorage.SaveFile();
 		}
 
 		public Command AddMicrosoftCommand { get; }
@@ -86,8 +71,6 @@ namespace MeloncherWPF.ViewModels
 			MicrosoftLoginWindow loginWindow = new MicrosoftLoginWindow();
 			MSession session = loginWindow.ShowLoginDialog();
 			accountStorage.Add(session);
-			reloadAccList();
-			_ = accountStorage.SaveFile();
 		}
 
 		public Command AddMojangCommand { get; }
@@ -100,8 +83,6 @@ namespace MeloncherWPF.ViewModels
 				var resp = login.Authenticate(dialog.ResponseLogin, dialog.ResponsePass);
 				MSession session = resp.Session;
 				accountStorage.Add(session);
-				reloadAccList();
-				_ = accountStorage.SaveFile();
 			}
 		}
 
@@ -113,8 +94,6 @@ namespace MeloncherWPF.ViewModels
 			{
 				MSession session = MSession.GetOfflineSession(dialog.ResponseLogin);
 				accountStorage.Add(session);
-				reloadAccList();
-				_ = accountStorage.SaveFile();
 			}
 		}
 
