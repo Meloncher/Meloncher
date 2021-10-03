@@ -39,13 +39,58 @@ namespace MeloncherWPF.ViewModels
 			AddMojangCommand = new Command(OnAddMojangCommandExecuted);
 			AddOfflineCommand = new Command(OnAddOfflineCommandExecuted);
 			mcLauncher = new McLauncher(new ExtMinecraftPath());
+			string loadingType = "";
 			mcLauncher.FileChanged += (e) =>
 			{
-				ProgressText = "Загрузка " + e.Type;
+				loadingType = e.Type;
+				//ProgressText = "Загрузка " + e.Type;
+				if (ProgressValue == 0)
+					switch (e.Type)
+					{
+						case "Resource":
+							ProgressText = "Проверка Ресурсов...";
+							break;
+						case "Runtime":
+							ProgressText = "Проверка Java...";
+							break;
+						case "Library":
+							ProgressText = "Проверка Библиотек...";
+							break;
+						case "Minecraft":
+							ProgressText = "Проверка Minecraft...";
+							break;
+						case "Optifine":
+							ProgressText = "Проверка Optifine...";
+							break;
+						default:
+							ProgressText = "Проверка Файлов...";
+							break;
+					}
 			};
 			mcLauncher.ProgressChanged += (s, e) =>
 			{
 				ProgressValue = e.ProgressPercentage;
+				switch (loadingType)
+				{
+					case "Resource":
+						ProgressText = "Загрузка Ресурсов...";
+						break;
+					case "Runtime":
+						ProgressText = "Загрузка Java...";
+						break;
+					case "Library":
+						ProgressText = "Загрузка Библиотек...";
+						break;
+					case "Minecraft":
+						ProgressText = "Загрузка Minecraft...";
+						break;
+					case "Optifine":
+						ProgressText = "Загрузка Optifine...";
+						break;
+					default:
+						ProgressText = "Загрузка...";
+						break;
+				}
 			};
 			accountStorage = new AccountStorage(mcLauncher.MinecraftPath);
 			accountStorage.CollectionChanged += (object sender, NotifyCollectionChangedEventArgs e) => Accounts = new ObservableCollection<MSession>(accountStorage);
