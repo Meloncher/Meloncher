@@ -9,12 +9,13 @@
     <Authors>MelonHell</Authors>
     <Product>Meloncher</Product>
     <PackageProjectUrl>https://github.com/MelonHell/Meloncher/</PackageProjectUrl>
-    <PackageIcon>icon.ico</PackageIcon>
+    <PackageIcon></PackageIcon>
     <PackageIconUrl />
     <RepositoryUrl>https://github.com/MelonHell/Meloncher/</RepositoryUrl>
     <RepositoryType />
     <ApplicationIcon>icon.ico</ApplicationIcon>
     <AssemblyName>Meloncher</AssemblyName>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
 
   <ItemGroup>
@@ -22,6 +23,7 @@
     <None Remove="Resources\Fonts\MinecraftTen.ttf" />
     <None Remove="Resources\Images\button2.png" />
     <None Remove="Resources\Images\button3.png" />
+    <None Remove="Resources\Images\icon.ico" />
     <None Remove="Resources\Images\PlayButton.png" />
     <None Remove="Views\Windows\button1.png" />
     <Resource Include="Resources\Images\icon.ico">

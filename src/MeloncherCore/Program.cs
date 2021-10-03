@@ -36,7 +36,13 @@ namespace MeloncherCore
             var session = MSession.GetOfflineSession("tester123");
             //var qwe = new MicrosoftAuth();
             //var session = qwe.test();
-            await launcher.Launch(version, session, offline, optifine);
+            //await launcher.Launch(version, session, offline, optifine);
+            launcher.Version = version;
+            launcher.Session = session;
+            launcher.Offline = offline;
+            launcher.UseOptifine = optifine;
+            await launcher.Update();
+            await launcher.Launch();
         }
 
         static bool Confirm(string text)
