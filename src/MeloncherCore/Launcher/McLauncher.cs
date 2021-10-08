@@ -1,6 +1,5 @@
 ﻿using CmlLib.Core;
 using CmlLib.Core.Auth;
-using CmlLib.Core.Downloader;
 using CmlLib.Core.Installer;
 using CmlLib.Core.Version;
 using CmlLib.Core.VersionLoader;
@@ -24,6 +23,7 @@ namespace MeloncherCore.Launcher
 
 		public event McDownloadFileChangedHandler FileChanged;
 		public event ProgressChangedEventHandler ProgressChanged;
+		public event MinecraftOutputEventHandler MinecraftOutput;
 
 		public McVersion Version { get; set; }
 		public MSession Session { get; set; }
@@ -93,8 +93,18 @@ namespace MeloncherCore.Launcher
 			}
 
 			var process = await launcher.CreateProcessAsync(launchOption);
+			
 			sync.Load();
+			process.StartInfo.RedirectStandardOutput = true;
+			process.StartInfo.RedirectStandardError = true;
 			process.Start();
+			new Task(() => {
+				while (!process.StandardOutput.EndOfStream)
+				{
+					string line = process.StandardOutput.ReadLine();
+					MinecraftOutput?.Invoke(new MinecraftOutputEventArgs(line));
+				}
+			}).Start();
 			var wt = new WindowTweaks(process);
 			_ = wt.Borderless();
 			process.WaitForExit();

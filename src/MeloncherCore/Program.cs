@@ -33,6 +33,10 @@ namespace MeloncherCore
                 //ProgressChanged?.Invoke(s, e);
                 Console.WriteLine("{0}%", e.ProgressPercentage);
             };
+            launcher.MinecraftOutput += (e) =>
+            {
+                Console.WriteLine(e.Line);
+            };
             var session = MSession.GetOfflineSession("tester123");
             //var qwe = new MicrosoftAuth();
             //var session = qwe.test();
