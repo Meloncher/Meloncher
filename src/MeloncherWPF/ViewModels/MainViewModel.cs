@@ -2,6 +2,7 @@
 using CmlLib.Core.Auth;
 using CmlLib.Core.Auth.Microsoft.UI.Wpf;
 using MeloncherCore.Account;
+using MeloncherCore.Discord;
 using MeloncherCore.Launcher;
 using MeloncherCore.Version;
 using MeloncherWPF.Views.Windows;
@@ -30,6 +31,8 @@ namespace MeloncherWPF.ViewModels
 		public bool IsNotStarted { get; set; } = true;
 
 		private McLauncher mcLauncher;
+
+		DiscrodRPCTools discrodRPCTools = new DiscrodRPCTools();
 		public MainViewModel()
 		{
 			ServicePointManager.DefaultConnectionLimit = 512;
@@ -95,6 +98,9 @@ namespace MeloncherWPF.ViewModels
 			accountStorage = new AccountStorage(mcLauncher.MinecraftPath);
 			accountStorage.CollectionChanged += (object sender, NotifyCollectionChangedEventArgs e) => Accounts = new ObservableCollection<MSession>(accountStorage);
 			Accounts = new ObservableCollection<MSession>(accountStorage);
+
+			
+			discrodRPCTools.SetStatus("Сидит в лаунчере", "");
 		}
 
 		private AccountStorage accountStorage;
@@ -147,6 +153,7 @@ namespace MeloncherWPF.ViewModels
 				IsNotStarted = false;
 				ProgressHidden = false;
 				Title = "Meloncher " + McVersionName;
+				discrodRPCTools.SetStatus("Играет на версии " + McVersionName, "");
 				mcLauncher.Offline = Offline;
 				mcLauncher.UseOptifine = Optifine;
 				mcLauncher.Version = new McVersion(McVersionName, "Test", "Test-" + McVersionName);
@@ -158,6 +165,7 @@ namespace MeloncherWPF.ViewModels
 				await mcLauncher.Launch();
 				IsNotStarted = true;
 				Title = "Meloncher";
+				discrodRPCTools.SetStatus("Сидит в лаунчере", "");
 			}).Start();
 		}
 	}
