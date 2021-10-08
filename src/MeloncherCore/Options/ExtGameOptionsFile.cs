@@ -42,7 +42,9 @@ namespace MeloncherCore.Options
 		}
 		public new void Save(string path, Encoding encoding)
 		{
-			File.Delete(path);
+			if (File.Exists(path)) File.Delete(path);
+			var dir = Path.GetDirectoryName(path);
+			if (!Directory.Exists(dir)) Directory.CreateDirectory(dir);
 			using (var fs = File.OpenWrite(path))
 			using (var writer = new StreamWriter(fs, encoding))
 			{

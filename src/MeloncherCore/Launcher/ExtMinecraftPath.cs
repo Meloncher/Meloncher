@@ -40,7 +40,7 @@ namespace MeloncherCore.Launcher
 
         public ExtMinecraftPath CloneWithProfileAbsolute(string profilePath)
 		{
-            return new ExtMinecraftPath(RootPath, profilePath, MinecraftPath, Library, Versions, Resource, Runtime, Assets, Natives);
+            return new ExtMinecraftPath(RootPath, profilePath, MinecraftPath, Library, Versions, NormalizePath(profilePath + "/resources"), Runtime, Assets, Natives);
 		}
 
         public ExtMinecraftPath() : this(GetOSDefaultPath()) { }
@@ -48,20 +48,22 @@ namespace MeloncherCore.Launcher
         public ExtMinecraftPath(string rootPath, string profileType, string profileName) : this(rootPath, "profiles/" + profileType + "/" + profileName) { }
         public ExtMinecraftPath(string rootPath, string profilePath)
         {
-            if (string.IsNullOrEmpty(profilePath)) BasePath = NormalizePath(rootPath + "/" + profilePath);
-            else BasePath = null;
+            if (string.IsNullOrEmpty(profilePath)) {
+                BasePath = NormalizePath(rootPath + "/" + profilePath);
+                Resource = NormalizePath(BasePath + "/resources");
+            }
             RootPath = NormalizePath(rootPath);
             MinecraftPath = NormalizePath(rootPath + "/minecraft");
 
             Library = NormalizePath(MinecraftPath + "/libraries");
             Versions = NormalizePath(MinecraftPath + "/versions");
-            Resource = NormalizePath(MinecraftPath + "/resources");
+            if (!string.IsNullOrEmpty(BasePath)) ;
 
             Runtime = NormalizePath(MinecraftPath + "/runtime");
             Assets = NormalizePath(MinecraftPath + "/assets");
             Natives = NormalizePath(MinecraftPath + "/natives");
 
-            CreateDirs();
+            //CreateDirs();
         }
 
         public ExtMinecraftPath(string rootPath, string basePath, string minecraftPath, string libraryPath, string versionsPath, string resourcePath, string runtimePath, string assetsPath, string nativesPath)
@@ -75,7 +77,16 @@ namespace MeloncherCore.Launcher
             Runtime = runtimePath;
             Assets = assetsPath;
             Natives = nativesPath;
-            CreateDirs();
+            //CreateDirs();
+        }
+
+        public void CreateDirs()
+        {
+            //Dir(BasePath);
+            //Dir(Library);
+            //Dir(Versions);
+            //Dir(Runtime);
+            //Dir(Assets);
         }
 
         override public string GetNativePath(string id)
