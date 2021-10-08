@@ -19,7 +19,7 @@ namespace MeloncherCore
             string versionName = Console.ReadLine();
             bool offline = Confirm("Offline?");
             bool optifine = Confirm("Optifine?");
-            var version = new McVersion(versionName, "Test", "Test-" + versionName);
+            //var version = new McVersion(versionName, "Test", "Test-" + versionName);
             var path = new ExtMinecraftPath();
             var launcher = new McLauncher(path);
             launcher.FileChanged += (e) =>
@@ -41,7 +41,8 @@ namespace MeloncherCore
             //var qwe = new MicrosoftAuth();
             //var session = qwe.test();
             //await launcher.Launch(version, session, offline, optifine);
-            launcher.Version = version;
+            //launcher.Version = version;
+            launcher.SetVersionByName(versionName);
             launcher.Session = session;
             launcher.Offline = offline;
             launcher.UseOptifine = optifine;

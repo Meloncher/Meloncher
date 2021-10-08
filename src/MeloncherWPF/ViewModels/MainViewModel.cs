@@ -156,7 +156,8 @@ namespace MeloncherWPF.ViewModels
 				discrodRPCTools.SetStatus("Играет на версии " + McVersionName, "");
 				mcLauncher.Offline = Offline;
 				mcLauncher.UseOptifine = Optifine;
-				mcLauncher.Version = new McVersion(McVersionName, "Test", "Test-" + McVersionName);
+				mcLauncher.SetVersionByName(McVersionName);
+				//mcLauncher.Version = new McVersion(McVersionName, "Test", "Test-" + McVersionName);
 				mcLauncher.Session = session;
 				await mcLauncher.Update();
 				ProgressValue = 0;

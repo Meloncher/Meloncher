@@ -30,10 +30,16 @@ namespace MeloncherCore.Launcher
 		public bool Offline { get; set; } = false;
 		public bool UseOptifine { get; set; } = true;
 
+		public void SetVersionByName(string mcVerName) {
+			IVersionLoader versionLoader = Offline ? new LocalVersionLoader(MinecraftPath) : new DefaultVersionLoader(MinecraftPath);
+			var verTools = new VersionTools(versionLoader);
+			Version = verTools.getMcVersionByName(mcVerName);
+		}
+
 		public async Task Update()
 		{
 			if (Offline) return;
-			var path = MinecraftPath.CloneWithProfile("versions", Version.ProfileName);
+			var path = MinecraftPath.CloneWithProfile("vanilla", Version.ProfileName);
 			var launcher = new CMLauncher(path);
 			launcher.FileChanged += (e) => FileChanged?.Invoke(new McDownloadFileChangedEventArgs(e.FileKind.ToString()));
 			launcher.ProgressChanged += (s, e) => ProgressChanged?.Invoke(s, e);
@@ -63,7 +69,7 @@ namespace MeloncherCore.Launcher
 
 		public async Task Launch()
 		{
-			var path = MinecraftPath.CloneWithProfile("versions", Version.ProfileName);
+			var path = MinecraftPath.CloneWithProfile("vanilla", Version.ProfileName);
 			var launcher = new CMLauncher(path);
 			launcher.VersionLoader = new LocalVersionLoader(MinecraftPath);
 			launcher.FileDownloader = null;
