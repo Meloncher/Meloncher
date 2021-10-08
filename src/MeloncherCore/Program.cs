@@ -1,4 +1,5 @@
 ﻿using CmlLib.Core.Auth;
+using MeloncherCore.Discord;
 using MeloncherCore.Launcher;
 using MeloncherCore.Options;
 using MeloncherCore.Version;
@@ -15,12 +16,15 @@ namespace MeloncherCore
             ServicePointManager.DefaultConnectionLimit = 512;
             //Console.WriteLine(McOptionsUtils.GetDefaultScale());
             Console.WriteLine("Hello Meloncher!");
+            DiscrodRPCTools discrodRPCTools = new DiscrodRPCTools();
+            discrodRPCTools.SetStatus("Сидит в лаунчере", "");
             Console.Write("Version: ");
             string versionName = Console.ReadLine();
             bool offline = Confirm("Offline?");
             bool optifine = Confirm("Optifine?");
             //var version = new McVersion(versionName, "Test", "Test-" + versionName);
             var path = new ExtMinecraftPath();
+          
             var launcher = new McLauncher(path);
             launcher.FileChanged += (e) =>
             {
@@ -35,7 +39,9 @@ namespace MeloncherCore
             };
             launcher.MinecraftOutput += (e) =>
             {
+                // Console.WriteLine(McLogLine.Parse(e.Line));
                 Console.WriteLine(e.Line);
+                discrodRPCTools.OnLog(e.Line);
             };
             var session = MSession.GetOfflineSession("tester123");
             //var qwe = new MicrosoftAuth();
@@ -46,6 +52,7 @@ namespace MeloncherCore
             launcher.Session = session;
             launcher.Offline = offline;
             launcher.UseOptifine = optifine;
+            discrodRPCTools.SetStatus("Играет на версии " + versionName, "");
             await launcher.Update();
             await launcher.Launch();
         }

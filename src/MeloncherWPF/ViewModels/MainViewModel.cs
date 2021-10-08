@@ -31,7 +31,6 @@ namespace MeloncherWPF.ViewModels
 		public bool IsNotStarted { get; set; } = true;
 
 		private McLauncher mcLauncher;
-
 		DiscrodRPCTools discrodRPCTools = new DiscrodRPCTools();
 		public MainViewModel()
 		{
@@ -94,6 +93,10 @@ namespace MeloncherWPF.ViewModels
 						ProgressText = "Загрузка...";
 						break;
 				}
+			};
+			mcLauncher.MinecraftOutput += (e) =>
+			{
+				discrodRPCTools.OnLog(e.Line);
 			};
 			accountStorage = new AccountStorage(mcLauncher.MinecraftPath);
 			accountStorage.CollectionChanged += (object sender, NotifyCollectionChangedEventArgs e) => Accounts = new ObservableCollection<MSession>(accountStorage);
