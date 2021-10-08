@@ -52,7 +52,6 @@ namespace MeloncherCore.Options
 					{
 						var line = keyvalue.Key + ":" + keyvalue.Value;
 						writer.WriteLine(line);
-						Console.WriteLine(line);
 					}
 				}
 			}
