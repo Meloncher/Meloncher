@@ -1,6 +1,8 @@
 ﻿using Apex.MVVM;
 using CmlLib.Core.Auth;
 using CmlLib.Core.Auth.Microsoft.UI.Wpf;
+using CmlLib.Core.Version;
+using CmlLib.Core.VersionLoader;
 using MeloncherCore.Account;
 using MeloncherCore.Discord;
 using MeloncherCore.Launcher;
@@ -31,6 +33,7 @@ namespace MeloncherWPF.ViewModels
 		public bool IsNotStarted { get; set; } = true;
 
 		private McLauncher mcLauncher;
+		private IVersionLoader versionLoader;
 		DiscrodRPCTools discrodRPCTools = new DiscrodRPCTools();
 		public MainViewModel()
 		{
@@ -40,7 +43,9 @@ namespace MeloncherWPF.ViewModels
 			AddMicrosoftCommand = new Command(OnAddMicrosoftCommandExecuted);
 			AddMojangCommand = new Command(OnAddMojangCommandExecuted);
 			AddOfflineCommand = new Command(OnAddOfflineCommandExecuted);
-			mcLauncher = new McLauncher(new ExtMinecraftPath());
+			var path = new ExtMinecraftPath();
+			mcLauncher = new McLauncher(path);
+			versionLoader = new DefaultVersionLoader(path);
 			string loadingType = "";
 			mcLauncher.FileChanged += (e) =>
 			{
@@ -101,13 +106,17 @@ namespace MeloncherWPF.ViewModels
 			accountStorage = new AccountStorage(mcLauncher.MinecraftPath);
 			accountStorage.CollectionChanged += (object sender, NotifyCollectionChangedEventArgs e) => Accounts = new ObservableCollection<MSession>(accountStorage);
 			Accounts = new ObservableCollection<MSession>(accountStorage);
-
-			
 			discrodRPCTools.SetStatus("Сидит в лаунчере", "");
+
+			var mdts = versionLoader.GetVersionMetadatas();
+			Versions = new ObservableCollection<MVersionMetadata>(mdts);
+			SelectedVersion = mdts.LatestReleaseVersion;
 		}
 
 		private AccountStorage accountStorage;
 		public ObservableCollection<MSession> Accounts { get; set; }
+		public ObservableCollection<MVersionMetadata> Versions { get; set; }
+		public MVersionMetadata SelectedVersion { get; set; }
 		public int selectedAccount { get; set; } = 0;
 
 		public Command DeleteAccountCommand { get; }
@@ -159,7 +168,8 @@ namespace MeloncherWPF.ViewModels
 				discrodRPCTools.SetStatus("Играет на версии " + McVersionName, "");
 				mcLauncher.Offline = Offline;
 				mcLauncher.UseOptifine = Optifine;
-				mcLauncher.SetVersionByName(McVersionName);
+				//mcLauncher.SetVersionByName(McVersionName);
+				mcLauncher.SetVersion(SelectedVersion.GetVersion());
 				//mcLauncher.Version = new McVersion(McVersionName, "Test", "Test-" + McVersionName);
 				mcLauncher.Session = session;
 				await mcLauncher.Update();

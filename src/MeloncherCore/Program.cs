@@ -48,7 +48,7 @@ namespace MeloncherCore
             //var session = qwe.test();
             //await launcher.Launch(version, session, offline, optifine);
             //launcher.Version = version;
-            launcher.SetVersionByName(versionName);
+            launcher.SetVersion(versionName);
             launcher.Session = session;
             launcher.Offline = offline;
             launcher.UseOptifine = optifine;

@@ -30,10 +30,16 @@ namespace MeloncherCore.Launcher
 		public bool Offline { get; set; } = false;
 		public bool UseOptifine { get; set; } = true;
 
-		public void SetVersionByName(string mcVerName) {
+		public void SetVersion(string mcVerName) {
 			IVersionLoader versionLoader = Offline ? new LocalVersionLoader(MinecraftPath) : new DefaultVersionLoader(MinecraftPath);
 			var verTools = new VersionTools(versionLoader);
-			Version = verTools.getMcVersionByName(mcVerName);
+			Version = verTools.getMcVersion(mcVerName);
+		}
+		public void SetVersion(MVersion mVersion)
+		{
+			IVersionLoader versionLoader = Offline ? new LocalVersionLoader(MinecraftPath) : new DefaultVersionLoader(MinecraftPath);
+			var verTools = new VersionTools(versionLoader);
+			Version = verTools.getMcVersion(mVersion);
 		}
 
 		public async Task Update()
