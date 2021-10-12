@@ -306,8 +306,8 @@ Source: "dxwebsetup.exe"; Flags: dontcopy noencryption
 
 ;Source: "MyProg-x64.exe"; DestDir: "{app}"; DestName: "MyProg.exe"; Check: Dependency_IsX64; Flags: ignoreversion
 ;Source: "MyProg.exe"; DestDir: "{app}"; Check: not Dependency_IsX64; Flags: ignoreversion
-Source: "X:\Projects\C#\Meloncher\src\MeloncherWPF\bin\Release\net5.0-windows\publish\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
-Source: "X:\Projects\C#\Meloncher\src\MeloncherWPF\bin\Release\net5.0-windows\publish\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "X:\Projects\C#\Meloncher\src\MeloncherAvalonia\bin\Release\net5.0\publish\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
+Source: "X:\Projects\C#\Meloncher\src\MeloncherAvalonia\bin\Release\net5.0\publish\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 
 [Icons]
 Name: "{group}\{#MyAppSetupName}"; Filename: "{app}\{#MyAppExeName}"
