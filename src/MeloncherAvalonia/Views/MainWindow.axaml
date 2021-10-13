@@ -17,6 +17,7 @@
         ExtendClientAreaTitleBarHeightHint="26"
         TransparencyLevelHint="Blur"
         Background="Transparent"
+        WindowStartupLocation="CenterScreen"
         >
 
   <Grid>
@@ -41,27 +42,7 @@
             <RowDefinition Height="auto" />
           </Grid.RowDefinitions>
           <Border Background="White">
-            <!--<TextBox Text="{Binding TestConsole}" VerticalScrollBarVisibility="Auto"/>-->
-            <Grid>
-              <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition Height="32"/>
-              </Grid.RowDefinitions>
-              <!--<ListView SelectedIndex="{Binding selectedAccount}" ItemsSource="{Binding Accounts}" ItemContainerStyle="{StaticResource Account}"></ListView>-->
-              <ListBox SelectedIndex="{Binding selectedAccount}" Items="{Binding Accounts}">
-                <ListBox.ItemTemplate>
-                  <DataTemplate>
-                    <TextBlock Text="{Binding Username}"/>
-                  </DataTemplate>
-                </ListBox.ItemTemplate>
-              </ListBox>
-              <StackPanel Grid.Row="1" Orientation="Horizontal" Background="Black">
-                <Button Command="{Binding AddOfflineCommand}" Content="Добавить Пиратку" Height="32" Width="128" />
-                <Button Command="{Binding AddMojangCommand}" Content="Добавить Mojang" Height="32" Width="128" />
-                <Button Command="{Binding AddMicrosoftCommand}" Content="Добавить Microsoft" Height="32" Width="128" />
-                <Button Command="{Binding DeleteAccountCommand}" Content="Удалить выбранное" Height="32" Width="128" />
-              </StackPanel>
-            </Grid>
+            
           </Border>
           <Grid Grid.Row="1" Background="#252525">
             <Grid.ColumnDefinitions>
@@ -90,7 +71,10 @@
             </StackPanel>
             <!--<Button Style="{StaticResource PlayButton}" Command="{Binding PlayButtonCommand}" IsEnabled="{Binding IsNotStarted}" Grid.Column="1" Content="Играть" Height="54" Width="248" />-->
             <Button Command="{Binding PlayButtonCommand}" IsEnabled="{Binding IsNotStarted}" Grid.Column="1" Content="Играть" Foreground="White" Height="54" Width="248" />
-            <!--<Button Grid.Column="2" Height="32" Width="128" Content="Аккаунты" Command="{Binding OpenAccountsWindowCommand}"/>-->
+            <StackPanel Grid.Column="2">
+              <Button Height="32" Width="128" Content="Аккаунты" Command="{Binding OpenAccountsWindowCommand}"/>
+              <TextBlock Text="{Binding SelectedSession.Username}" />
+            </StackPanel>
           </Grid>
           <!--<uc:LoadingBar Grid.Row="2" Text="{Binding ProgressText}" Value="{Binding ProgressValue}" Hidden="{Binding ProgressHidden}" />-->
           <ProgressBar Grid.Row="2" Height="20" Value="{Binding ProgressValue}" Foreground="#aa0000" Background="Black" IsVisible="{Binding !ProgressHidden}" />

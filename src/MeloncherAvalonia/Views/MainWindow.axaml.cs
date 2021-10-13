@@ -2,13 +2,14 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
+using CmlLib.Core.Auth;
 using MeloncherAvalonia.ViewModels;
 using ReactiveUI;
 using System.Threading.Tasks;
 
 namespace MeloncherAvalonia.Views
 {
-	public partial class MainWindow : ReactiveWindow<MainWindowViewModel>
+	public partial class MainWindow : ReactiveWindow<MainViewModel>
 	{
 		public MainWindow()
 		{
@@ -16,7 +17,7 @@ namespace MeloncherAvalonia.Views
 #if DEBUG
             this.AttachDevTools();
 #endif
-			this.WhenActivated(d => d(ViewModel.ShowDialog.RegisterHandler(DoShowDialogAsync)));
+			this.WhenActivated(d => d(ViewModel.ShowSelectAccountDialog.RegisterHandler(DoShowSelectAccountDialogAsync)));
 		}
 
 		private void InitializeComponent()
@@ -24,11 +25,11 @@ namespace MeloncherAvalonia.Views
 			AvaloniaXamlLoader.Load(this);
 		}
 
-		private async Task DoShowDialogAsync(InteractionContext<AddAccountViewModel, AddAccountData?> interaction)
+		private async Task DoShowSelectAccountDialogAsync(InteractionContext<AccountsViewModel, MSession?> interaction)
 		{
-			var dialog = new AddAccountWindow();
+			var dialog = new AccountsWindow();
 			dialog.DataContext = interaction.Input;
-			var result = await dialog.ShowDialog<AddAccountData?>(this);
+			var result = await dialog.ShowDialog<MSession?>(this);
 			interaction.SetOutput(result); 
 		}
 	}

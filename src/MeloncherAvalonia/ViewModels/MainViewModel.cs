@@ -18,29 +18,30 @@ using System.Reactive.Linq;
 
 namespace MeloncherAvalonia.ViewModels
 {
-	public class MainWindowViewModel : ViewModelBase
+	public class MainViewModel : ViewModelBase
 	{
-		public Interaction<AddAccountViewModel, AddAccountData?> ShowDialog { get; }
+		
 		[Reactive] public string Title { get; set; } = "Meloncher";
 		[Reactive] public bool Optifine { get; set; } = true;
 		[Reactive] public bool Offline { get; set; } = false;
 		[Reactive] public int ProgressValue { get; set; } = 0;
-		[Reactive] public string ProgressText { get; set; } = "";
+		[Reactive] public string ProgressText { get; set; } = null;
 		[Reactive] public bool ProgressHidden { get; set; } = true;
 		[Reactive] public bool IsNotStarted { get; set; } = true;
 
 		private McLauncher mcLauncher;
 		private IVersionLoader versionLoader;
 		DiscrodRPCTools discrodRPCTools = new DiscrodRPCTools();
-		public MainWindowViewModel()
+
+		public Interaction<AccountsViewModel, MSession?> ShowSelectAccountDialog { get; }
+
+		public MainViewModel()
 		{
-			ShowDialog = new Interaction<AddAccountViewModel, AddAccountData?>();
 			ServicePointManager.DefaultConnectionLimit = 512;
+			ShowSelectAccountDialog = new Interaction<AccountsViewModel, MSession?>();
 			PlayButtonCommand = ReactiveCommand.Create(OnPlayButtonCommandExecuted);
-			DeleteAccountCommand = ReactiveCommand.Create(OnDeleteAccountCommandExecuted);
-			AddMicrosoftCommand = ReactiveCommand.Create(OnAddMicrosoftCommandExecuted);
-			AddMojangCommand = ReactiveCommand.Create(OnAddMojangCommandExecuted);
-			AddOfflineCommand = ReactiveCommand.Create(OnAddOfflineCommandExecuted);
+			OpenAccountsWindowCommand = ReactiveCommand.Create(OnOpenAccountsWindowCommandExecuted);
+
 			var path = new ExtMinecraftPath();
 			mcLauncher = new McLauncher(path);
 			versionLoader = new DefaultVersionLoader(path);
@@ -101,66 +102,33 @@ namespace MeloncherAvalonia.ViewModels
 			{
 				discrodRPCTools.OnLog(e.Line);
 			};
-			accountStorage = new AccountStorage(mcLauncher.MinecraftPath);
-			accountStorage.CollectionChanged += (object sender, NotifyCollectionChangedEventArgs e) => Accounts = new ObservableCollection<MSession>(accountStorage);
-			Accounts = new ObservableCollection<MSession>(accountStorage);
+			
 			discrodRPCTools.SetStatus("Сидит в лаунчере", "");
 
 			var mdts = versionLoader.GetVersionMetadatas();
 			Versions = new ObservableCollection<MVersionMetadata>(mdts);
 			SelectedVersion = mdts.LatestReleaseVersion;
 		}
-
-		private AccountStorage accountStorage;
-		[Reactive] public ObservableCollection<MSession> Accounts { get; set; }
 		[Reactive] public ObservableCollection<MVersionMetadata> Versions { get; set; }
 		[Reactive] public MVersionMetadata ?SelectedVersion { get; set; }
-		[Reactive] public int selectedAccount { get; set; } = 0;
+		[Reactive] public MSession? SelectedSession { get; set; }
 
-		public ReactiveCommand<Unit, Unit> DeleteAccountCommand { get; }
-		private void OnDeleteAccountCommandExecuted()
+		public ReactiveCommand<Unit, Task> OpenAccountsWindowCommand { get; }
+		private async Task OnOpenAccountsWindowCommandExecuted()
 		{
-			accountStorage.RemoveAt(selectedAccount);
-		}
-
-		public ReactiveCommand<Unit, Unit> AddMicrosoftCommand { get; }
-		private void OnAddMicrosoftCommandExecuted()
-		{
-			Title = "Test";
-			//MicrosoftLoginWindow loginWindow = new MicrosoftLoginWindow();
-			//MSession session = loginWindow.ShowLoginDialog();
-			//accountStorage.Add(session);
-		}
-
-		public ReactiveCommand<Unit, Task> AddMojangCommand { get; }
-		private async Task OnAddMojangCommandExecuted()
-		{
-			var dialog = new AddAccountViewModel();
-			var result = await ShowDialog.Handle(dialog);
+			var dialog = new AccountsViewModel();
+			var result = await ShowSelectAccountDialog.Handle(dialog);
 			if (result != null)
 			{
-				var login = new MLogin();
-				var resp = login.Authenticate(result.Username, result.Password);
-				if (resp.Session != null) accountStorage.Add(resp.Session);
-			}
-		}
-
-		public ReactiveCommand<Unit, Task> AddOfflineCommand { get; }
-		private async Task OnAddOfflineCommandExecuted()
-		{
-			var dialog = new AddAccountViewModel();
-			var result = await ShowDialog.Handle(dialog);
-			if (result != null)
-			{
-				MSession session = MSession.GetOfflineSession(result.Username);
-				accountStorage.Add(session);
+				SelectedSession = result;
 			}
 		}
 
 		public ReactiveCommand<Unit, Unit> PlayButtonCommand { get; }
 		private void OnPlayButtonCommandExecuted()
 		{
-			MSession session = (Accounts.Count > 0) ? Accounts[selectedAccount] : MSession.GetOfflineSession("Player");
+			MSession session = SelectedSession;
+			if (session == null) session = MSession.GetOfflineSession("Player");
 			new Task(async () =>
 			{
 				IsNotStarted = false;

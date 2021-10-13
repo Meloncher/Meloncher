@@ -10,7 +10,7 @@
 				Title="Add Account"
 				Height="256"
 				Width="256"
-				WindowStartupLocation="CenterScreen"
+				WindowStartupLocation="CenterOwner"
 				>
 
 	<Window.DataContext>
