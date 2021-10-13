@@ -7,6 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeloncherCore", "MeloncherC
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeloncherWPF", "MeloncherWPF\MeloncherWPF.csproj", "{CB6C2806-0E38-417F-90B1-ACFAB3AFD441}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeloncherAvalonia", "MeloncherAvalonia\MeloncherAvalonia.csproj", "{4875B8E1-0E61-457B-B0BE-EBE85AEFC108}"
+	ProjectSection(ProjectDependencies) = postProject
+		{21FC6383-035A-49FD-9015-8049D461B8DA} = {21FC6383-035A-49FD-9015-8049D461B8DA}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +26,10 @@ Global
 		{CB6C2806-0E38-417F-90B1-ACFAB3AFD441}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CB6C2806-0E38-417F-90B1-ACFAB3AFD441}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CB6C2806-0E38-417F-90B1-ACFAB3AFD441}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4875B8E1-0E61-457B-B0BE-EBE85AEFC108}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4875B8E1-0E61-457B-B0BE-EBE85AEFC108}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4875B8E1-0E61-457B-B0BE-EBE85AEFC108}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4875B8E1-0E61-457B-B0BE-EBE85AEFC108}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
