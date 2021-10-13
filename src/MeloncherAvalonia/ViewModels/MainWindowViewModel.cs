@@ -12,17 +12,20 @@ using System.Threading.Tasks;
 using ReactiveUI;
 using System.Reactive;
 using ReactiveUI.Fody.Helpers;
+using MeloncherAvalonia.Views;
+using Avalonia.Controls;
+using System.Reactive.Linq;
 
 namespace MeloncherAvalonia.ViewModels
 {
-	internal class MainWindowViewModel : ViewModelBase
+	public class MainWindowViewModel : ViewModelBase
 	{
+		public Interaction<AddAccountViewModel, AddAccountData?> ShowDialog { get; }
 		[Reactive] public string Title { get; set; } = "Meloncher";
-		[Reactive] public string Username { get; set; } = "Steve";
 		[Reactive] public bool Optifine { get; set; } = true;
 		[Reactive] public bool Offline { get; set; } = false;
-		[Reactive] public int ?ProgressValue { get; set; }
-		[Reactive] public string ?ProgressText { get; set; }
+		[Reactive] public int ProgressValue { get; set; } = 0;
+		[Reactive] public string ProgressText { get; set; } = "";
 		[Reactive] public bool ProgressHidden { get; set; } = true;
 		[Reactive] public bool IsNotStarted { get; set; } = true;
 
@@ -31,6 +34,7 @@ namespace MeloncherAvalonia.ViewModels
 		DiscrodRPCTools discrodRPCTools = new DiscrodRPCTools();
 		public MainWindowViewModel()
 		{
+			ShowDialog = new Interaction<AddAccountViewModel, AddAccountData?>();
 			ServicePointManager.DefaultConnectionLimit = 512;
 			PlayButtonCommand = ReactiveCommand.Create(OnPlayButtonCommandExecuted);
 			DeleteAccountCommand = ReactiveCommand.Create(OnDeleteAccountCommandExecuted);
@@ -128,28 +132,29 @@ namespace MeloncherAvalonia.ViewModels
 			//accountStorage.Add(session);
 		}
 
-		public ReactiveCommand<Unit, Unit> AddMojangCommand { get; }
-		private void OnAddMojangCommandExecuted()
+		public ReactiveCommand<Unit, Task> AddMojangCommand { get; }
+		private async Task OnAddMojangCommandExecuted()
 		{
-			//var dialog = new AddAccountWindow();
-			//if (dialog.ShowDialog() == true)
-			//{
-			//	var login = new MLogin();
-			//	var resp = login.Authenticate(dialog.ResponseLogin, dialog.ResponsePass);
-			//	MSession session = resp.Session;
-			//	accountStorage.Add(session);
-			//}
+			var dialog = new AddAccountViewModel();
+			var result = await ShowDialog.Handle(dialog);
+			if (result != null)
+			{
+				var login = new MLogin();
+				var resp = login.Authenticate(result.Username, result.Password);
+				if (resp.Session != null) accountStorage.Add(resp.Session);
+			}
 		}
 
-		public ReactiveCommand<Unit, Unit> AddOfflineCommand { get; }
-		private void OnAddOfflineCommandExecuted()
+		public ReactiveCommand<Unit, Task> AddOfflineCommand { get; }
+		private async Task OnAddOfflineCommandExecuted()
 		{
-			//var dialog = new AddAccountWindow();
-			//if (dialog.ShowDialog() == true)
-			//{
-			//	MSession session = MSession.GetOfflineSession(dialog.ResponseLogin);
-			//	accountStorage.Add(session);
-			//}
+			var dialog = new AddAccountViewModel();
+			var result = await ShowDialog.Handle(dialog);
+			if (result != null)
+			{
+				MSession session = MSession.GetOfflineSession(result.Username);
+				accountStorage.Add(session);
+			}
 		}
 
 		public ReactiveCommand<Unit, Unit> PlayButtonCommand { get; }

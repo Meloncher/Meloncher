@@ -1,0 +1,34 @@
+<Window xmlns="https://github.com/avaloniaui"
+				xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+				xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+				xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+				xmlns:vm="clr-namespace:MeloncherAvalonia.ViewModels"
+				mc:Ignorable="d" 
+				d:DesignWidth="256"
+				d:DesignHeight="256"
+				x:Class="MeloncherAvalonia.Views.AddAccountWindow"
+				Title="Add Account"
+				Height="256"
+				Width="256"
+				WindowStartupLocation="CenterScreen"
+				>
+
+	<Window.DataContext>
+		<vm:AddAccountViewModel />
+	</Window.DataContext>
+	
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="32" />
+			<RowDefinition Height="48" />
+			<RowDefinition Height="32" />
+			<RowDefinition Height="48" />
+			<RowDefinition Height="48" />
+		</Grid.RowDefinitions>
+		<Label Grid.Row="0" Content="Логин"></Label>
+		<TextBox Text="{Binding Username}" Grid.Row="1" Margin="4" Height="32" TextWrapping="Wrap" VerticalAlignment="Top"/>
+		<Label Grid.Row="2" Content="Пароль (Нужен только для лицухи)" />
+		<TextBox Text="{Binding Password}" Grid.Row="3" Margin="4" Height="32" VerticalAlignment="Top"/>
+		<Button Grid.Row="4" Command="{Binding OkCommand}" Content="Add" Height="40" Margin="4" VerticalAlignment="Top" Grid.RowSpan="2"/>
+	</Grid>
+</Window>
