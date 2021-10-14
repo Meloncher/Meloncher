@@ -111,7 +111,7 @@ namespace MeloncherAvalonia.ViewModels
 		}
 		[Reactive] public ObservableCollection<MVersionMetadata> Versions { get; set; }
 		[Reactive] public MVersionMetadata ?SelectedVersion { get; set; }
-		[Reactive] public MSession? SelectedSession { get; set; }
+		[Reactive] public MSession? SelectedSession { get; set; } = MSession.GetOfflineSession("Player");
 
 		public ReactiveCommand<Unit, Task> OpenAccountsWindowCommand { get; }
 		private async Task OnOpenAccountsWindowCommandExecuted()
