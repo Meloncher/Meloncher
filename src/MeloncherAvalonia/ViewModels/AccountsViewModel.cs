@@ -1,4 +1,5 @@
 ﻿using CmlLib.Core.Auth;
+using CmlLib.Core.Auth.Microsoft;
 using MeloncherCore.Account;
 using MeloncherCore.Launcher;
 using ReactiveUI;
@@ -24,7 +25,6 @@ namespace MeloncherAvalonia.ViewModels
 			AddMojangCommand = ReactiveCommand.Create(OnAddMojangCommandExecuted);
 			AddOfflineCommand = ReactiveCommand.Create(OnAddOfflineCommandExecuted);
 			OkCommand = ReactiveCommand.Create(OnOkCommandExecuted);
-			ShowAddAccountDialog = new Interaction<AddAccountViewModel, AddAccountData?>();
 			var path = new ExtMinecraftPath();
 			accountStorage = new AccountStorage(path);
 			accountStorage.CollectionChanged += (object sender, NotifyCollectionChangedEventArgs e) => Accounts = new ObservableCollection<MSession>(accountStorage);
@@ -33,7 +33,8 @@ namespace MeloncherAvalonia.ViewModels
 
 		[Reactive] public ObservableCollection<MSession> Accounts { get; set; }
 		[Reactive] public int selectedAccount { get; set; } = 0;
-		public Interaction<AddAccountViewModel, AddAccountData?> ShowAddAccountDialog { get; }
+		public Interaction<AddAccountViewModel, AddAccountData?> ShowAddAccountDialog { get; } = new Interaction<AddAccountViewModel, AddAccountData?>();
+		public Interaction<AddMicrosoftAccountViewModel, string?> ShowAddMicrosoftAccountDialog { get; } = new Interaction<AddMicrosoftAccountViewModel, string?>();
 
 		private AccountStorage accountStorage;
 
@@ -43,9 +44,21 @@ namespace MeloncherAvalonia.ViewModels
 			accountStorage.RemoveAt(selectedAccount);
 		}
 
-		public ReactiveCommand<Unit, Unit> AddMicrosoftCommand { get; }
-		private void OnAddMicrosoftCommandExecuted()
+		public ReactiveCommand<Unit, Task> AddMicrosoftCommand { get; }
+		private async Task OnAddMicrosoftCommandExecuted()
 		{
+			var lh = new LoginHandler();
+			var psi = new System.Diagnostics.ProcessStartInfo();
+			psi.UseShellExecute = true;
+			psi.FileName = lh.CreateOAuthUrl();
+			System.Diagnostics.Process.Start(psi);
+			var dialog = new AddMicrosoftAccountViewModel();
+			var result = await ShowAddMicrosoftAccountDialog.Handle(dialog);
+			if (result != null)
+			{
+				if (lh.CheckOAuthLoginSuccess(result.ToString()))
+					accountStorage.Add(lh.LoginFromOAuth());
+			}
 			//MicrosoftLoginWindow loginWindow = new MicrosoftLoginWindow();
 			//MSession session = loginWindow.ShowLoginDialog();
 			//accountStorage.Add(session);

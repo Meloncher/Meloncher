@@ -1,0 +1,30 @@
+<Window xmlns="https://github.com/avaloniaui"
+				xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+				xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+				xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+				xmlns:vm="clr-namespace:MeloncherAvalonia.ViewModels"
+				mc:Ignorable="d" 
+				d:DesignWidth="512"
+				d:DesignHeight="128"
+				x:Class="MeloncherAvalonia.Views.AddMicrosoftAccountWindow"
+				Title="Add Account"
+				Height="128"
+				Width="512"
+				WindowStartupLocation="CenterOwner"
+				>
+
+	<Window.DataContext>
+		<vm:AddMicrosoftAccountViewModel />
+	</Window.DataContext>
+	
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="32" />
+			<RowDefinition Height="48" />
+			<RowDefinition Height="32" />
+		</Grid.RowDefinitions>
+		<Label Grid.Row="0" Content="Когда закончишь, скопируй адресную строку браузера сюда и нажми ок"></Label>
+		<TextBox Text="{Binding RedirectUrl}" Grid.Row="1" Margin="4" Height="32" TextWrapping="Wrap" VerticalAlignment="Top"/>
+		<Button Grid.Row="2" Command="{Binding OkCommand}" Content="OK" Height="40" Margin="4" VerticalAlignment="Top" Grid.RowSpan="2"/>
+	</Grid>
+</Window>

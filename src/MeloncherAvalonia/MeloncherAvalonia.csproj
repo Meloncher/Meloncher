@@ -33,4 +33,9 @@
   <ItemGroup>
     <ProjectReference Include="..\MeloncherCore\MeloncherCore.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Views\AddMicrosoftAccountWindow.axaml.cs">
+      <DependentUpon>AddMicrosoftAccountWindow.axaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
 </Project>

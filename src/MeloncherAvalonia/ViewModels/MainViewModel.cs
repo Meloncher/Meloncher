@@ -134,7 +134,7 @@ namespace MeloncherAvalonia.ViewModels
 				IsNotStarted = false;
 				ProgressHidden = false;
 				Title = "Meloncher " + SelectedVersion?.Name;
-				discrodRPCTools.SetStatus("Играет на версии " + SelectedVersion.Name, "");
+				discrodRPCTools.SetStatus("Играет на версии " + SelectedVersion?.Name, "");
 				mcLauncher.Offline = Offline;
 				mcLauncher.UseOptifine = Optifine;
 				//mcLauncher.SetVersionByName(McVersionName);
