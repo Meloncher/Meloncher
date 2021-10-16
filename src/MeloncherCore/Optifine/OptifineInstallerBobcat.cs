@@ -37,20 +37,20 @@ namespace MeloncherCore.Optifine
 			}
 			return ParseVersions(res);
 		}
-		
+
 		private string getPatch(OptifineDownloadVersionModel ofVer)
 		{
-			if (ofVer.Patch.StartsWith("pre")) 
+			if (ofVer.Patch.StartsWith("pre"))
 				return ofVer.Type;
-			else 
+			else
 				return ofVer.Type + "_" + ofVer.Patch;
 		}
 
 		private int getPre(OptifineDownloadVersionModel ofVer)
 		{
-			if (ofVer.Patch.StartsWith("pre")) 
+			if (ofVer.Patch.StartsWith("pre"))
 				return Int32.Parse(ofVer.Patch.Replace("pre", ""));
-			else 
+			else
 				return 1337;
 		}
 
@@ -67,7 +67,8 @@ namespace MeloncherCore.Optifine
 			return latestOfVer;
 		}
 
-		private async Task<OptifineDownloadVersionModel?> GetLatestOptifineVersion(string mcVersionName) {
+		private async Task<OptifineDownloadVersionModel?> GetLatestOptifineVersion(string mcVersionName)
+		{
 			var versions = await ParseVersions();
 			return GetLatestOptifineVersion(versions, mcVersionName);
 		}
@@ -89,7 +90,8 @@ namespace MeloncherCore.Optifine
 			foreach (var mtd in versionLoader.GetVersionMetadatas())
 			{
 				var name = mtd.Name;
-				if (name.StartsWith(mcVersionName + "-Optifine_")) {
+				if (name.StartsWith(mcVersionName + "-Optifine_"))
+				{
 					var nameSplit = name.Split("_");
 					if (nameSplit.Length == 4 || nameSplit.Length == 5)
 					{
@@ -134,7 +136,8 @@ namespace MeloncherCore.Optifine
 			using (var wc = new WebClient())
 			{
 				var url = new Uri("https://optifine.net/download?f=" + ofVer.FileName);
-				wc.DownloadProgressChanged += (sender, e) => {
+				wc.DownloadProgressChanged += (sender, e) =>
+				{
 					//Console.WriteLine("Крч джарник оптифайна качается: " + e.ProgressPercentage + "%");
 					ProgressChanged?.Invoke(sender, e);
 				};
@@ -147,7 +150,7 @@ namespace MeloncherCore.Optifine
 			ofInstaller.OptifineDownloadVersion = ofVer;
 			ofInstaller.JavaExecutablePath = javaPath;
 			//ofInstaller.RootPath = path.MinecraftPath;
-			ofInstaller.MinecraftPath = path; 
+			ofInstaller.MinecraftPath = path;
 			return ofInstaller.Install();
 		}
 	}

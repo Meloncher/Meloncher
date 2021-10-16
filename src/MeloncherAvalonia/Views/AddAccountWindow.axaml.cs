@@ -1,5 +1,4 @@
 using Avalonia;
-using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
 using MeloncherAvalonia.ViewModels;
@@ -8,8 +7,8 @@ using System;
 
 namespace MeloncherAvalonia.Views
 {
-    public class AddAccountWindow : ReactiveWindow<AddAccountViewModel>
-    {
+	public class AddAccountWindow : ReactiveWindow<AddAccountViewModel>
+	{
 		public AddAccountWindow()
 		{
 			InitializeComponent();
@@ -23,5 +22,5 @@ namespace MeloncherAvalonia.Views
 		{
 			AvaloniaXamlLoader.Load(this);
 		}
-    }
+	}
 }

@@ -4,14 +4,11 @@ using MeloncherCore.Account;
 using MeloncherCore.Launcher;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.Linq;
+using System.Diagnostics;
 using System.Reactive;
 using System.Reactive.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace MeloncherAvalonia.ViewModels
@@ -48,10 +45,10 @@ namespace MeloncherAvalonia.ViewModels
 		private async Task OnAddMicrosoftCommandExecuted()
 		{
 			var lh = new LoginHandler();
-			var psi = new System.Diagnostics.ProcessStartInfo();
+			var psi = new ProcessStartInfo();
 			psi.UseShellExecute = true;
 			psi.FileName = lh.CreateOAuthUrl();
-			System.Diagnostics.Process.Start(psi);
+			Process.Start(psi);
 			var dialog = new AddMicrosoftAccountViewModel();
 			var result = await ShowAddMicrosoftAccountDialog.Handle(dialog);
 			if (result != null)
@@ -59,9 +56,6 @@ namespace MeloncherAvalonia.ViewModels
 				if (lh.CheckOAuthLoginSuccess(result.ToString()))
 					accountStorage.Add(lh.LoginFromOAuth());
 			}
-			//MicrosoftLoginWindow loginWindow = new MicrosoftLoginWindow();
-			//MSession session = loginWindow.ShowLoginDialog();
-			//accountStorage.Add(session);
 		}
 
 		public ReactiveCommand<Unit, MSession> OkCommand { get; }

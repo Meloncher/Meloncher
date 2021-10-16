@@ -1,26 +1,21 @@
-using System;
 using CmlLib.Core.Auth;
 using CmlLib.Core.Version;
 using CmlLib.Core.VersionLoader;
-using MeloncherCore.Account;
 using MeloncherCore.Discord;
 using MeloncherCore.Launcher;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.Net;
-using System.Threading.Tasks;
 using ReactiveUI;
-using System.Reactive;
 using ReactiveUI.Fody.Helpers;
-using MeloncherAvalonia.Views;
-using Avalonia.Controls;
+using System.Collections.ObjectModel;
+using System.Net;
+using System.Reactive;
 using System.Reactive.Linq;
+using System.Threading.Tasks;
 
 namespace MeloncherAvalonia.ViewModels
 {
 	public class MainViewModel : ViewModelBase
 	{
-		
+
 		[Reactive] public string Title { get; set; } = "Meloncher";
 		[Reactive] public bool Optifine { get; set; } = true;
 		[Reactive] public bool Offline { get; set; } = false;
@@ -102,7 +97,7 @@ namespace MeloncherAvalonia.ViewModels
 			{
 				discrodRPCTools.OnLog(e.Line);
 			};
-			
+
 			discrodRPCTools.SetStatus("Сидит в лаунчере", "");
 
 			var mdts = versionLoader.GetVersionMetadatas();
@@ -110,7 +105,7 @@ namespace MeloncherAvalonia.ViewModels
 			SelectedVersion = mdts.LatestReleaseVersion;
 		}
 		[Reactive] public ObservableCollection<MVersionMetadata> Versions { get; set; }
-		[Reactive] public MVersionMetadata ?SelectedVersion { get; set; }
+		[Reactive] public MVersionMetadata? SelectedVersion { get; set; }
 		[Reactive] public MSession? SelectedSession { get; set; } = MSession.GetOfflineSession("Player");
 
 		public ReactiveCommand<Unit, Task> OpenAccountsWindowCommand { get; }

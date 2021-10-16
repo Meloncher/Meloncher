@@ -1,5 +1,4 @@
 using Avalonia;
-using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
 using CmlLib.Core.Auth;
@@ -15,7 +14,7 @@ namespace MeloncherAvalonia.Views
 		{
 			InitializeComponent();
 #if DEBUG
-            this.AttachDevTools();
+			this.AttachDevTools();
 #endif
 			this.WhenActivated(d => d(ViewModel.ShowSelectAccountDialog.RegisterHandler(DoShowSelectAccountDialogAsync)));
 		}
@@ -30,7 +29,7 @@ namespace MeloncherAvalonia.Views
 			var dialog = new AccountsWindow();
 			dialog.DataContext = interaction.Input;
 			var result = await dialog.ShowDialog<MSession?>(this);
-			interaction.SetOutput(result); 
+			interaction.SetOutput(result);
 		}
 	}
 }

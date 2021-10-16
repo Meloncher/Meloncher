@@ -20,7 +20,8 @@ namespace MeloncherCore.Options
 			if (!File.Exists(syncOpts))
 				File.WriteAllText(syncOpts, "", Encoding.Default);
 
-			if (File.Exists(profileOpts)) {
+			if (File.Exists(profileOpts))
+			{
 				ExtGameOptionsFile sync = ExtGameOptionsFile.ReadFile(syncOpts, Encoding.Default);
 				ExtGameOptionsFile options = ExtGameOptionsFile.ReadFile(profileOpts, Encoding.Default);
 				sync.Merge(options);
@@ -31,11 +32,12 @@ namespace MeloncherCore.Options
 				sync.Downgrade();
 				sync.Save(syncOpts, Encoding.Default);
 			}
-			
+
 		}
 		public void Load()
 		{
-			if (!File.Exists(syncOpts)) {
+			if (!File.Exists(syncOpts))
+			{
 				File.WriteAllText(syncOpts, "", Encoding.Default);
 				ExtGameOptionsFile sync = ExtGameOptionsFile.ReadFile(syncOpts, Encoding.Default);
 				McOptionsUtils.SetDefaults(sync);
@@ -48,7 +50,8 @@ namespace MeloncherCore.Options
 				if (File.Exists(profileOpts))
 				{
 					ExtGameOptionsFile options = ExtGameOptionsFile.ReadFile(profileOpts, Encoding.Default);
-					foreach (string key in noSyncKeys) {
+					foreach (string key in noSyncKeys)
+					{
 						if (options.ContainsKey(key)) sync.SetRawValue(key, options.GetRawValue(key));
 					}
 				}

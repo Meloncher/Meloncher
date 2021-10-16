@@ -30,7 +30,8 @@ namespace MeloncherCore.Launcher
 		public bool Offline { get; set; } = false;
 		public bool UseOptifine { get; set; } = true;
 
-		public void SetVersion(string mcVerName) {
+		public void SetVersion(string mcVerName)
+		{
 			IVersionLoader versionLoader = Offline ? new LocalVersionLoader(MinecraftPath) : new DefaultVersionLoader(MinecraftPath);
 			var verTools = new VersionTools(versionLoader);
 			Version = verTools.getMcVersion(mcVerName);
@@ -105,12 +106,13 @@ namespace MeloncherCore.Launcher
 			}
 
 			var process = await launcher.CreateProcessAsync(launchOption);
-			
+
 			sync.Load();
 			process.StartInfo.RedirectStandardOutput = true;
 			process.StartInfo.RedirectStandardError = true;
 			process.Start();
-			new Task(() => {
+			new Task(() =>
+			{
 				while (!process.StandardOutput.EndOfStream)
 				{
 					string line = process.StandardOutput.ReadLine();

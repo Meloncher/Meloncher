@@ -2,10 +2,6 @@
 using DiscordRPC.Logging;
 using MeloncherCore.Launcher;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MeloncherCore.Discord
 {
@@ -26,7 +22,7 @@ namespace MeloncherCore.Discord
 				Console.WriteLine("Received Update! {0}", e.Presence);
 			};
 			client.Initialize();
-			
+
 		}
 		public void SetStatus(string details, string state)
 		{

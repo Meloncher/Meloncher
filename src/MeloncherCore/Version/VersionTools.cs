@@ -25,29 +25,31 @@ namespace MeloncherCore.Version
 
 			var profileName = assid;
 			if (profileName == "pre-1.6") profileName = "legacy";
-			if (profileName == null) {
+			if (profileName == null)
+			{
 				var parentName = mVersion.ParentVersionId;
-				if (parentName != null) {
+				if (parentName != null)
+				{
 					var parVer = VersionLoader.GetVersionMetadatas().GetVersion(parentName);
 					profileName = parVer.AssetId;
 				}
 			}
 			if (profileName == null) profileName = "unknown";
-				//System.Console.WriteLine("Profile name = " + profileName.ToString());
+			//System.Console.WriteLine("Profile name = " + profileName.ToString());
 
-				//if (type == "release")
-				//{
-				//	var verSplit = mcVerName.Split(".");
-				//	if (verSplit.Length >= 2 && verSplit[0] == "1")
-				//	{
-				//		profileName = "1." + verSplit[1];
-				//	}
-				//} else if (type != "snapshot")
-				//{
-				//	profileName = "other";
-				//}
+			//if (type == "release")
+			//{
+			//	var verSplit = mcVerName.Split(".");
+			//	if (verSplit.Length >= 2 && verSplit[0] == "1")
+			//	{
+			//		profileName = "1." + verSplit[1];
+			//	}
+			//} else if (type != "snapshot")
+			//{
+			//	profileName = "other";
+			//}
 
-				return new McVersion(mVersion.Id, type, profileName);
-		} 
+			return new McVersion(mVersion.Id, type, profileName);
+		}
 	}
 }

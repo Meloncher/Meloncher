@@ -1,16 +1,16 @@
 ﻿namespace MeloncherCore.Version
 {
-    public class McVersion
-    {
-        public McVersion(string Name, string Type, string ProfileName)
-        {
-            this.Name = Name;
-            this.Type = Type;
-            this.ProfileName = ProfileName;
-        }
+	public class McVersion
+	{
+		public McVersion(string Name, string Type, string ProfileName)
+		{
+			this.Name = Name;
+			this.Type = Type;
+			this.ProfileName = ProfileName;
+		}
 
-        public string Name { get; set; }
-        public string Type { get; set; }
-        public string ProfileName { get; set; }
-    }
+		public string Name { get; set; }
+		public string Type { get; set; }
+		public string ProfileName { get; set; }
+	}
 }

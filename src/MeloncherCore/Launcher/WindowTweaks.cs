@@ -24,7 +24,7 @@ namespace MeloncherCore.Launcher
 
 		public async Task<IntPtr> GetHWnd()
 		{
-			for(int i = 0; i < 20; i++)
+			for (int i = 0; i < 20; i++)
 			{
 				if (process.MainWindowHandle.ToInt32() != 0) return process.MainWindowHandle;
 				await Task.Delay(1000);

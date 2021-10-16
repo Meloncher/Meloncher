@@ -6,7 +6,6 @@ using CmlLib.Core.VersionLoader;
 using MeloncherCore.Account;
 using MeloncherCore.Discord;
 using MeloncherCore.Launcher;
-using MeloncherCore.Version;
 using MeloncherWPF.Views.Windows;
 using System;
 using System.Collections.ObjectModel;
@@ -15,7 +14,6 @@ using System.ComponentModel;
 using System.Net;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using System.Windows.Threading;
 
 namespace MeloncherWPF.ViewModels
 {
@@ -161,7 +159,8 @@ namespace MeloncherWPF.ViewModels
 		private void OnPlayButtonCommandExecuted(object p)
 		{
 			MSession session = (Accounts.Count > 0) ? Accounts[selectedAccount] : MSession.GetOfflineSession("Player");
-			new Task(async () => {
+			new Task(async () =>
+			{
 				IsNotStarted = false;
 				ProgressHidden = false;
 				Title = "Meloncher " + McVersionName;
