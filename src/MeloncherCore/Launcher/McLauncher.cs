@@ -6,6 +6,7 @@ using CmlLib.Core.VersionLoader;
 using MeloncherCore.Launcher.Events;
 using MeloncherCore.Optifine;
 using MeloncherCore.Options;
+using MeloncherCore.Settings;
 using MeloncherCore.Version;
 using System.ComponentModel;
 using System.IO;
@@ -29,6 +30,7 @@ namespace MeloncherCore.Launcher
 		public MSession Session { get; set; }
 		public bool Offline { get; set; } = false;
 		public bool UseOptifine { get; set; } = true;
+		public WindowMode WindowMode { get; set; } = WindowMode.WINDOWED;
 
 		public void SetVersion(string mcVerName)
 		{
@@ -91,6 +93,8 @@ namespace MeloncherCore.Launcher
 				GameLauncherName = "Meloncher"
 			};
 
+			if (WindowMode == WindowMode.FULLSCREEN) launchOption.FullScreen = true;
+
 			var sync = new McOptionsSync(path);
 			FixJavaBinaryPath(MinecraftPath, launchOption.StartVersion);
 
@@ -119,8 +123,11 @@ namespace MeloncherCore.Launcher
 					MinecraftOutput?.Invoke(new MinecraftOutputEventArgs(line));
 				}
 			}).Start();
-			var wt = new WindowTweaks(process);
-			_ = wt.Borderless();
+			if (WindowMode == WindowMode.BORDERLESS)
+			{
+				var wt = new WindowTweaks(process);
+				_ = wt.Borderless();
+			}
 			process.WaitForExit();
 			sync.Save();
 		}

@@ -143,9 +143,8 @@ namespace MeloncherAvalonia.ViewModels
 				discrodRPCTools.SetStatus("Играет на версии " + SelectedVersion?.Name, "");
 				mcLauncher.Offline = Offline;
 				mcLauncher.UseOptifine = LauncherSettings.UseOptifine;
-				//mcLauncher.SetVersionByName(McVersionName);
+				mcLauncher.WindowMode = LauncherSettings.WindowMode;
 				mcLauncher.SetVersion(SelectedVersion.GetVersion());
-				//mcLauncher.Version = new McVersion(McVersionName, "Test", "Test-" + McVersionName);
 				mcLauncher.Session = session;
 				await mcLauncher.Update();
 				ProgressValue = 0;
