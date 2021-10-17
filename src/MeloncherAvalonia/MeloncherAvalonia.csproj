@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="Assets\Background.jpg" />
+    <None Remove="Assets\Fonts\MinecraftTitle.ttf" />
     <None Remove="Assets\PlayButton_default.png" />
     <None Remove="Assets\PlayButton_disabled.png" />
     <None Remove="Assets\PlayButton_hover.png" />

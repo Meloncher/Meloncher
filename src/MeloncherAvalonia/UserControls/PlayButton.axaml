@@ -1,0 +1,63 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="MeloncherAvalonia.UserControls.PlayButton"
+						 x:Name="Root"
+						 >
+	<UserControl.Styles>
+		<Style Selector="Button.PlayButton">
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="Button">
+						<Border BorderThickness="0" Height="54" Width="248" Background="{TemplateBinding Background}">
+							<TextBlock
+								Foreground="White"
+								Text="{TemplateBinding Content}"
+								FontSize="24"
+								VerticalAlignment="Center"
+								HorizontalAlignment="Center"
+								FontFamily="/Assets/Fonts/MinecraftTitle.ttf#MinecraftTitle"
+							>
+							</TextBlock>
+						</Border>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+		</Style>
+
+		<!--Backgrounds-->
+		<Style Selector="Button.PlayButton">
+			<Setter Property="Background" >
+				<Setter.Value>
+					<ImageBrush Source="/Assets/Images/PlayButton_default.png" />
+				</Setter.Value>
+			</Setter>
+		</Style>
+		<Style Selector="Button.PlayButton:pointerover">
+			<Setter Property="Background" >
+				<Setter.Value>
+					<ImageBrush Source="/Assets/Images/PlayButton_hover.png" />
+				</Setter.Value>
+			</Setter>
+		</Style>
+		<Style Selector="Button.PlayButton:pressed">
+			<Setter Property="Background" >
+				<Setter.Value>
+					<ImageBrush Source="/Assets/Images/PlayButton_pressed.png" />
+				</Setter.Value>
+			</Setter>
+		</Style>
+		<Style Selector="Button.PlayButton:disabled">
+			<Setter Property="Background" >
+				<Setter.Value>
+					<ImageBrush Source="/Assets/Images/PlayButton_disabled.png" />
+				</Setter.Value>
+			</Setter>
+		</Style>
+	</UserControl.Styles>
+	<Border BoxShadow="0 2 10 -2 Black" Height="54" Width="248" >
+		<Button Classes="PlayButton" Content="{Binding ElementName=Root, Path=Text}" Command="{Binding ElementName=Root, Path=Command}" />
+	</Border>
+</UserControl>

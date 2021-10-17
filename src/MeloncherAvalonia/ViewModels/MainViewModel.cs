@@ -22,7 +22,7 @@ namespace MeloncherAvalonia.ViewModels
 		[Reactive] public int ProgressValue { get; set; } = 0;
 		[Reactive] public string ProgressText { get; set; } = null;
 		[Reactive] public bool ProgressHidden { get; set; } = true;
-		[Reactive] public bool IsNotStarted { get; set; } = true;
+		[Reactive] public bool IsStarted { get; set; } = false;
 		[Reactive] public LauncherSettings LauncherSettings { get; set; }
 
 		private McLauncher mcLauncher;
@@ -137,7 +137,7 @@ namespace MeloncherAvalonia.ViewModels
 			if (session == null) session = MSession.GetOfflineSession("Player");
 			new Task(async () =>
 			{
-				IsNotStarted = false;
+				IsStarted = true;
 				ProgressHidden = false;
 				Title = "Meloncher " + SelectedVersion?.Name;
 				discrodRPCTools.SetStatus("Играет на версии " + SelectedVersion?.Name, "");
@@ -151,7 +151,7 @@ namespace MeloncherAvalonia.ViewModels
 				ProgressText = null;
 				ProgressHidden = true;
 				await mcLauncher.Launch();
-				IsNotStarted = true;
+				IsStarted = false;
 				Title = "Meloncher";
 				discrodRPCTools.SetStatus("Сидит в лаунчере", "");
 			}).Start();
