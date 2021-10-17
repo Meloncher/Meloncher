@@ -12,6 +12,18 @@
 				<Setter.Value>
 					<ControlTemplate TargetType="Button">
 						<Border BorderThickness="0" Height="54" Width="248" Background="{TemplateBinding Background}">
+							<Grid>
+							<TextBlock
+								Margin="0,6,0,0"
+								Foreground="Black"
+								Opacity=".45"
+								Text="{TemplateBinding Content}"
+								FontSize="24"
+								VerticalAlignment="Center"
+								HorizontalAlignment="Center"
+								FontFamily="/Assets/Fonts/MinecraftTitle.ttf#MinecraftTitle"
+							>
+							</TextBlock>
 							<TextBlock
 								Foreground="White"
 								Text="{TemplateBinding Content}"
@@ -21,6 +33,7 @@
 								FontFamily="/Assets/Fonts/MinecraftTitle.ttf#MinecraftTitle"
 							>
 							</TextBlock>
+							</Grid>
 						</Border>
 					</ControlTemplate>
 				</Setter.Value>
