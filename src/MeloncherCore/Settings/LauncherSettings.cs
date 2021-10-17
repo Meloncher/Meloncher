@@ -7,10 +7,10 @@ namespace MeloncherCore.Settings
 {
 	public class LauncherSettings : INotifyPropertyChanged
 	{
-		[JsonProperty("use_optifine")] public bool UseOptifine { get; set; }
-		[JsonProperty("window_mode")] public WindowMode WindowMode { get; set; }
-		[JsonProperty("selected_version")] public string SelectedVersion { get; set; }
-		[JsonProperty("selected_account")] public string SelectedAccount { get; set; }
+		[JsonProperty("use_optifine")] public bool UseOptifine { get; set; } = true;
+		[JsonProperty("window_mode")] public WindowMode WindowMode { get; set; } = WindowMode.WINDOWED;
+		[JsonProperty("selected_version")] public string? SelectedVersion { get; set; } = null;
+		[JsonProperty("selected_account")] public string? SelectedAccount { get; set; } = null;
 
 		string storagePath;
 
