@@ -1,0 +1,76 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+				xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+		<Design.PreviewWith>
+				<Border Padding="20">
+          <Button Margin="0" Classes="PlayButton" Content="Играть" Foreground="White" Height="54" Width="248" />
+				</Border>
+		</Design.PreviewWith>
+
+	<Style Selector="Button.PlayButton">
+		<!--<Setter Property="OverridesDefaultStyle" Value="True"/>-->
+		<Setter Property="Margin" Value="5"/>
+		<Setter Property="BorderThickness" Value="0"/>
+		<Setter Property="FontFamily" Value="Minecraft Ten"/>
+		<Setter Property="FontSize" Value="24"/>
+		<Setter Property="Foreground" Value="White"/>
+		<!--<Setter Property="RenderOptions.BitmapScalingMode" Value="NearestNeighbor"></Setter.Value>-->
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="Button">
+					<Border Name="border" BorderThickness="0">
+						<!--<ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />-->
+						<TextBlock Foreground="White" Text="{TemplateBinding Content}" FontFamily="Minecraft Ten" FontSize="24" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+						<Border.Background>
+							<ImageBrush Source="/Assets/PlayButton_default.png" />
+						</Border.Background>
+					</Border>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+	<Style Selector="Button.PlayButton:pointerover">
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="Button">
+					<Border Name="border" BorderThickness="0">
+						<!--<ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />-->
+						<TextBlock Foreground="White" Text="{TemplateBinding Content}" FontFamily="Minecraft Ten" FontSize="24" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+						<Border.Background>
+							<ImageBrush Source="/Assets/PlayButton_hover.png" />
+						</Border.Background>
+					</Border>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+	<Style Selector="Button.PlayButton:pressed">
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="Button">
+					<Border Name="border" BorderThickness="0">
+						<!--<ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />-->
+						<TextBlock Foreground="White" Text="{TemplateBinding Content}" FontFamily="Minecraft Ten" FontSize="24" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+						<Border.Background>
+							<ImageBrush Source="/Assets/PlayButton_pressed.png" />
+						</Border.Background>
+					</Border>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+	<Style Selector="Button.PlayButton:disabled">
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="Button">
+					<Border Name="border" BorderThickness="0">
+						<!--<ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />-->
+						<TextBlock Foreground="White" Text="{TemplateBinding Content}" FontFamily="Minecraft Ten" FontSize="24" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+						<Border.Background>
+							<ImageBrush Source="/Assets/PlayButton_disabled.png" />
+						</Border.Background>
+					</Border>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+</Styles>

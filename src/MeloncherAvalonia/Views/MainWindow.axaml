@@ -22,43 +22,6 @@
 				>
 
 	<Window.Styles>
-		<Style Selector="Button.PlayButton">
-			<!--<Setter Property="OverridesDefaultStyle" Value="True"/>-->
-			<Setter Property="Margin" Value="5"/>
-			<Setter Property="BorderThickness" Value="0"/>
-			<Setter Property="FontFamily" Value="Minecraft Ten"/>
-			<Setter Property="FontSize" Value="24"/>
-			<Setter Property="Foreground" Value="White"/>
-			<!--<Setter Property="RenderOptions.BitmapScalingMode" Value="NearestNeighbor"></Setter.Value>-->
-			<Setter Property="Template">
-				<Setter.Value>
-					<ControlTemplate TargetType="Button">
-						<Border Name="border" BorderThickness="0">
-							<!--<ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />-->
-							<TextBlock Foreground="White" Text="{TemplateBinding Content}" FontFamily="Minecraft Ten" FontSize="24" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
-							<Border.Background>
-								<ImageBrush Source="/Assets/PlayButton_default.png" />
-							</Border.Background>
-						</Border>
-					</ControlTemplate>
-				</Setter.Value>
-			</Setter>
-		</Style>
-		<Style Selector="Button.PlayButton:pointerover">
-			<Setter Property="Template">
-				<Setter.Value>
-					<ControlTemplate TargetType="Button">
-						<Border Name="border" BorderThickness="0">
-							<!--<ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />-->
-							<TextBlock Foreground="White" Text="{TemplateBinding Content}" FontFamily="Minecraft Ten" FontSize="24" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
-							<Border.Background>
-								<ImageBrush Source="/Assets/PlayButton_hover.png" />
-							</Border.Background>
-						</Border>
-					</ControlTemplate>
-				</Setter.Value>
-			</Setter>
-		</Style>
 	</Window.Styles>
 
 	<Grid>
@@ -66,7 +29,7 @@
 			<RowDefinition Height="26" />
 			<RowDefinition />
 		</Grid.RowDefinitions>
-		<Border IsHitTestVisible="False" Background="#000000" Opacity=".75">
+		<Border IsHitTestVisible="False" Background="#000000" Opacity=".5">
 			<TextBlock Text="{Binding Title}" TextAlignment="Center" VerticalAlignment="Center" />
 		</Border>
 		<Grid Grid.Row="1">
@@ -74,7 +37,20 @@
 				<ColumnDefinition Width="40" />
 				<ColumnDefinition />
 			</Grid.ColumnDefinitions>
-			<Border Background="#202020" Opacity=".75" ></Border>
+			<Border Background="#202020" Opacity=".5" >
+        <Grid>
+          <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="auto" />
+          </Grid.RowDefinitions>
+          <StackPanel>
+            <!--<Button Height="40" Width="40" Content="P" />-->
+          </StackPanel>
+          <StackPanel Grid.Row="1" >
+            <Button Height="40" Width="40" Content="S" />
+          </StackPanel>
+        </Grid>
+      </Border>
 			<Border Grid.Column="1" Grid.Row="1">
 				<Grid>
 					<Grid.RowDefinitions>
