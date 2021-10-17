@@ -1,13 +1,19 @@
 <Application xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="using:MeloncherAvalonia"
-             x:Class="MeloncherAvalonia.App">
-    <Application.DataTemplates>
-        <local:ViewLocator/>
-    </Application.DataTemplates>
+						 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+						 xmlns:local="using:MeloncherAvalonia"
+						 x:Class="MeloncherAvalonia.App"
+						 xmlns:sty="using:FluentAvalonia.Styling"
+						 >
+	<Application.DataTemplates>
+		<local:ViewLocator/>
+	</Application.DataTemplates>
 
-    <Application.Styles>
-        <FluentTheme Mode="Dark"/>
-        <StyleInclude Source="/Styles/PlayButton.axaml"/>
-    </Application.Styles>
+
+	<Application.Styles>
+		<!--<FluentTheme Mode="Dark"/>-->
+		<StyleInclude Source="avares://Avalonia.Themes.Default/DefaultTheme.xaml"/>
+		<StyleInclude Source="avares://Avalonia.Themes.Default/Accents/BaseDark.xaml"/>
+		<sty:FluentAvaloniaTheme />
+		<StyleInclude Source="/Styles/PlayButton.axaml"/>
+	</Application.Styles>
 </Application>
