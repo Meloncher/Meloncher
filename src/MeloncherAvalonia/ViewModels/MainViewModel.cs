@@ -3,6 +3,7 @@ using CmlLib.Core.Version;
 using CmlLib.Core.VersionLoader;
 using MeloncherCore.Discord;
 using MeloncherCore.Launcher;
+using MeloncherCore.Settings;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using System.Collections.ObjectModel;
@@ -17,12 +18,12 @@ namespace MeloncherAvalonia.ViewModels
 	{
 
 		[Reactive] public string Title { get; set; } = "Meloncher";
-		[Reactive] public bool Optifine { get; set; } = true;
 		[Reactive] public bool Offline { get; set; } = false;
 		[Reactive] public int ProgressValue { get; set; } = 0;
 		[Reactive] public string ProgressText { get; set; } = null;
 		[Reactive] public bool ProgressHidden { get; set; } = true;
 		[Reactive] public bool IsNotStarted { get; set; } = true;
+		[Reactive] public LauncherSettings LauncherSettings { get; set; }
 
 		private McLauncher mcLauncher;
 		private IVersionLoader versionLoader;
@@ -40,6 +41,7 @@ namespace MeloncherAvalonia.ViewModels
 			var path = new ExtMinecraftPath();
 			mcLauncher = new McLauncher(path);
 			versionLoader = new DefaultVersionLoader(path);
+			LauncherSettings = LauncherSettings.Create(path);
 			string loadingType = "";
 			mcLauncher.FileChanged += (e) =>
 			{
@@ -103,7 +105,16 @@ namespace MeloncherAvalonia.ViewModels
 			var mdts = versionLoader.GetVersionMetadatas();
 			Versions = new ObservableCollection<MVersionMetadata>(mdts);
 			SelectedVersion = mdts.LatestReleaseVersion;
+			if (LauncherSettings.SelectedVersion != null)
+			{
+				SelectedVersion = mdts.GetVersionMetadata(LauncherSettings.SelectedVersion);
+			}
+			PropertyChanged += (object? sender, System.ComponentModel.PropertyChangedEventArgs e) =>
+			{
+				if (e.PropertyName == "SelectedVersion") LauncherSettings.SelectedVersion = SelectedVersion?.Name;
+			};
 		}
+
 		[Reactive] public ObservableCollection<MVersionMetadata> Versions { get; set; }
 		[Reactive] public MVersionMetadata? SelectedVersion { get; set; }
 		[Reactive] public MSession? SelectedSession { get; set; } = MSession.GetOfflineSession("Player");
@@ -131,7 +142,7 @@ namespace MeloncherAvalonia.ViewModels
 				Title = "Meloncher " + SelectedVersion?.Name;
 				discrodRPCTools.SetStatus("Играет на версии " + SelectedVersion?.Name, "");
 				mcLauncher.Offline = Offline;
-				mcLauncher.UseOptifine = Optifine;
+				mcLauncher.UseOptifine = LauncherSettings.UseOptifine;
 				//mcLauncher.SetVersionByName(McVersionName);
 				mcLauncher.SetVersion(SelectedVersion.GetVersion());
 				//mcLauncher.Version = new McVersion(McVersionName, "Test", "Test-" + McVersionName);
