@@ -10,6 +10,7 @@
         Title="Add Account"
         Height="128"
         Width="512"
+        CanResize="False"
         WindowStartupLocation="CenterOwner">
 
 	<Window.DataContext>
@@ -18,12 +19,13 @@
 
 	<Grid>
 		<Grid.RowDefinitions>
-			<RowDefinition Height="32" />
-			<RowDefinition Height="48" />
-			<RowDefinition Height="32" />
+			<RowDefinition Height="*" />
+			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
-		<Label Grid.Row="0" Content="Когда закончишь, скопируй адресную строку браузера сюда и нажми ок" />
-		<TextBox Text="{Binding RedirectUrl}" Grid.Row="1" Margin="4" Height="32" TextWrapping="Wrap" VerticalAlignment="Top" />
-		<Button Grid.Row="2" Command="{Binding OkCommand}" Content="OK" Height="40" Margin="4" VerticalAlignment="Top" Grid.RowSpan="2" />
+		<StackPanel>
+			<Label Content="Когда закончишь, скопируй адресную строку браузера сюда и нажми ок" />
+			<TextBox Text="{Binding RedirectUrl}" Margin="4" Height="32" TextWrapping="Wrap" VerticalAlignment="Top" />
+		</StackPanel>
+		<Button HorizontalAlignment="Stretch" Grid.Row="1" Command="{Binding OkCommand}" Content="OK" Height="40" Margin="4" VerticalAlignment="Top" />
 	</Grid>
 </Window>

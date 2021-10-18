@@ -4,12 +4,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:MeloncherAvalonia.ViewModels"
         mc:Ignorable="d"
-        d:DesignWidth="800"
+        d:DesignWidth="320"
         d:DesignHeight="450"
         x:Class="MeloncherAvalonia.Views.AccountsWindow"
         Title="AccountsWindow"
-        Width="800"
+        Width="320"
         Height="480"
+        CanResize="False"
         WindowStartupLocation="CenterOwner">
 
 	<!-- <Window.DataContext> -->
@@ -19,8 +20,7 @@
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition />
-			<RowDefinition Height="32" />
-			<RowDefinition Height="32" />
+			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 		<ListBox SelectedIndex="{Binding selectedAccount}" Items="{Binding Accounts}">
 			<ListBox.ItemTemplate>
@@ -29,12 +29,12 @@
 				</DataTemplate>
 			</ListBox.ItemTemplate>
 		</ListBox>
-		<StackPanel Grid.Row="1" Orientation="Horizontal" Background="Black">
-			<Button Command="{Binding AddOfflineCommand}" Content="Добавить Пиратку" Height="32" Width="128" />
-			<Button Command="{Binding AddMojangCommand}" Content="Добавить Mojang" Height="32" Width="128" />
-			<Button Command="{Binding AddMicrosoftCommand}" Content="Добавить Microsoft" Height="32" Width="128" />
-			<Button Command="{Binding DeleteAccountCommand}" Content="Удалить выбранное" Height="32" Width="128" />
+		<StackPanel Grid.Row="1" Orientation="Vertical">
+			<Button HorizontalAlignment="Stretch" Command="{Binding AddOfflineCommand}" Content="Добавить Пиратку" Height="32" />
+			<Button HorizontalAlignment="Stretch" Command="{Binding AddMojangCommand}" Content="Добавить Mojang" Height="32" />
+			<Button HorizontalAlignment="Stretch" Command="{Binding AddMicrosoftCommand}" Content="Добавить Microsoft" Height="32" />
+			<Button HorizontalAlignment="Stretch" Command="{Binding DeleteAccountCommand}" Content="Удалить выбранное" Height="32" />
+			<Button Command="{Binding OkCommand}" Content="Ok" Height="32" HorizontalAlignment="Stretch" Grid.Row="2" />
 		</StackPanel>
-		<Button Command="{Binding OkCommand}" Content="Ok" Height="32" Width="800" Grid.Row="2" />
 	</Grid>
 </Window>

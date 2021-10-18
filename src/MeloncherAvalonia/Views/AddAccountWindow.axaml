@@ -5,29 +5,25 @@
         xmlns:vm="clr-namespace:MeloncherAvalonia.ViewModels"
         mc:Ignorable="d"
         d:DesignWidth="256"
-        d:DesignHeight="256"
+        d:DesignHeight="200"
         x:Class="MeloncherAvalonia.Views.AddAccountWindow"
         Title="Add Account"
-        Height="256"
+        Height="200"
         Width="256"
+        CanResize="False"
         WindowStartupLocation="CenterOwner">
 
 	<Window.DataContext>
 		<vm:AddAccountViewModel />
 	</Window.DataContext>
 
-	<Grid>
-		<Grid.RowDefinitions>
-			<RowDefinition Height="32" />
-			<RowDefinition Height="48" />
-			<RowDefinition Height="32" />
-			<RowDefinition Height="48" />
-			<RowDefinition Height="48" />
-		</Grid.RowDefinitions>
-		<Label Grid.Row="0" Content="Логин" />
-		<TextBox Text="{Binding Username}" Grid.Row="1" Margin="4" Height="32" TextWrapping="Wrap" VerticalAlignment="Top" />
-		<Label Grid.Row="2" Content="Пароль (Нужен только для лицухи)" />
-		<TextBox Text="{Binding Password}" Grid.Row="3" Margin="4" Height="32" VerticalAlignment="Top" />
-		<Button Grid.Row="4" Command="{Binding OkCommand}" Content="Add" Height="40" Margin="4" VerticalAlignment="Top" Grid.RowSpan="2" />
+	<Grid RowDefinitions="*,Auto">
+		<StackPanel>
+			<Label Grid.Row="0" Content="Логин" />
+			<TextBox Text="{Binding Username}" Grid.Row="1" Margin="4" Height="32" TextWrapping="Wrap" VerticalAlignment="Top" />
+			<Label Grid.Row="2" Content="Пароль (Нужен только для лицухи)" />
+			<TextBox Text="{Binding Password}" Grid.Row="3" Margin="4" Height="32" VerticalAlignment="Top" />
+		</StackPanel>
+		<Button HorizontalAlignment="Stretch" Grid.Row="1" Command="{Binding OkCommand}" Content="Add" Height="40" Margin="4" VerticalAlignment="Top" Grid.RowSpan="2" />
 	</Grid>
 </Window>
