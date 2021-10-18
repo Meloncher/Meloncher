@@ -1,4 +1,7 @@
 # Meloncher
+
+![Meloncher](https://raw.githubusercontent.com/Meloncher/Meloncher/master/musorka/Screenshot.png)
+
 Этот майнкрафт лаунчер разрабатывается с целью сделать универсальный лаунчер, подходящий как для игры на ваниле, так и для создания сборок. На данный момент лаунчер поддерживает только ванилу и оптифайн
 
 ## TODO
