@@ -6,7 +6,7 @@
              x:Class="MeloncherAvalonia.UserControls.LoadingBar"
              x:Name="Root">
 	<Grid IsVisible="{Binding ElementName=Root, Path=!Hidden}">
-		<ProgressBar Grid.Row="2" CornerRadius="0" Height="20" Value="{Binding ElementName=Root, Path=Value}" Foreground="#aa0000" Background="Black" />
-		<TextBlock Grid.Row="2" Text="{Binding ElementName=Root, Path=Text}" TextAlignment="Center" />
+		<ProgressBar CornerRadius="0" Height="20" Value="{Binding ElementName=Root, Path=Value}" Foreground="#aa0000" Background="Black" />
+		<TextBlock Text="{Binding ElementName=Root, Path=Text}" TextAlignment="Center" />
 	</Grid>
 </UserControl>

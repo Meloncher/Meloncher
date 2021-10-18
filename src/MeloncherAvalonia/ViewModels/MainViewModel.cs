@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using CmlLib.Core.Auth;
 using CmlLib.Core.Version;
 using CmlLib.Core.VersionLoader;
+using MeloncherCore.Account;
 using MeloncherCore.Discord;
 using MeloncherCore.Launcher;
 using MeloncherCore.Settings;
@@ -21,18 +22,39 @@ namespace MeloncherAvalonia.ViewModels
 
 		private McLauncher mcLauncher;
 		private IVersionLoader versionLoader;
+		private MVersionCollection versionCollection;
+		private AccountStorage accountStorage;
 
 		public MainViewModel()
 		{
 			ServicePointManager.DefaultConnectionLimit = 512;
-			ShowSelectAccountDialog = new Interaction<AccountsViewModel, MSession?>();
 			PlayButtonCommand = ReactiveCommand.Create(OnPlayButtonCommandExecuted);
 			OpenAccountsWindowCommand = ReactiveCommand.Create(OnOpenAccountsWindowCommandExecuted);
-
+			OpenVersionsWindowCommand = ReactiveCommand.Create(OnOpenVersionsWindowCommandExecuted);
+			
 			var path = new ExtMinecraftPath();
-			mcLauncher = new McLauncher(path);
 			versionLoader = new DefaultVersionLoader(path);
+			versionCollection = versionLoader.GetVersionMetadatas();
+			accountStorage = new AccountStorage(path);
+			mcLauncher = new McLauncher(path);
 			LauncherSettings = LauncherSettings.Create(path);
+			SelectedVersion = versionCollection.LatestReleaseVersion;
+			if (LauncherSettings.SelectedVersion != null)
+			{
+				SelectedVersion = versionCollection.GetVersionMetadata(LauncherSettings.SelectedVersion);
+			}
+			SelectedSession = MSession.GetOfflineSession("Player");
+			if (LauncherSettings.SelectedVersion != null)
+			{
+				foreach (var mSession in accountStorage)
+				{
+					if (mSession.Username == LauncherSettings.SelectedAccount)
+					{
+						SelectedSession = mSession;
+						break;
+					}
+				}
+			}
 			string loadingType = "";
 			mcLauncher.FileChanged += (e) =>
 			{
@@ -61,7 +83,7 @@ namespace MeloncherAvalonia.ViewModels
 							break;
 					}
 			};
-			mcLauncher.ProgressChanged += (s, e) =>
+			mcLauncher.ProgressChanged += (_, e) =>
 			{
 				ProgressValue = e.ProgressPercentage;
 				switch (loadingType)
@@ -89,18 +111,11 @@ namespace MeloncherAvalonia.ViewModels
 			mcLauncher.MinecraftOutput += (e) => { discrodRPCTools.OnLog(e.Line); };
 
 			discrodRPCTools.SetStatus("Сидит в лаунчере", "");
-
-			var mdts = versionLoader.GetVersionMetadatas();
-			Versions = new ObservableCollection<MVersionMetadata>(mdts);
-			SelectedVersion = mdts.LatestReleaseVersion;
-			if (LauncherSettings.SelectedVersion != null)
-			{
-				SelectedVersion = mdts.GetVersionMetadata(LauncherSettings.SelectedVersion);
-			}
-
-			PropertyChanged += (object? sender, PropertyChangedEventArgs e) =>
+			
+			PropertyChanged += (_, e) =>
 			{
 				if (e.PropertyName == "SelectedVersion") LauncherSettings.SelectedVersion = SelectedVersion?.Name;
+				if (e.PropertyName == "SelectedSession") LauncherSettings.SelectedAccount = SelectedSession?.Username;
 			};
 		}
 
@@ -112,30 +127,38 @@ namespace MeloncherAvalonia.ViewModels
 		[Reactive] public bool IsStarted { get; set; } = false;
 		[Reactive] public LauncherSettings LauncherSettings { get; set; }
 
-		public Interaction<AccountsViewModel, MSession?> ShowSelectAccountDialog { get; }
-
-		[Reactive] public ObservableCollection<MVersionMetadata> Versions { get; set; }
+		public Interaction<AccountsViewModel, MSession?> ShowSelectAccountDialog { get; } = new Interaction<AccountsViewModel, MSession?>();
+		public Interaction<VersionsViewModel, MVersionMetadata?> ShowSelectVersionDialog { get; } = new Interaction<VersionsViewModel, MVersionMetadata?>();
 		[Reactive] public MVersionMetadata? SelectedVersion { get; set; }
-		[Reactive] public MSession? SelectedSession { get; set; } = MSession.GetOfflineSession("Player");
+		[Reactive] public MSession? SelectedSession { get; set; }
 
 		public ReactiveCommand<Unit, Task> OpenAccountsWindowCommand { get; }
-
+		public ReactiveCommand<Unit, Task> OpenVersionsWindowCommand { get; }
 		public ReactiveCommand<Unit, Unit> PlayButtonCommand { get; }
 
 		private async Task OnOpenAccountsWindowCommandExecuted()
 		{
-			var dialog = new AccountsViewModel();
+			var dialog = new AccountsViewModel(accountStorage);
 			var result = await ShowSelectAccountDialog.Handle(dialog);
 			if (result != null)
 			{
 				SelectedSession = result;
 			}
 		}
+		
+		private async Task OnOpenVersionsWindowCommandExecuted()
+		{
+			var dialog = new VersionsViewModel(versionLoader, versionCollection);
+			var result = await ShowSelectVersionDialog.Handle(dialog);
+			if (result != null)
+			{
+				SelectedVersion = result;
+			}
+		}
 
 		private void OnPlayButtonCommandExecuted()
 		{
 			MSession session = SelectedSession;
-			if (session == null) session = MSession.GetOfflineSession("Player");
 			new Task(async () =>
 			{
 				IsStarted = true;

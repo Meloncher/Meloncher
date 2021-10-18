@@ -6,6 +6,7 @@ using System.Reactive.Linq;
 using System.Threading.Tasks;
 using CmlLib.Core.Auth;
 using CmlLib.Core.Auth.Microsoft;
+using CmlLib.Core.VersionLoader;
 using MeloncherCore.Account;
 using MeloncherCore.Launcher;
 using ReactiveUI;
@@ -17,15 +18,14 @@ namespace MeloncherAvalonia.ViewModels
 	{
 		private AccountStorage accountStorage;
 
-		public AccountsViewModel()
+		public AccountsViewModel(AccountStorage accountStorage)
 		{
 			DeleteAccountCommand = ReactiveCommand.Create(OnDeleteAccountCommandExecuted);
 			AddMicrosoftCommand = ReactiveCommand.Create(OnAddMicrosoftCommandExecuted);
 			AddMojangCommand = ReactiveCommand.Create(OnAddMojangCommandExecuted);
 			AddOfflineCommand = ReactiveCommand.Create(OnAddOfflineCommandExecuted);
 			OkCommand = ReactiveCommand.Create(OnOkCommandExecuted);
-			var path = new ExtMinecraftPath();
-			accountStorage = new AccountStorage(path);
+			this.accountStorage = accountStorage;
 			accountStorage.CollectionChanged += (object sender, NotifyCollectionChangedEventArgs e) => Accounts = new ObservableCollection<MSession>(accountStorage);
 			Accounts = new ObservableCollection<MSession>(accountStorage);
 		}

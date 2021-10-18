@@ -12,9 +12,9 @@
         Height="480"
         WindowStartupLocation="CenterOwner">
 
-	<Window.DataContext>
-		<vm:AccountsViewModel />
-	</Window.DataContext>
+	<!-- <Window.DataContext> -->
+	<!-- 	<vm:AccountsViewModel /> -->
+	<!-- </Window.DataContext> -->
 
 	<Grid>
 		<Grid.RowDefinitions>
