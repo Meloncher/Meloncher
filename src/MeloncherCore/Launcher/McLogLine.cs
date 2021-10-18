@@ -4,10 +4,6 @@ namespace MeloncherCore.Launcher
 {
 	public class McLogLine
 	{
-		public TimeSpan Time { get; set; }
-		public string Thread { get; set; }
-		public string Type { get; set; }
-		public string Text { get; set; }
 		public McLogLine(TimeSpan time, string thread, string type, string text)
 		{
 			Time = time;
@@ -16,9 +12,14 @@ namespace MeloncherCore.Launcher
 			Text = text;
 		}
 
+		public TimeSpan Time { get; set; }
+		public string Thread { get; set; }
+		public string Type { get; set; }
+		public string Text { get; set; }
+
 		public static McLogLine Parse(string line)
 		{
-			TimeSpan time = new TimeSpan(0, 0, 0);
+			var time = new TimeSpan(0, 0, 0);
 			string thread = null;
 			string type = null;
 			var var0 = line.Split("] [", 2);
@@ -26,11 +27,9 @@ namespace MeloncherCore.Launcher
 			{
 				line = var0[1];
 				var var1 = var0[0].Replace("[", "").Replace("]", "").Split(":");
-				if (var1.Length == 3)
-				{
-					time = new TimeSpan(int.Parse(var1[0]), int.Parse(var1[1]), int.Parse(var1[2]));
-				}
+				if (var1.Length == 3) time = new TimeSpan(int.Parse(var1[0]), int.Parse(var1[1]), int.Parse(var1[2]));
 			}
+
 			var var2 = line.Split("]: ", 2);
 			if (var2.Length == 2)
 			{

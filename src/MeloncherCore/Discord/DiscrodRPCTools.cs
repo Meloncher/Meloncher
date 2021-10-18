@@ -1,13 +1,12 @@
 ﻿using DiscordRPC;
-using DiscordRPC.Logging;
 using MeloncherCore.Launcher;
-using System;
 
 namespace MeloncherCore.Discord
 {
 	public class DiscrodRPCTools
 	{
 		public DiscordRpcClient client;
+
 		public DiscrodRPCTools()
 		{
 			client = new DiscordRpcClient("895992198171078666");
@@ -23,16 +22,17 @@ namespace MeloncherCore.Discord
 			//};
 			client.Initialize();
 		}
+
 		public void SetStatus(string details, string state)
 		{
-			client.SetPresence(new RichPresence()
+			client.SetPresence(new RichPresence
 			{
 				Details = details,
 				State = state,
-				Assets = new Assets()
+				Assets = new Assets
 				{
 					LargeImageKey = "melon",
-					LargeImageText = "Meloncher",
+					LargeImageText = "Meloncher"
 					//SmallImageKey = "image_small"
 				}
 			});

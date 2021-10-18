@@ -1,9 +1,9 @@
+using System;
 using Avalonia;
 using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
 using MeloncherAvalonia.ViewModels;
 using ReactiveUI;
-using System;
 
 namespace MeloncherAvalonia.Views
 {

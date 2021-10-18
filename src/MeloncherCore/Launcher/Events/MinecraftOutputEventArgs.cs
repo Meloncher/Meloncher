@@ -10,6 +10,7 @@ namespace MeloncherCore.Launcher.Events
 		{
 			Line = line;
 		}
-		public string Line { get; private set; }
+
+		public string Line { get; }
 	}
 }

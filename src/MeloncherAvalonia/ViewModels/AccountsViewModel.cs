@@ -1,20 +1,22 @@
-﻿using CmlLib.Core.Auth;
-using CmlLib.Core.Auth.Microsoft;
-using MeloncherCore.Account;
-using MeloncherCore.Launcher;
-using ReactiveUI;
-using ReactiveUI.Fody.Helpers;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
+using CmlLib.Core.Auth;
+using CmlLib.Core.Auth.Microsoft;
+using MeloncherCore.Account;
+using MeloncherCore.Launcher;
+using ReactiveUI;
+using ReactiveUI.Fody.Helpers;
 
 namespace MeloncherAvalonia.ViewModels
 {
 	public class AccountsViewModel : ViewModelBase
 	{
+		private AccountStorage accountStorage;
+
 		public AccountsViewModel()
 		{
 			DeleteAccountCommand = ReactiveCommand.Create(OnDeleteAccountCommandExecuted);
@@ -33,15 +35,21 @@ namespace MeloncherAvalonia.ViewModels
 		public Interaction<AddAccountViewModel, AddAccountData?> ShowAddAccountDialog { get; } = new Interaction<AddAccountViewModel, AddAccountData?>();
 		public Interaction<AddMicrosoftAccountViewModel, string?> ShowAddMicrosoftAccountDialog { get; } = new Interaction<AddMicrosoftAccountViewModel, string?>();
 
-		private AccountStorage accountStorage;
-
 		public ReactiveCommand<Unit, Unit> DeleteAccountCommand { get; }
+
+		public ReactiveCommand<Unit, Task> AddMicrosoftCommand { get; }
+
+		public ReactiveCommand<Unit, MSession> OkCommand { get; }
+
+		public ReactiveCommand<Unit, Task> AddMojangCommand { get; }
+
+		public ReactiveCommand<Unit, Task> AddOfflineCommand { get; }
+
 		private void OnDeleteAccountCommandExecuted()
 		{
 			accountStorage.RemoveAt(selectedAccount);
 		}
 
-		public ReactiveCommand<Unit, Task> AddMicrosoftCommand { get; }
 		private async Task OnAddMicrosoftCommandExecuted()
 		{
 			var lh = new LoginHandler();
@@ -58,14 +66,12 @@ namespace MeloncherAvalonia.ViewModels
 			}
 		}
 
-		public ReactiveCommand<Unit, MSession> OkCommand { get; }
 		private MSession OnOkCommandExecuted()
 		{
 			if (Accounts.Count > selectedAccount) return Accounts[selectedAccount];
 			return null;
 		}
 
-		public ReactiveCommand<Unit, Task> AddMojangCommand { get; }
 		private async Task OnAddMojangCommandExecuted()
 		{
 			var dialog = new AddAccountViewModel();
@@ -78,7 +84,6 @@ namespace MeloncherAvalonia.ViewModels
 			}
 		}
 
-		public ReactiveCommand<Unit, Task> AddOfflineCommand { get; }
 		private async Task OnAddOfflineCommandExecuted()
 		{
 			var dialog = new AddAccountViewModel();

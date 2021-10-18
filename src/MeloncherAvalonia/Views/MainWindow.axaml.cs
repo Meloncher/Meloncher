@@ -1,14 +1,14 @@
+using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
 using CmlLib.Core.Auth;
 using MeloncherAvalonia.ViewModels;
 using ReactiveUI;
-using System.Threading.Tasks;
 
 namespace MeloncherAvalonia.Views
 {
-	public partial class MainWindow : ReactiveWindow<MainViewModel>
+	public class MainWindow : ReactiveWindow<MainViewModel>
 	{
 		public MainWindow()
 		{

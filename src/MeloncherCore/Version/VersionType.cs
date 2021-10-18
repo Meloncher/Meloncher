@@ -1,6 +1,6 @@
 ﻿namespace MeloncherCore.Version
 {
-	class VersionType
+	internal class VersionType
 	{
 	}
 }

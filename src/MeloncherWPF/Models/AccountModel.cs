@@ -1,6 +1,6 @@
 ﻿namespace MeloncherWPF.Models
 {
-	class AccountModel
+	internal class AccountModel
 	{
 		public string Username { get; set; }
 	}

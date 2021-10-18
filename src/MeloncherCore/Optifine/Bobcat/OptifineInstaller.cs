@@ -1,20 +1,22 @@
-﻿using CmlLib.Core;
-using Newtonsoft.Json;
-using SharpCompress.Archives;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CmlLib.Core;
+using Newtonsoft.Json;
+using SharpCompress.Archives;
 
 namespace MeloncherCore.Optifine.Bobcat
 {
 	public class OptifineInstaller
 	{
 		public string JavaExecutablePath { get; set; }
+
 		public string OptifineJarPath { get; set; }
+
 		//public string RootPath { get; set; }
 		public MinecraftPath MinecraftPath { get; set; }
 		public string CustomId { get; set; }
@@ -44,12 +46,13 @@ namespace MeloncherCore.Optifine.Bobcat
 				var var1 = var0[1];
 				int var2;
 				if (int.TryParse(var1, out var2))
-				{
-					if (var2 > 12) return true;
-				}
+					if (var2 > 12)
+						return true;
 			}
+
 			return false;
 		}
+
 		public async Task<string> InstallTaskAsync()
 		{
 			InvokeStatusChangedEvent("Start installing Optifine", 0);
@@ -110,7 +113,6 @@ namespace MeloncherCore.Optifine.Bobcat
 			};
 
 			if (isNewArguments(mcVersion))
-			{
 				versionModel.Arguments = new Arguments
 				{
 					Game = new List<object>
@@ -120,12 +122,8 @@ namespace MeloncherCore.Optifine.Bobcat
 					},
 					Jvm = new List<object>()
 				};
-			}
 			else
-			{
 				versionModel.MinecraftArguments = "--username ${auth_player_name} --version ${version_name} --gameDir ${game_directory} --assetsDir ${assets_root} --assetIndex ${assets_index_name} --uuid ${auth_uuid} --accessToken ${auth_access_token} --userType ${user_type} --versionType ${version_type} --tweakClass optifine.OptiFineTweaker";
-			}
-
 
 
 			var versionJsonPath = MinecraftPath.GetVersionJsonPath(id);

@@ -10,6 +10,7 @@ namespace MeloncherCore.Launcher.Events
 		{
 			Type = type;
 		}
-		public string Type { get; private set; }
+
+		public string Type { get; }
 	}
 }

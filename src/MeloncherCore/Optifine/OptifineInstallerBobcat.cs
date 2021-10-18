@@ -1,21 +1,21 @@
-﻿using CmlLib.Core;
-using CmlLib.Core.VersionLoader;
-using MeloncherCore.Optifine.Bobcat;
-using Newtonsoft.Json.Linq;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
+using CmlLib.Core;
+using CmlLib.Core.VersionLoader;
+using MeloncherCore.Optifine.Bobcat;
+using Newtonsoft.Json.Linq;
 
 namespace MeloncherCore.Optifine
 {
-	class OptifineInstallerBobcat
+	internal class OptifineInstallerBobcat
 	{
+		private const string OptifineBmclUrl = "https://bmclapi2.bangbang93.com/optifine/versionlist/";
 		public event ProgressChangedEventHandler ProgressChanged;
 
-		private const string OptifineBmclUrl = "https://bmclapi2.bangbang93.com/optifine/versionlist/";
 		private OptifineDownloadVersionModel[] ParseVersions(string res)
 		{
 			var jarr = JArray.Parse(res);
@@ -26,8 +26,10 @@ namespace MeloncherCore.Optifine
 				if (obj != null)
 					ofVerList.Add(obj);
 			}
+
 			return ofVerList.ToArray();
 		}
+
 		private async Task<OptifineDownloadVersionModel[]> ParseVersions()
 		{
 			string res;
@@ -35,6 +37,7 @@ namespace MeloncherCore.Optifine
 			{
 				res = await wc.DownloadStringTaskAsync(OptifineBmclUrl);
 			}
+
 			return ParseVersions(res);
 		}
 
@@ -42,28 +45,23 @@ namespace MeloncherCore.Optifine
 		{
 			if (ofVer.Patch.StartsWith("pre"))
 				return ofVer.Type;
-			else
-				return ofVer.Type + "_" + ofVer.Patch;
+			return ofVer.Type + "_" + ofVer.Patch;
 		}
 
 		private int getPre(OptifineDownloadVersionModel ofVer)
 		{
 			if (ofVer.Patch.StartsWith("pre"))
-				return Int32.Parse(ofVer.Patch.Replace("pre", ""));
-			else
-				return 1337;
+				return int.Parse(ofVer.Patch.Replace("pre", ""));
+			return 1337;
 		}
 
 		private OptifineDownloadVersionModel? GetLatestOptifineVersion(OptifineDownloadVersionModel[] ofVers, string mcVersionName)
 		{
 			OptifineDownloadVersionModel latestOfVer = null;
 			foreach (var ofVer in ofVers)
-			{
 				if (ofVer.McVersion == mcVersionName || ofVer.McVersion == mcVersionName + ".0")
-				{
-					if (latestOfVer == null || IsNewer(getPatch(latestOfVer), getPatch(ofVer), getPre(latestOfVer), getPre(ofVer))) latestOfVer = ofVer;
-				}
-			}
+					if (latestOfVer == null || IsNewer(getPatch(latestOfVer), getPatch(ofVer), getPre(latestOfVer), getPre(ofVer)))
+						latestOfVer = ofVer;
 			return latestOfVer;
 		}
 
@@ -75,9 +73,9 @@ namespace MeloncherCore.Optifine
 
 		private bool IsNewer(string patch, string patchNew, int pre, int preNew)
 		{
-			int comparePatch = String.Compare(patchNew, patch);
+			var comparePatch = string.Compare(patchNew, patch);
 			if (comparePatch == 1) return true;
-			else if (comparePatch == 0 && preNew > pre) return true;
+			if (comparePatch == 0 && preNew > pre) return true;
 			return false;
 		}
 
@@ -86,7 +84,7 @@ namespace MeloncherCore.Optifine
 			var versionLoader = new LocalVersionLoader(path);
 			string latestName = null;
 			string latestPatch = null;
-			int latestPre = -1;
+			var latestPre = -1;
 			foreach (var mtd in versionLoader.GetVersionMetadatas())
 			{
 				var name = mtd.Name;
@@ -96,8 +94,8 @@ namespace MeloncherCore.Optifine
 					if (nameSplit.Length == 4 || nameSplit.Length == 5)
 					{
 						var patch = nameSplit[1] + "_" + nameSplit[2] + "_" + nameSplit[3];
-						int pre = 1337;
-						if (nameSplit.Length == 5) pre = Int32.Parse(nameSplit[4].Replace("pre", ""));
+						var pre = 1337;
+						if (nameSplit.Length == 5) pre = int.Parse(nameSplit[4].Replace("pre", ""));
 						if (latestName == null || IsNewer(latestPatch, patch, latestPre, pre))
 						{
 							latestName = name;
@@ -107,6 +105,7 @@ namespace MeloncherCore.Optifine
 					}
 				}
 			}
+
 			return latestName;
 		}
 
@@ -117,9 +116,8 @@ namespace MeloncherCore.Optifine
 			var name = mcVersionName + "-Optifine_" + latest.Type + "_" + latest.Patch;
 			var versionLoader = new LocalVersionLoader(path);
 			foreach (var mtd in versionLoader.GetVersionMetadatas())
-			{
-				if (mtd.Name == name) return name;
-			}
+				if (mtd.Name == name)
+					return name;
 			return null;
 		}
 
@@ -130,6 +128,7 @@ namespace MeloncherCore.Optifine
 			Console.WriteLine(latest.FileName);
 			return await installOptifine(latest, path, javaPath);
 		}
+
 		public async Task<string> installOptifine(OptifineDownloadVersionModel ofVer, MinecraftPath path, string javaPath)
 		{
 			var installerPath = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());

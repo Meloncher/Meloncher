@@ -1,6 +1,6 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace MeloncherCore.Optifine.Bobcat
 {
@@ -91,52 +91,38 @@ namespace MeloncherCore.Optifine.Bobcat
 
 	public class RawVersionModel
 	{
-		[JsonProperty("minecraftArguments")]
-		public string MinecraftArguments { get; set; }
+		[JsonProperty("minecraftArguments")] public string MinecraftArguments { get; set; }
 
-		[JsonProperty("arguments")]
-		public Arguments Arguments { get; set; }
+		[JsonProperty("arguments")] public Arguments Arguments { get; set; }
 
-		[JsonProperty("assetIndex")]
-		public Asset AssetIndex { get; set; }
+		[JsonProperty("assetIndex")] public Asset AssetIndex { get; set; }
 
-		[JsonProperty("assets")]
-		public string AssetsVersion { get; set; }
+		[JsonProperty("assets")] public string AssetsVersion { get; set; }
 
-		[JsonProperty("downloads")]
-		public GameDownloadInfo Downloads { get; set; }
+		[JsonProperty("downloads")] public GameDownloadInfo Downloads { get; set; }
 
-		[JsonProperty("id")]
-		public string Id { get; set; }
+		[JsonProperty("id")] public string Id { get; set; }
 
 		[JsonProperty("javaVersion")] public JavaVersionModel JavaVersion { get; set; }
 
-		[JsonProperty("inheritsFrom")]
-		public string InheritsFrom { get; set; }
+		[JsonProperty("inheritsFrom")] public string InheritsFrom { get; set; }
 
-		[JsonProperty("libraries")]
-		public List<Library> Libraries { get; set; }
+		[JsonProperty("libraries")] public List<Library> Libraries { get; set; }
 
-		[JsonProperty("logging")]
-		public Logging Logging { get; set; }
+		[JsonProperty("logging")] public Logging Logging { get; set; }
 
-		[JsonProperty("mainClass")]
-		public string MainClass { get; set; }
+		[JsonProperty("mainClass")] public string MainClass { get; set; }
 
 		[JsonProperty("minimumLauncherVersion")]
 		public int MinimumLauncherVersion { get; set; }
 
-		[JsonProperty("releaseTime")]
-		public DateTime ReleaseTime { get; set; }
+		[JsonProperty("releaseTime")] public DateTime ReleaseTime { get; set; }
 
-		[JsonProperty("time")]
-		public DateTime Time { get; set; }
+		[JsonProperty("time")] public DateTime Time { get; set; }
 
-		[JsonProperty("type")]
-		public string BuildType { get; set; }
+		[JsonProperty("type")] public string BuildType { get; set; }
 
-		[JsonProperty("jar")]
-		public string JarFile { get; set; }
+		[JsonProperty("jar")] public string JarFile { get; set; }
 	}
 
 	public class JavaVersionModel
@@ -148,10 +134,8 @@ namespace MeloncherCore.Optifine.Bobcat
 
 	public class JvmRules
 	{
-		[JsonProperty("action")]
-		public string Action { get; set; }
+		[JsonProperty("action")] public string Action { get; set; }
 
-		[JsonProperty("os")]
-		public Dictionary<string, string> OperatingSystem { get; set; }
+		[JsonProperty("os")] public Dictionary<string, string> OperatingSystem { get; set; }
 	}
 }

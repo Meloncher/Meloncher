@@ -1,19 +1,17 @@
-﻿using CmlLib.Core.Auth;
-using MeloncherCore.Launcher;
-using Newtonsoft.Json;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
+using CmlLib.Core.Auth;
+using MeloncherCore.Launcher;
+using Newtonsoft.Json;
 
 namespace MeloncherCore.Account
 {
 	public class AccountStorage : ICollection<MSession>, INotifyCollectionChanged
 	{
-		List<MSession> sessionList = new();
-		string storagePath;
-
-		public event NotifyCollectionChangedEventHandler CollectionChanged;
+		private List<MSession> sessionList = new();
+		private readonly string storagePath;
 
 		public AccountStorage(ExtMinecraftPath path)
 		{
@@ -21,48 +19,26 @@ namespace MeloncherCore.Account
 			LoadFile();
 		}
 
-		private void LoadFile()
-		{
-			var jsonStr = "[]";
-			if (File.Exists(storagePath)) jsonStr = File.ReadAllText(storagePath);
-			sessionList = JsonConvert.DeserializeObject<List<MSession>>(jsonStr);
-		}
-		private void SaveFile()
-		{
-			var jsonStr = JsonConvert.SerializeObject(sessionList);
-			_ = File.WriteAllTextAsync(storagePath, jsonStr);
-		}
-
 		public IEnumerator<MSession> GetEnumerator()
 		{
-			foreach (var item in sessionList)
-			{
-				yield return item;
-			}
+			foreach (var item in sessionList) yield return item;
 		}
 
 		IEnumerator IEnumerable.GetEnumerator()
 		{
-			foreach (var item in sessionList)
-			{
-				yield return item;
-			}
+			foreach (var item in sessionList) yield return item;
 		}
+
 		public void Add(MSession session)
 		{
 			sessionList.Add(session);
 			CollectionChanged.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 			SaveFile();
 		}
-		public void RemoveAt(int index)
-		{
-			sessionList.RemoveAt(index);
-			CollectionChanged.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
-			SaveFile();
-		}
+
 		public void Clear()
 		{
-			sessionList = new();
+			sessionList = new List<MSession>();
 			CollectionChanged.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 			SaveFile();
 		}
@@ -79,12 +55,35 @@ namespace MeloncherCore.Account
 
 		public bool Remove(MSession item)
 		{
-			bool remove = sessionList.Remove(item);
+			var remove = sessionList.Remove(item);
 			CollectionChanged.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 			SaveFile();
 			return remove;
 		}
+
 		public int Count => sessionList.Count;
 		public bool IsReadOnly => false;
+
+		public event NotifyCollectionChangedEventHandler CollectionChanged;
+
+		private void LoadFile()
+		{
+			var jsonStr = "[]";
+			if (File.Exists(storagePath)) jsonStr = File.ReadAllText(storagePath);
+			sessionList = JsonConvert.DeserializeObject<List<MSession>>(jsonStr);
+		}
+
+		private void SaveFile()
+		{
+			var jsonStr = JsonConvert.SerializeObject(sessionList);
+			_ = File.WriteAllTextAsync(storagePath, jsonStr);
+		}
+
+		public void RemoveAt(int index)
+		{
+			sessionList.RemoveAt(index);
+			CollectionChanged.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+			SaveFile();
+		}
 	}
 }

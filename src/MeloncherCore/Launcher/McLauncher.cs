@@ -1,4 +1,7 @@
-﻿using CmlLib.Core;
+﻿using System.ComponentModel;
+using System.IO;
+using System.Threading.Tasks;
+using CmlLib.Core;
 using CmlLib.Core.Auth;
 using CmlLib.Core.Installer;
 using CmlLib.Core.Version;
@@ -8,23 +11,17 @@ using MeloncherCore.Optifine;
 using MeloncherCore.Options;
 using MeloncherCore.Settings;
 using MeloncherCore.Version;
-using System.ComponentModel;
-using System.IO;
-using System.Threading.Tasks;
 
 namespace MeloncherCore.Launcher
 {
 	public class McLauncher
 	{
-		public ExtMinecraftPath MinecraftPath { get; set; }
 		public McLauncher(ExtMinecraftPath MinecraftPath)
 		{
 			this.MinecraftPath = MinecraftPath;
 		}
 
-		public event McDownloadFileChangedHandler FileChanged;
-		public event ProgressChangedEventHandler ProgressChanged;
-		public event MinecraftOutputEventHandler MinecraftOutput;
+		public ExtMinecraftPath MinecraftPath { get; set; }
 
 		public McVersion Version { get; set; }
 		public MSession Session { get; set; }
@@ -32,12 +29,17 @@ namespace MeloncherCore.Launcher
 		public bool UseOptifine { get; set; } = true;
 		public WindowMode WindowMode { get; set; } = WindowMode.WINDOWED;
 
+		public event McDownloadFileChangedHandler FileChanged;
+		public event ProgressChangedEventHandler ProgressChanged;
+		public event MinecraftOutputEventHandler MinecraftOutput;
+
 		public void SetVersion(string mcVerName)
 		{
 			IVersionLoader versionLoader = Offline ? new LocalVersionLoader(MinecraftPath) : new DefaultVersionLoader(MinecraftPath);
 			var verTools = new VersionTools(versionLoader);
 			Version = verTools.getMcVersion(mcVerName);
 		}
+
 		public void SetVersion(MVersion mVersion)
 		{
 			IVersionLoader versionLoader = Offline ? new LocalVersionLoader(MinecraftPath) : new DefaultVersionLoader(MinecraftPath);
@@ -50,7 +52,7 @@ namespace MeloncherCore.Launcher
 			if (Offline) return;
 			var path = MinecraftPath.CloneWithProfile("vanilla", Version.ProfileName);
 			var launcher = new CMLauncher(path);
-			launcher.FileChanged += (e) => FileChanged?.Invoke(new McDownloadFileChangedEventArgs(e.FileKind.ToString()));
+			launcher.FileChanged += e => FileChanged?.Invoke(new McDownloadFileChangedEventArgs(e.FileKind.ToString()));
 			launcher.ProgressChanged += (s, e) => ProgressChanged?.Invoke(s, e);
 			var launchOption = new MLaunchOption
 			{
@@ -82,7 +84,7 @@ namespace MeloncherCore.Launcher
 			var launcher = new CMLauncher(path);
 			launcher.VersionLoader = new LocalVersionLoader(MinecraftPath);
 			launcher.FileDownloader = null;
-			launcher.FileChanged += (e) => FileChanged?.Invoke(new McDownloadFileChangedEventArgs(e.FileKind.ToString()));
+			launcher.FileChanged += e => FileChanged?.Invoke(new McDownloadFileChangedEventArgs(e.FileKind.ToString()));
 			launcher.ProgressChanged += (s, e) => ProgressChanged?.Invoke(s, e);
 			var launchOption = new MLaunchOption
 			{
@@ -101,7 +103,7 @@ namespace MeloncherCore.Launcher
 			if (UseOptifine)
 			{
 				var optifineInstaller = new OptifineInstallerBobcat();
-				string ofVerName = optifineInstaller.GetLatestInstalled(Version.Name, MinecraftPath);
+				var ofVerName = optifineInstaller.GetLatestInstalled(Version.Name, MinecraftPath);
 				if (ofVerName != null)
 				{
 					launchOption.StartVersion = new LocalVersionLoader(MinecraftPath).GetVersionMetadatas().GetVersion(ofVerName);
@@ -119,7 +121,7 @@ namespace MeloncherCore.Launcher
 			{
 				while (!process.StandardOutput.EndOfStream)
 				{
-					string line = process.StandardOutput.ReadLine();
+					var line = process.StandardOutput.ReadLine();
 					MinecraftOutput?.Invoke(new MinecraftOutputEventArgs(line));
 				}
 			}).Start();
@@ -128,9 +130,11 @@ namespace MeloncherCore.Launcher
 				var wt = new WindowTweaks(process);
 				_ = wt.Borderless();
 			}
+
 			process.WaitForExit();
 			sync.Save();
 		}
+
 		private void FixJavaBinaryPath(MinecraftPath path, MVersion version)
 		{
 			if (!string.IsNullOrEmpty(version.JavaBinaryPath) && File.Exists(version.JavaBinaryPath))

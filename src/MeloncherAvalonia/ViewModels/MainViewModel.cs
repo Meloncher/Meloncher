@@ -1,3 +1,9 @@
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Net;
+using System.Reactive;
+using System.Reactive.Linq;
+using System.Threading.Tasks;
 using CmlLib.Core.Auth;
 using CmlLib.Core.Version;
 using CmlLib.Core.VersionLoader;
@@ -6,30 +12,15 @@ using MeloncherCore.Launcher;
 using MeloncherCore.Settings;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
-using System.Collections.ObjectModel;
-using System.Net;
-using System.Reactive;
-using System.Reactive.Linq;
-using System.Threading.Tasks;
 
 namespace MeloncherAvalonia.ViewModels
 {
 	public class MainViewModel : ViewModelBase
 	{
-
-		[Reactive] public string Title { get; set; } = "Meloncher";
-		[Reactive] public bool Offline { get; set; } = false;
-		[Reactive] public int ProgressValue { get; set; } = 0;
-		[Reactive] public string ProgressText { get; set; } = null;
-		[Reactive] public bool ProgressHidden { get; set; } = true;
-		[Reactive] public bool IsStarted { get; set; } = false;
-		[Reactive] public LauncherSettings LauncherSettings { get; set; }
+		DiscrodRPCTools discrodRPCTools = new DiscrodRPCTools();
 
 		private McLauncher mcLauncher;
 		private IVersionLoader versionLoader;
-		DiscrodRPCTools discrodRPCTools = new DiscrodRPCTools();
-
-		public Interaction<AccountsViewModel, MSession?> ShowSelectAccountDialog { get; }
 
 		public MainViewModel()
 		{
@@ -46,27 +37,27 @@ namespace MeloncherAvalonia.ViewModels
 			mcLauncher.FileChanged += (e) =>
 			{
 				loadingType = e.Type;
-				//ProgressText = "Загрузка " + e.Type;
+				//ProgressText = "Р—Р°РіСЂСѓР·РєР° " + e.Type;
 				if (ProgressValue == 0)
 					switch (e.Type)
 					{
 						case "Resource":
-							ProgressText = "Проверка Ресурсов...";
+							ProgressText = "РџСЂРѕРІРµСЂРєР° Р РµСЃСѓСЂСЃРѕРІ...";
 							break;
 						case "Runtime":
-							ProgressText = "Проверка Java...";
+							ProgressText = "РџСЂРѕРІРµСЂРєР° Java...";
 							break;
 						case "Library":
-							ProgressText = "Проверка Библиотек...";
+							ProgressText = "РџСЂРѕРІРµСЂРєР° Р‘РёР±Р»РёРѕС‚РµРє...";
 							break;
 						case "Minecraft":
-							ProgressText = "Проверка Minecraft...";
+							ProgressText = "РџСЂРѕРІРµСЂРєР° Minecraft...";
 							break;
 						case "Optifine":
-							ProgressText = "Проверка Optifine...";
+							ProgressText = "РџСЂРѕРІРµСЂРєР° Optifine...";
 							break;
 						default:
-							ProgressText = "Проверка Файлов...";
+							ProgressText = "РџСЂРѕРІРµСЂРєР° Р¤Р°Р№Р»РѕРІ...";
 							break;
 					}
 			};
@@ -76,31 +67,28 @@ namespace MeloncherAvalonia.ViewModels
 				switch (loadingType)
 				{
 					case "Resource":
-						ProgressText = "Загрузка Ресурсов...";
+						ProgressText = "Р—Р°РіСЂСѓР·РєР° Р РµСЃСѓСЂСЃРѕРІ...";
 						break;
 					case "Runtime":
-						ProgressText = "Загрузка Java...";
+						ProgressText = "Р—Р°РіСЂСѓР·РєР° Java...";
 						break;
 					case "Library":
-						ProgressText = "Загрузка Библиотек...";
+						ProgressText = "Р—Р°РіСЂСѓР·РєР° Р‘РёР±Р»РёРѕС‚РµРє...";
 						break;
 					case "Minecraft":
-						ProgressText = "Загрузка Minecraft...";
+						ProgressText = "Р—Р°РіСЂСѓР·РєР° Minecraft...";
 						break;
 					case "Optifine":
-						ProgressText = "Загрузка Optifine...";
+						ProgressText = "Р—Р°РіСЂСѓР·РєР° Optifine...";
 						break;
 					default:
-						ProgressText = "Загрузка...";
+						ProgressText = "Р—Р°РіСЂСѓР·РєР°...";
 						break;
 				}
 			};
-			mcLauncher.MinecraftOutput += (e) =>
-			{
-				discrodRPCTools.OnLog(e.Line);
-			};
+			mcLauncher.MinecraftOutput += (e) => { discrodRPCTools.OnLog(e.Line); };
 
-			discrodRPCTools.SetStatus("Сидит в лаунчере", "");
+			discrodRPCTools.SetStatus("РЎРёРґРёС‚ РІ Р»Р°СѓРЅС‡РµСЂРµ", "");
 
 			var mdts = versionLoader.GetVersionMetadatas();
 			Versions = new ObservableCollection<MVersionMetadata>(mdts);
@@ -109,17 +97,31 @@ namespace MeloncherAvalonia.ViewModels
 			{
 				SelectedVersion = mdts.GetVersionMetadata(LauncherSettings.SelectedVersion);
 			}
-			PropertyChanged += (object? sender, System.ComponentModel.PropertyChangedEventArgs e) =>
+
+			PropertyChanged += (object? sender, PropertyChangedEventArgs e) =>
 			{
 				if (e.PropertyName == "SelectedVersion") LauncherSettings.SelectedVersion = SelectedVersion?.Name;
 			};
 		}
+
+		[Reactive] public string Title { get; set; } = "Meloncher";
+		[Reactive] public bool Offline { get; set; } = false;
+		[Reactive] public int ProgressValue { get; set; } = 0;
+		[Reactive] public string ProgressText { get; set; } = null;
+		[Reactive] public bool ProgressHidden { get; set; } = true;
+		[Reactive] public bool IsStarted { get; set; } = false;
+		[Reactive] public LauncherSettings LauncherSettings { get; set; }
+
+		public Interaction<AccountsViewModel, MSession?> ShowSelectAccountDialog { get; }
 
 		[Reactive] public ObservableCollection<MVersionMetadata> Versions { get; set; }
 		[Reactive] public MVersionMetadata? SelectedVersion { get; set; }
 		[Reactive] public MSession? SelectedSession { get; set; } = MSession.GetOfflineSession("Player");
 
 		public ReactiveCommand<Unit, Task> OpenAccountsWindowCommand { get; }
+
+		public ReactiveCommand<Unit, Unit> PlayButtonCommand { get; }
+
 		private async Task OnOpenAccountsWindowCommandExecuted()
 		{
 			var dialog = new AccountsViewModel();
@@ -130,7 +132,6 @@ namespace MeloncherAvalonia.ViewModels
 			}
 		}
 
-		public ReactiveCommand<Unit, Unit> PlayButtonCommand { get; }
 		private void OnPlayButtonCommandExecuted()
 		{
 			MSession session = SelectedSession;
@@ -140,7 +141,7 @@ namespace MeloncherAvalonia.ViewModels
 				IsStarted = true;
 				ProgressHidden = false;
 				Title = "Meloncher " + SelectedVersion?.Name;
-				discrodRPCTools.SetStatus("Играет на версии " + SelectedVersion?.Name, "");
+				discrodRPCTools.SetStatus("РРіСЂР°РµС‚ РЅР° РІРµСЂСЃРёРё " + SelectedVersion?.Name, "");
 				mcLauncher.Offline = Offline;
 				mcLauncher.UseOptifine = LauncherSettings.UseOptifine;
 				mcLauncher.WindowMode = LauncherSettings.WindowMode;
@@ -153,7 +154,7 @@ namespace MeloncherAvalonia.ViewModels
 				await mcLauncher.Launch();
 				IsStarted = false;
 				Title = "Meloncher";
-				discrodRPCTools.SetStatus("Сидит в лаунчере", "");
+				discrodRPCTools.SetStatus("РЎРёРґРёС‚ РІ Р»Р°СѓРЅС‡РµСЂРµ", "");
 			}).Start();
 		}
 	}

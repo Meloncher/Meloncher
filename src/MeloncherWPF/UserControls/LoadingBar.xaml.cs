@@ -5,30 +5,32 @@ namespace MeloncherWPF.UserControls
 {
 	public partial class LoadingBar : UserControl
 	{
+		public static readonly DependencyProperty TextProperty = DependencyProperty.Register("Text", typeof(string), typeof(LoadingBar));
+		public static readonly DependencyProperty ValueProperty = DependencyProperty.Register("Value", typeof(int), typeof(LoadingBar));
+		public static readonly DependencyProperty HiddenProperty = DependencyProperty.Register("Hidden", typeof(bool), typeof(LoadingBar));
+
 		public LoadingBar()
 		{
 			InitializeComponent();
 			//DataContext = this;
 		}
 
-		public static readonly DependencyProperty TextProperty = DependencyProperty.Register("Text", typeof(string), typeof(LoadingBar));
-		public static readonly DependencyProperty ValueProperty = DependencyProperty.Register("Value", typeof(int), typeof(LoadingBar));
-		public static readonly DependencyProperty HiddenProperty = DependencyProperty.Register("Hidden", typeof(bool), typeof(LoadingBar));
-
 		public string Text
 		{
-			get { return (string)GetValue(TextProperty); }
-			set { SetValue(TextProperty, value); }
+			get => (string) GetValue(TextProperty);
+			set => SetValue(TextProperty, value);
 		}
+
 		public int Value
 		{
-			get { return (int)GetValue(TextProperty); }
-			set { SetValue(TextProperty, value); }
+			get => (int) GetValue(TextProperty);
+			set => SetValue(TextProperty, value);
 		}
+
 		public bool Hidden
 		{
-			get { return (bool)GetValue(TextProperty); }
-			set { SetValue(TextProperty, value); }
+			get => (bool) GetValue(TextProperty);
+			set => SetValue(TextProperty, value);
 		}
 
 		//public string Text { get; set; }

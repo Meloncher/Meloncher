@@ -1,20 +1,20 @@
-﻿using MeloncherCore.Launcher;
-using Newtonsoft.Json;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.IO;
+using MeloncherCore.Launcher;
+using Newtonsoft.Json;
 
 namespace MeloncherCore.Settings
 {
 	public class LauncherSettings : INotifyPropertyChanged
 	{
+		string storagePath;
 		[JsonProperty("use_optifine")] public bool UseOptifine { get; set; } = true;
 		[JsonProperty("window_mode")] public WindowMode WindowMode { get; set; } = WindowMode.WINDOWED;
 		[JsonProperty("selected_version")] public string? SelectedVersion { get; set; } = null;
 		[JsonProperty("selected_account")] public string? SelectedAccount { get; set; } = null;
 
-		string storagePath;
-
 		public event PropertyChangedEventHandler PropertyChanged;
+
 		public static LauncherSettings Create(ExtMinecraftPath path)
 		{
 			var storagePath = Path.Combine(path.RootPath, "meloncher_settings.json");

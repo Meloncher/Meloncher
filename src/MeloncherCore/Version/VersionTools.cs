@@ -5,16 +5,16 @@ namespace MeloncherCore.Version
 {
 	public class VersionTools
 	{
-
-		IVersionLoader VersionLoader { get; set; }
 		public VersionTools(IVersionLoader versionLoader)
 		{
 			VersionLoader = versionLoader;
 		}
 
+		private IVersionLoader VersionLoader { get; }
+
 		public McVersion getMcVersion(string versionName)
 		{
-			MVersion mVersion = VersionLoader.GetVersionMetadatas().GetVersion(versionName);
+			var mVersion = VersionLoader.GetVersionMetadatas().GetVersion(versionName);
 			return getMcVersion(mVersion);
 		}
 
@@ -34,6 +34,7 @@ namespace MeloncherCore.Version
 					profileName = parVer.AssetId;
 				}
 			}
+
 			if (profileName == null) profileName = "unknown";
 			//System.Console.WriteLine("Profile name = " + profileName.ToString());
 

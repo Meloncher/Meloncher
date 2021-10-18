@@ -1,16 +1,16 @@
 <Window xmlns="https://github.com/avaloniaui"
-				xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-				xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-				xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-				xmlns:vm="clr-namespace:MeloncherAvalonia.ViewModels"
-				mc:Ignorable="d" 
-				d:DesignWidth="800"
-				d:DesignHeight="450"
-				x:Class="MeloncherAvalonia.Views.AccountsWindow"
-				Title="AccountsWindow"
-				Width="800"
-				Height="480"
-				WindowStartupLocation="CenterOwner">
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:MeloncherAvalonia.ViewModels"
+        mc:Ignorable="d"
+        d:DesignWidth="800"
+        d:DesignHeight="450"
+        x:Class="MeloncherAvalonia.Views.AccountsWindow"
+        Title="AccountsWindow"
+        Width="800"
+        Height="480"
+        WindowStartupLocation="CenterOwner">
 
 	<Window.DataContext>
 		<vm:AccountsViewModel />
@@ -18,14 +18,14 @@
 
 	<Grid>
 		<Grid.RowDefinitions>
-			<RowDefinition/>
-			<RowDefinition Height="32"/>
-			<RowDefinition Height="32"/>
+			<RowDefinition />
+			<RowDefinition Height="32" />
+			<RowDefinition Height="32" />
 		</Grid.RowDefinitions>
 		<ListBox SelectedIndex="{Binding selectedAccount}" Items="{Binding Accounts}">
 			<ListBox.ItemTemplate>
 				<DataTemplate>
-					<TextBlock Text="{Binding Username}"/>
+					<TextBlock Text="{Binding Username}" />
 				</DataTemplate>
 			</ListBox.ItemTemplate>
 		</ListBox>

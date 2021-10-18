@@ -1,17 +1,18 @@
-﻿using ReactiveUI;
+﻿using System.Reactive;
+using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
-using System.Reactive;
 
 namespace MeloncherAvalonia.ViewModels
 {
 	public class AddAccountViewModel : ViewModelBase
 	{
-		[Reactive] public string Username { get; set; }
-		[Reactive] public string Password { get; set; }
 		public AddAccountViewModel()
 		{
 			OkCommand = ReactiveCommand.Create(OnOkCommandExecuted);
 		}
+
+		[Reactive] public string Username { get; set; }
+		[Reactive] public string Password { get; set; }
 
 		public ReactiveCommand<Unit, AddAccountData> OkCommand { get; }
 
@@ -31,6 +32,5 @@ namespace MeloncherAvalonia.ViewModels
 
 		public string Username { get; set; }
 		public string Password { get; set; }
-
 	}
 }

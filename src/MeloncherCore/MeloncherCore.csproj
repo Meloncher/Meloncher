@@ -1,18 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <OutputType>Exe</OutputType>
-    <TargetFramework>net5.0</TargetFramework>
-    <AssemblyName>MeloncherCLI</AssemblyName>
-  </PropertyGroup>
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<TargetFramework>net5.0</TargetFramework>
+		<AssemblyName>MeloncherCLI</AssemblyName>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="CmlLib.Core" Version="3.3.2" />
-    <PackageReference Include="DiscordRichPresence" Version="1.0.175" />
-    <PackageReference Include="Microsoft.Win32.Registry" Version="5.0.0" />
-    <PackageReference Include="MojangAPI" Version="1.0.3" />
-    <PackageReference Include="PropertyChanged.Fody" Version="3.4.0" />
-    <PackageReference Include="SharpCompress" Version="0.30.0" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="CmlLib.Core" Version="3.3.2"/>
+		<PackageReference Include="DiscordRichPresence" Version="1.0.175"/>
+		<PackageReference Include="Microsoft.Win32.Registry" Version="5.0.0"/>
+		<PackageReference Include="MojangAPI" Version="1.0.3"/>
+		<PackageReference Include="PropertyChanged.Fody" Version="3.4.0"/>
+		<PackageReference Include="SharpCompress" Version="0.30.0"/>
+	</ItemGroup>
 
 </Project>

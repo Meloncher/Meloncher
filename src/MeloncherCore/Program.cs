@@ -1,30 +1,30 @@
-﻿using CmlLib.Core.Auth;
-using MeloncherCore.Discord;
-using MeloncherCore.Launcher;
-using System;
+﻿using System;
 using System.Net;
 using System.Threading.Tasks;
+using CmlLib.Core.Auth;
+using MeloncherCore.Discord;
+using MeloncherCore.Launcher;
 
 namespace MeloncherCore
 {
-	class Program
+	internal class Program
 	{
-		static async Task Main(string[] args)
+		private static async Task Main(string[] args)
 		{
 			ServicePointManager.DefaultConnectionLimit = 512;
 			//Console.WriteLine(McOptionsUtils.GetDefaultScale());
 			Console.WriteLine("Hello Meloncher!");
-			DiscrodRPCTools discrodRPCTools = new DiscrodRPCTools();
+			var discrodRPCTools = new DiscrodRPCTools();
 			discrodRPCTools.SetStatus("Сидит в лаунчере", "");
 			Console.Write("Version: ");
-			string versionName = Console.ReadLine();
-			bool offline = Confirm("Offline?");
-			bool optifine = Confirm("Optifine?");
+			var versionName = Console.ReadLine();
+			var offline = Confirm("Offline?");
+			var optifine = Confirm("Optifine?");
 			//var version = new McVersion(versionName, "Test", "Test-" + versionName);
 			var path = new ExtMinecraftPath();
 
 			var launcher = new McLauncher(path);
-			launcher.FileChanged += (e) =>
+			launcher.FileChanged += e =>
 			{
 				//FileChanged?.Invoke(e);
 				//Console.WriteLine("[{0}] {1} - {2}/{3}", e.FileKind.ToString(), e.FileName, e.ProgressedFileCount, e.TotalFileCount);
@@ -35,7 +35,7 @@ namespace MeloncherCore
 				//ProgressChanged?.Invoke(s, e);
 				Console.WriteLine("{0}%", e.ProgressPercentage);
 			};
-			launcher.MinecraftOutput += (e) =>
+			launcher.MinecraftOutput += e =>
 			{
 				// Console.WriteLine(McLogLine.Parse(e.Line));
 				Console.WriteLine(e.Line);
@@ -55,17 +55,17 @@ namespace MeloncherCore
 			await launcher.Launch();
 		}
 
-		static bool Confirm(string text)
+		private static bool Confirm(string text)
 		{
 			ConsoleKey response;
 			do
 			{
 				Console.Write(text + " [y/N] ");
-				response = Console.ReadKey(false).Key;   // true is intercept key (dont show), false is show
+				response = Console.ReadKey(false).Key; // true is intercept key (dont show), false is show
 				if (response != ConsoleKey.Enter)
 					Console.WriteLine();
-
 			} while (response != ConsoleKey.Y && response != ConsoleKey.N && response != ConsoleKey.Enter);
+
 			return response == ConsoleKey.Y;
 		}
 	}

@@ -1,20 +1,22 @@
-﻿using Microsoft.Win32;
-using System;
+﻿using System;
 using System.Runtime.InteropServices;
+using Microsoft.Win32;
 
 namespace MeloncherCore.Options
 {
-	class McOptionsUtils
+	internal class McOptionsUtils
 	{
 		public static int GetDefaultScale()
 		{
 			double scale = 1;
 
 			if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-				scale = Int32.Parse((string)Registry.GetValue(@"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\ThemeManager", "LastLoadedDPI", "96")) / 96;
+				scale = int.Parse((string) Registry.GetValue(@"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\ThemeManager", "LastLoadedDPI", "96")) / 96;
 
-			return (int)Math.Round(2 * scale + 0.1); ;
+			return (int) Math.Round(2 * scale + 0.1);
+			;
 		}
+
 		public static void SetDefaults(ExtGameOptionsFile options)
 		{
 			options.SetValue("gamma", 0.5);

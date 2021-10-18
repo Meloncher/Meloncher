@@ -1,46 +1,45 @@
 <Window xmlns="https://github.com/avaloniaui"
-				xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-				xmlns:vm="using:MeloncherAvalonia.ViewModels"
-				xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-				xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-				xmlns:imaging="clr-namespace:Avalonia.Media.Imaging;assembly=Avalonia.Visuals"
-				xmlns:uc="using:MeloncherAvalonia.UserControls"
-				mc:Ignorable="d"
-				d:DesignWidth="800"
-				d:DesignHeight="480"
-				x:Class="MeloncherAvalonia.Views.MainWindow"
-				Icon="/icon.ico"
-				Title="{Binding Title}"
-				Width="800"
-				Height="480"
-				MinWidth="800"
-				MinHeight="480"
-				ExtendClientAreaToDecorationsHint="True"
-				ExtendClientAreaTitleBarHeightHint="26"
-				TransparencyLevelHint="Blur"
-				Background="Transparent"
-				WindowStartupLocation="CenterScreen"
-				>
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:MeloncherAvalonia.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:uc="using:MeloncherAvalonia.UserControls"
+        mc:Ignorable="d"
+        d:DesignWidth="800"
+        d:DesignHeight="480"
+        x:Class="MeloncherAvalonia.Views.MainWindow"
+        Icon="/icon.ico"
+        Title="{Binding Title}"
+        Width="800"
+        Height="480"
+        MinWidth="800"
+        MinHeight="480"
+        ExtendClientAreaToDecorationsHint="True"
+        ExtendClientAreaTitleBarHeightHint="26"
+        TransparencyLevelHint="Blur"
+        Background="Transparent"
+        WindowStartupLocation="CenterScreen">
 
-	<Window.Styles>
-	</Window.Styles>
+	<Window.DataContext>
+		<vm:MainViewModel />
+	</Window.DataContext>
 
 	<Grid RowDefinitions="26,*">
 		<Border IsHitTestVisible="False" Background="#000000" Opacity=".5">
 			<TextBlock Text="{Binding Title}" TextAlignment="Center" VerticalAlignment="Center" />
 		</Border>
 		<Grid Grid.Row="1" ColumnDefinitions="40,*">
-			<Border Background="#202020" Opacity=".5" >
+			<Border Background="#202020" Opacity=".5">
 				<Grid RowDefinitions="*,auto">
 					<StackPanel>
 						<!--<Button Height="40" Width="40" Content="P" />-->
 					</StackPanel>
-					<StackPanel Grid.Row="1" >
+					<StackPanel Grid.Row="1">
 						<Button Height="40" Width="40" Content="S" />
 					</StackPanel>
 				</Grid>
 			</Border>
-			<Border Grid.Column="1" Grid.Row="1">
+			<Border Grid.Column="1">
 				<Grid RowDefinitions="*,64,auto">
 					<Border>
 						<Border.Background>
@@ -52,15 +51,15 @@
 							<ComboBox Width="128" Items="{Binding Versions}" SelectedItem="{Binding SelectedVersion}">
 								<ComboBox.ItemTemplate>
 									<DataTemplate>
-										<TextBlock Text="{Binding Name}"/>
+										<TextBlock Text="{Binding Name}" />
 									</DataTemplate>
 								</ComboBox.ItemTemplate>
 							</ComboBox>
 							<CheckBox IsChecked="{Binding Offline}" Content="Offline" Foreground="White" Height="16" Width="128" />
 						</StackPanel>
 						<uc:PlayButton Margin="0 -40 0 0" Grid.Column="1" Text="Играть" Command="{Binding PlayButtonCommand}" IsEnabled="{Binding !IsStarted}" />
-						<StackPanel Grid.Column="2" Width="128" HorizontalAlignment="Right" >
-							<Button Height="32" Width="128" Content="Аккаунты" Command="{Binding OpenAccountsWindowCommand}"/>
+						<StackPanel Grid.Column="2" Width="128" HorizontalAlignment="Right">
+							<Button Height="32" Width="128" Content="Аккаунты" Command="{Binding OpenAccountsWindowCommand}" />
 							<TextBlock HorizontalAlignment="Center" Text="{Binding SelectedSession.Username}" />
 						</StackPanel>
 					</Grid>

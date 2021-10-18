@@ -1,14 +1,14 @@
+using System;
+using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
 using MeloncherAvalonia.ViewModels;
 using ReactiveUI;
-using System;
-using System.Threading.Tasks;
 
 namespace MeloncherAvalonia.Views
 {
-	public partial class AccountsWindow : ReactiveWindow<AccountsViewModel>
+	public class AccountsWindow : ReactiveWindow<AccountsViewModel>
 	{
 		public AccountsWindow()
 		{
@@ -25,6 +25,7 @@ namespace MeloncherAvalonia.Views
 		{
 			AvaloniaXamlLoader.Load(this);
 		}
+
 		private async Task DoShowAddAccountDialogAsync(InteractionContext<AddAccountViewModel, AddAccountData?> interaction)
 		{
 			var dialog = new AddAccountWindow();
@@ -32,6 +33,7 @@ namespace MeloncherAvalonia.Views
 			var result = await dialog.ShowDialog<AddAccountData?>(this);
 			interaction.SetOutput(result);
 		}
+
 		private async Task DoShowAddMicrosoftAccountDialogAsync(InteractionContext<AddMicrosoftAccountViewModel, string?> interaction)
 		{
 			var dialog = new AddMicrosoftAccountWindow();

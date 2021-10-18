@@ -1,4 +1,11 @@
-﻿using Apex.MVVM;
+﻿using System;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.ComponentModel;
+using System.Net;
+using System.Threading.Tasks;
+using System.Windows.Input;
+using Apex.MVVM;
 using CmlLib.Core.Auth;
 using CmlLib.Core.Auth.Microsoft.UI.Wpf;
 using CmlLib.Core.Version;
@@ -7,32 +14,17 @@ using MeloncherCore.Account;
 using MeloncherCore.Discord;
 using MeloncherCore.Launcher;
 using MeloncherWPF.Views.Windows;
-using System;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.ComponentModel;
-using System.Net;
-using System.Threading.Tasks;
-using System.Windows.Input;
 
 namespace MeloncherWPF.ViewModels
 {
 	internal class MainViewModel : INotifyPropertyChanged
 	{
-		public event PropertyChangedEventHandler PropertyChanged;
-		public string Title { get; set; } = "Meloncher";
-		public string McVersionName { get; set; } = "1.12.2";
-		public string Username { get; set; } = "Steve";
-		public bool Optifine { get; set; } = true;
-		public bool Offline { get; set; } = false;
-		public int ProgressValue { get; set; }
-		public string ProgressText { get; set; }
-		public bool ProgressHidden { get; set; } = true;
-		public bool IsNotStarted { get; set; } = true;
+		private AccountStorage accountStorage;
+		DiscrodRPCTools discrodRPCTools = new DiscrodRPCTools();
 
 		private McLauncher mcLauncher;
 		private IVersionLoader versionLoader;
-		DiscrodRPCTools discrodRPCTools = new DiscrodRPCTools();
+
 		public MainViewModel()
 		{
 			ServicePointManager.DefaultConnectionLimit = 512;
@@ -97,10 +89,7 @@ namespace MeloncherWPF.ViewModels
 						break;
 				}
 			};
-			mcLauncher.MinecraftOutput += (e) =>
-			{
-				discrodRPCTools.OnLog(e.Line);
-			};
+			mcLauncher.MinecraftOutput += (e) => { discrodRPCTools.OnLog(e.Line); };
 			accountStorage = new AccountStorage(mcLauncher.MinecraftPath);
 			accountStorage.CollectionChanged += (object sender, NotifyCollectionChangedEventArgs e) => Accounts = new ObservableCollection<MSession>(accountStorage);
 			Accounts = new ObservableCollection<MSession>(accountStorage);
@@ -111,19 +100,36 @@ namespace MeloncherWPF.ViewModels
 			SelectedVersion = mdts.LatestReleaseVersion;
 		}
 
-		private AccountStorage accountStorage;
+		public string Title { get; set; } = "Meloncher";
+		public string McVersionName { get; set; } = "1.12.2";
+		public string Username { get; set; } = "Steve";
+		public bool Optifine { get; set; } = true;
+		public bool Offline { get; set; } = false;
+		public int ProgressValue { get; set; }
+		public string ProgressText { get; set; }
+		public bool ProgressHidden { get; set; } = true;
+		public bool IsNotStarted { get; set; } = true;
 		public ObservableCollection<MSession> Accounts { get; set; }
 		public ObservableCollection<MVersionMetadata> Versions { get; set; }
 		public MVersionMetadata SelectedVersion { get; set; }
 		public int selectedAccount { get; set; } = 0;
 
 		public Command DeleteAccountCommand { get; }
+
+		public Command AddMicrosoftCommand { get; }
+
+		public Command AddMojangCommand { get; }
+
+		public Command AddOfflineCommand { get; }
+
+		public ICommand PlayButtonCommand { get; }
+		public event PropertyChangedEventHandler PropertyChanged;
+
 		private void OnDeleteAccountCommandExecuted(Object p)
 		{
 			accountStorage.RemoveAt(selectedAccount);
 		}
 
-		public Command AddMicrosoftCommand { get; }
 		private void OnAddMicrosoftCommandExecuted(object p)
 		{
 			MicrosoftLoginWindow loginWindow = new MicrosoftLoginWindow();
@@ -131,7 +137,6 @@ namespace MeloncherWPF.ViewModels
 			accountStorage.Add(session);
 		}
 
-		public Command AddMojangCommand { get; }
 		private void OnAddMojangCommandExecuted(object p)
 		{
 			var dialog = new AddAccountWindow();
@@ -144,7 +149,6 @@ namespace MeloncherWPF.ViewModels
 			}
 		}
 
-		public Command AddOfflineCommand { get; }
 		private void OnAddOfflineCommandExecuted(object p)
 		{
 			var dialog = new AddAccountWindow();
@@ -155,7 +159,6 @@ namespace MeloncherWPF.ViewModels
 			}
 		}
 
-		public ICommand PlayButtonCommand { get; }
 		private void OnPlayButtonCommandExecuted(object p)
 		{
 			MSession session = (Accounts.Count > 0) ? Accounts[selectedAccount] : MSession.GetOfflineSession("Player");

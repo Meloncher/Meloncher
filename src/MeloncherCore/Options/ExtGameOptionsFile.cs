@@ -1,20 +1,27 @@
-﻿using CmlLib.Utils;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using CmlLib.Utils;
 
 namespace MeloncherCore.Options
 {
-	class ExtGameOptionsFile : GameOptionsFile
+	internal class ExtGameOptionsFile : GameOptionsFile
 	{
 		// Overrides
-		public ExtGameOptionsFile(Dictionary<string, string> options, string path) : base(options, path) { }
-		public ExtGameOptionsFile(Dictionary<string, string> options) : base(options) { }
-		public ExtGameOptionsFile() : base() { }
+		public ExtGameOptionsFile(Dictionary<string, string> options, string path) : base(options, path)
+		{
+		}
 
-		public static new ExtGameOptionsFile ReadFile(string filepath, Encoding encoding)
+		public ExtGameOptionsFile(Dictionary<string, string> options) : base(options)
+		{
+		}
+
+		public ExtGameOptionsFile()
+		{
+		}
+
+		public new static ExtGameOptionsFile ReadFile(string filepath, Encoding encoding)
 		{
 			var fileinfo = new FileInfo(filepath);
 			if (fileinfo.Length > MaxOptionFileLength)
@@ -27,19 +34,20 @@ namespace MeloncherCore.Options
 			{
 				string? line;
 				while ((line = reader.ReadLine()) != null)
-				{
 					if (!line.Contains(":"))
+					{
 						optionDict[line] = null;
+					}
 					else
 					{
 						var keyvalue = FromKeyValueString(line);
 						optionDict[keyvalue.Key] = keyvalue.Value;
 					}
-				}
 			}
 
 			return new ExtGameOptionsFile(optionDict, filepath);
 		}
+
 		public new void Save(string path, Encoding encoding)
 		{
 			if (File.Exists(path)) File.Delete(path);
@@ -48,14 +56,12 @@ namespace MeloncherCore.Options
 			using (var fs = File.OpenWrite(path))
 			using (var writer = new StreamWriter(fs, encoding))
 			{
-				foreach (KeyValuePair<string, string?> keyvalue in this)
-				{
+				foreach (var keyvalue in this)
 					if (keyvalue.Value != null)
 					{
 						var line = keyvalue.Key + ":" + keyvalue.Value;
 						writer.WriteLine(line);
 					}
-				}
 			}
 		}
 
@@ -68,6 +74,7 @@ namespace MeloncherCore.Options
 				SetRawValue(pair.Key, pair.Value);
 			}
 		}
+
 		public void Downgrade()
 		{
 			SetRawValue("version", null);
@@ -81,13 +88,10 @@ namespace MeloncherCore.Options
 					SetValue("lang", lang);
 				}
 			}
+
 			foreach (var keyPair in this)
-			{
 				if (keyPair.Key.StartsWith("key_") && McKeycodes.Contains(keyPair.Value))
-				{
 					SetValue(keyPair.Key, McKeycodes.Get(keyPair.Value));
-				}
-			}
 		}
 	}
 }
