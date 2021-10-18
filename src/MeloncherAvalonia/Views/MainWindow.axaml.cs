@@ -1,3 +1,4 @@
+using System.Reactive;
 using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Markup.Xaml;
@@ -19,6 +20,7 @@ namespace MeloncherAvalonia.Views
 #endif
 			this.WhenActivated(d => d(ViewModel.ShowSelectAccountDialog.RegisterHandler(DoShowSelectAccountDialogAsync)));
 			this.WhenActivated(d => d(ViewModel.ShowSelectVersionDialog.RegisterHandler(DoShowSelectVersionDialogAsync)));
+			this.WhenActivated(d => d(ViewModel.ShowSettingsDialog.RegisterHandler(DoShowSettingsDialogAsync)));
 		}
 
 		private void InitializeComponent()
@@ -39,6 +41,13 @@ namespace MeloncherAvalonia.Views
 			var dialog = new VersionsWindow();
 			dialog.DataContext = interaction.Input;
 			var result = await dialog.ShowDialog<MVersionMetadata?>(this);
+			interaction.SetOutput(result);
+		}
+		private async Task DoShowSettingsDialogAsync(InteractionContext<SettingsViewModel, Unit?> interaction)
+		{
+			var dialog = new SettingsWindow();
+			dialog.DataContext = interaction.Input;
+			var result = await dialog.ShowDialog<Unit?>(this);
 			interaction.SetOutput(result);
 		}
 	}

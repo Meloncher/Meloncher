@@ -16,17 +16,16 @@
         ExtendClientAreaTitleBarHeightHint="-1"
         WindowStartupLocation="CenterOwner">
 
-	<Window.DataContext>
-		<vm:AddAccountViewModel />
-	</Window.DataContext>
-
 	<Grid RowDefinitions="*,Auto">
 		<StackPanel>
-			<Label Grid.Row="0" Content="Логин" />
-			<TextBox Text="{Binding Username}" Grid.Row="1" Margin="4" Height="32" TextWrapping="Wrap" VerticalAlignment="Top" />
-			<Label Grid.Row="2" Content="Пароль (Нужен только для лицухи)" />
-			<TextBox Text="{Binding Password}" Grid.Row="3" Margin="4" Height="32" VerticalAlignment="Top" />
+			<Label Content="Логин" />
+			<TextBox Text="{Binding Username}" Margin="4" Height="32" TextWrapping="Wrap" VerticalAlignment="Top" />
+			<Label Content="Пароль" IsVisible="{Binding NeedPassword}" />
+			<TextBox PasswordChar="●" Text="{Binding Password}" Margin="4" Height="32" VerticalAlignment="Top" IsVisible="{Binding NeedPassword}"  />
 		</StackPanel>
-		<Button HorizontalAlignment="Stretch" Grid.Row="1" Command="{Binding OkCommand}" Content="Add" Height="40" Margin="4" VerticalAlignment="Top" Grid.RowSpan="2" />
+		<StackPanel Grid.Row="1" Orientation="Horizontal">
+			<Button HorizontalAlignment="Stretch" Command="{Binding OkCommand}" Content="Добавить" Height="40" Margin="4" VerticalAlignment="Top" />
+			<Button HorizontalAlignment="Stretch" Click="Button_OnClick" Content="Отмена" Height="40" Margin="4" VerticalAlignment="Top" />
+		</StackPanel>
 	</Grid>
 </Window>

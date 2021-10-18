@@ -74,7 +74,7 @@ namespace MeloncherAvalonia.ViewModels
 
 		private async Task OnAddMojangCommandExecuted()
 		{
-			var dialog = new AddAccountViewModel();
+			var dialog = new AddAccountViewModel(true);
 			var result = await ShowAddAccountDialog.Handle(dialog);
 			if (result != null)
 			{
@@ -86,7 +86,7 @@ namespace MeloncherAvalonia.ViewModels
 
 		private async Task OnAddOfflineCommandExecuted()
 		{
-			var dialog = new AddAccountViewModel();
+			var dialog = new AddAccountViewModel(false);
 			var result = await ShowAddAccountDialog.Handle(dialog);
 			if (result != null)
 			{

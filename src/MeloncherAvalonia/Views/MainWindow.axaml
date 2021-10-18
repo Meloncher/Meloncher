@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:uc="using:MeloncherAvalonia.UserControls"
+        xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
         mc:Ignorable="d"
         d:DesignWidth="800"
         d:DesignHeight="480"
@@ -35,7 +36,9 @@
 						<!--<Button Height="40" Width="40" Content="P" />-->
 					</StackPanel>
 					<StackPanel Grid.Row="1">
-						<!-- <Button Height="40" Width="40" Content="S" /> -->
+						<Button Height="40" Width="40" Command="{Binding OpenSettingsWindowCommand}" Background="Transparent" BorderThickness="0">
+							<avalonia:MaterialIcon Kind="Settings"></avalonia:MaterialIcon>
+						</Button>
 					</StackPanel>
 				</Grid>
 			</Border>

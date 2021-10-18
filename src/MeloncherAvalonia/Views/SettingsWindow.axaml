@@ -1,0 +1,29 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" 
+        d:DesignWidth="320" 
+        d:DesignHeight="450"
+        Width="320"
+        Height="450"
+        CanResize="False"
+        x:Class="MeloncherAvalonia.Views.SettingsWindow"
+        Title="Настройки"
+        WindowStartupLocation="CenterOwner">
+
+	<Grid ColumnDefinitions="*,128" RowDefinitions="48, 48, 48">
+		<TextBlock Grid.Column="0" Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0" Text="Использовать Оптифайн" />
+		<TextBlock Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0" Text="Режим окна" />
+		<!-- <TextBlock Grid.Column="0" Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0" Text="Максимум Озу" /> -->
+		<ToggleSwitch Grid.Column="1" Grid.Row="0" IsChecked="{Binding LauncherSettings.UseOptifine}" />
+		<ComboBox Grid.Column="1" Grid.Row="1" SelectedIndex="{Binding LauncherSettings.WindowMode}">
+			<ComboBox.Items>
+				<ComboBoxItem Content="Оконный" />
+				<ComboBoxItem Content="Полноэкранный" />
+				<ComboBoxItem Content="Безрамочный" />
+			</ComboBox.Items>
+		</ComboBox>
+		<!-- <NumericUpDown Grid.Column="1" Grid.Row="2" Value="2048" /> -->
+	</Grid>
+</Window>

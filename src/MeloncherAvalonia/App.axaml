@@ -12,5 +12,6 @@
 		<StyleInclude Source="avares://Avalonia.Themes.Default/DefaultTheme.xaml" />
 		<StyleInclude Source="avares://Avalonia.Themes.Default/Accents/BaseDark.xaml" />
 		<sty:FluentAvaloniaTheme RequestedTheme="Dark" GetUserAccentColor="False" DefaultToUserTheme="False" CustomAccentColor="#aa0000" />
+		<StyleInclude Source="avares://Material.Icons.Avalonia/App.xaml" />
 	</Application.Styles>
 </Application>

@@ -33,6 +33,7 @@ namespace MeloncherAvalonia.ViewModels
 			PlayButtonCommand = ReactiveCommand.Create(OnPlayButtonCommandExecuted);
 			OpenAccountsWindowCommand = ReactiveCommand.Create(OnOpenAccountsWindowCommandExecuted);
 			OpenVersionsWindowCommand = ReactiveCommand.Create(OnOpenVersionsWindowCommandExecuted);
+			OpenSettingsWindowCommand = ReactiveCommand.Create(OnOpenSettingsWindowCommandExecuted);
 
 			var path = new ExtMinecraftPath();
 			versionLoader = new DefaultVersionLoader(path);
@@ -128,12 +129,24 @@ namespace MeloncherAvalonia.ViewModels
 
 		public Interaction<AccountsViewModel, MSession?> ShowSelectAccountDialog { get; } = new Interaction<AccountsViewModel, MSession?>();
 		public Interaction<VersionsViewModel, MVersionMetadata?> ShowSelectVersionDialog { get; } = new Interaction<VersionsViewModel, MVersionMetadata?>();
+		public Interaction<SettingsViewModel, Unit?> ShowSettingsDialog { get; } = new Interaction<SettingsViewModel, Unit?>();
 		[Reactive] public MVersionMetadata? SelectedVersion { get; set; }
 		[Reactive] public MSession? SelectedSession { get; set; }
 
 		public ReactiveCommand<Unit, Task> OpenAccountsWindowCommand { get; }
 		public ReactiveCommand<Unit, Task> OpenVersionsWindowCommand { get; }
 		public ReactiveCommand<Unit, Unit> PlayButtonCommand { get; }
+		
+		public ReactiveCommand<Unit, Task> OpenSettingsWindowCommand { get; }
+		private async Task OnOpenSettingsWindowCommandExecuted()
+		{
+			var dialog = new SettingsViewModel(this.LauncherSettings);
+			var result = await ShowSettingsDialog.Handle(dialog);
+			// if (result != null)
+			// {
+			// 	SelectedSession = result;
+			// }
+		}
 
 		private async Task OnOpenAccountsWindowCommandExecuted()
 		{

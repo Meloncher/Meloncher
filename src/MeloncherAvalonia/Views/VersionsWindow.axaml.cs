@@ -1,5 +1,6 @@
 ﻿using System;
 using Avalonia;
+using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
 using MeloncherAvalonia.ViewModels;
@@ -21,6 +22,11 @@ namespace MeloncherAvalonia.Views
 		private void InitializeComponent()
 		{
 			AvaloniaXamlLoader.Load(this);
+		}
+
+		private void Button_OnClick(object? sender, RoutedEventArgs e)
+		{
+			Close();
 		}
 	}
 }

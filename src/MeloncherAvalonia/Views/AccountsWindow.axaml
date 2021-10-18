@@ -11,28 +11,21 @@
         Width="320"
         Height="480"
         CanResize="False"
-        ExtendClientAreaToDecorationsHint="True"
         ExtendClientAreaChromeHints="NoChrome"
-        ExtendClientAreaTitleBarHeightHint="-1"
+        ExtendClientAreaToDecorationsHint="True"
+        ExtendClientAreaTitleBarHeightHint="26"
         WindowStartupLocation="CenterOwner">
 
-	<!-- <Window.DataContext> -->
-	<!-- 	<vm:AccountsViewModel /> -->
-	<!-- </Window.DataContext> -->
-
-	<Grid>
-		<Grid.RowDefinitions>
-			<RowDefinition />
-			<RowDefinition Height="Auto" />
-		</Grid.RowDefinitions>
-		<ListBox SelectedIndex="{Binding selectedAccount}" Items="{Binding Accounts}">
+	<Grid RowDefinitions="26,*,Auto">
+		<Button Content="X" Width="48" Height="26" HorizontalAlignment="Right" Click="Button_OnClick" />
+		<ListBox Grid.Row="1" SelectedIndex="{Binding selectedAccount}" Items="{Binding Accounts}">
 			<ListBox.ItemTemplate>
 				<DataTemplate>
 					<TextBlock Text="{Binding Username}" />
 				</DataTemplate>
 			</ListBox.ItemTemplate>
 		</ListBox>
-		<StackPanel Grid.Row="1" Orientation="Vertical">
+		<StackPanel Grid.Row="2" Orientation="Vertical">
 			<Button HorizontalAlignment="Stretch" Command="{Binding AddOfflineCommand}" Content="Добавить Пиратку" Height="32" />
 			<Button HorizontalAlignment="Stretch" Command="{Binding AddMojangCommand}" Content="Добавить Mojang" Height="32" />
 			<Button HorizontalAlignment="Stretch" Command="{Binding AddMicrosoftCommand}" Content="Добавить Microsoft" Height="32" />

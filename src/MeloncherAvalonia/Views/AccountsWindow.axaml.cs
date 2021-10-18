@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using Avalonia;
+using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
 using MeloncherAvalonia.ViewModels;
@@ -40,6 +41,11 @@ namespace MeloncherAvalonia.Views
 			dialog.DataContext = interaction.Input;
 			var result = await dialog.ShowDialog<string?>(this);
 			interaction.SetOutput(result);
+		}
+
+		private void Button_OnClick(object? sender, RoutedEventArgs e)
+		{
+			Close();
 		}
 	}
 }

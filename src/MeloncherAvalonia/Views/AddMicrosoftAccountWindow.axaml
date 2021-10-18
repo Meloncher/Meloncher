@@ -29,6 +29,10 @@
 			<Label Content="Когда закончишь, скопируй адресную строку браузера сюда и нажми ок" />
 			<TextBox Text="{Binding RedirectUrl}" Margin="4" Height="32" TextWrapping="Wrap" VerticalAlignment="Top" />
 		</StackPanel>
-		<Button HorizontalAlignment="Stretch" Grid.Row="1" Command="{Binding OkCommand}" Content="OK" Height="40" Margin="4" VerticalAlignment="Top" />
+		<!-- <Button HorizontalAlignment="Stretch" Grid.Row="1" Command="{Binding OkCommand}" Content="OK" Height="40" Margin="4" VerticalAlignment="Top" /> -->
+		<StackPanel Grid.Row="1" Orientation="Horizontal">
+			<Button HorizontalAlignment="Stretch" Command="{Binding OkCommand}" Content="Добавить" Height="40" Margin="4" VerticalAlignment="Top" />
+			<Button HorizontalAlignment="Stretch" Click="Button_OnClick" Content="Отмена" Height="40" Margin="4" VerticalAlignment="Top" />
+		</StackPanel>
 	</Grid>
 </Window>
