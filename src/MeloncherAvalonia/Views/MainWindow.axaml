@@ -35,7 +35,7 @@
 						<!--<Button Height="40" Width="40" Content="P" />-->
 					</StackPanel>
 					<StackPanel Grid.Row="1">
-						<Button Height="40" Width="40" Content="S" />
+						<!-- <Button Height="40" Width="40" Content="S" /> -->
 					</StackPanel>
 				</Grid>
 			</Border>
