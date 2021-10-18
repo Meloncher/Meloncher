@@ -7,10 +7,13 @@
         d:DesignWidth="256"
         d:DesignHeight="200"
         x:Class="MeloncherAvalonia.Views.AddAccountWindow"
-        Title="Add Account"
+        Title="Добавить аккаунт"
         Height="200"
         Width="256"
         CanResize="False"
+        ExtendClientAreaToDecorationsHint="True"
+        ExtendClientAreaChromeHints="NoChrome"
+        ExtendClientAreaTitleBarHeightHint="-1"
         WindowStartupLocation="CenterOwner">
 
 	<Window.DataContext>

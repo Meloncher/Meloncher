@@ -7,10 +7,13 @@
         d:DesignWidth="320"
         d:DesignHeight="450"
         x:Class="MeloncherAvalonia.Views.AccountsWindow"
-        Title="AccountsWindow"
+        Title="Аккаунты"
         Width="320"
         Height="480"
         CanResize="False"
+        ExtendClientAreaToDecorationsHint="True"
+        ExtendClientAreaChromeHints="NoChrome"
+        ExtendClientAreaTitleBarHeightHint="-1"
         WindowStartupLocation="CenterOwner">
 
 	<!-- <Window.DataContext> -->
