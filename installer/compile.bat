@@ -11,3 +11,5 @@ rd /s /q "..\src\MeloncherAvalonia\bin\Release\net5.0\publish\ru\"
 rd /s /q "..\src\MeloncherAvalonia\bin\Release\net5.0\publish\tr\"
 rd /s /q "..\src\MeloncherAvalonia\bin\Release\net5.0\publish\zh-Hans\"
 rd /s /q "..\src\MeloncherAvalonia\bin\Release\net5.0\publish\zh-Hant\"
+
+"C:\Program Files (x86)\Inno Setup 6\ISCC.exe" "Meloncher.iss"

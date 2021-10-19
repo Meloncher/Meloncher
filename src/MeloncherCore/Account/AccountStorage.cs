@@ -40,7 +40,9 @@ namespace MeloncherCore.Account
 
 		public MSession Get(string key)
 		{
-			return sessionList[key];
+			if (sessionList.ContainsKey(key))
+				return sessionList[key];
+			return null;
 		}
 
 		public void Clear()

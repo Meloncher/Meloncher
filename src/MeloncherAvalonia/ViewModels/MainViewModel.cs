@@ -127,9 +127,9 @@ namespace MeloncherAvalonia.ViewModels
 		[Reactive] public bool IsStarted { get; set; } = false;
 		[Reactive] public LauncherSettings LauncherSettings { get; set; }
 
-		public Interaction<AccountsViewModel, MSession?> ShowSelectAccountDialog { get; } = new Interaction<AccountsViewModel, MSession?>();
-		public Interaction<VersionsViewModel, MVersionMetadata?> ShowSelectVersionDialog { get; } = new Interaction<VersionsViewModel, MVersionMetadata?>();
-		public Interaction<SettingsViewModel, Unit?> ShowSettingsDialog { get; } = new Interaction<SettingsViewModel, Unit?>();
+		public Interaction<AccountsViewModel, MSession?> ShowSelectAccountDialog { get; } = new();
+		public Interaction<VersionsViewModel, MVersionMetadata?> ShowSelectVersionDialog { get; } = new();
+		public Interaction<SettingsViewModel, Unit?> ShowSettingsDialog { get; } = new();
 		[Reactive] public MVersionMetadata? SelectedVersion { get; set; }
 		[Reactive] public MSession? SelectedSession { get; set; }
 
@@ -140,12 +140,8 @@ namespace MeloncherAvalonia.ViewModels
 		public ReactiveCommand<Unit, Task> OpenSettingsWindowCommand { get; }
 		private async Task OnOpenSettingsWindowCommandExecuted()
 		{
-			var dialog = new SettingsViewModel(this.LauncherSettings);
-			var result = await ShowSettingsDialog.Handle(dialog);
-			// if (result != null)
-			// {
-			// 	SelectedSession = result;
-			// }
+			var dialog = new SettingsViewModel(LauncherSettings);
+			await ShowSettingsDialog.Handle(dialog);
 		}
 
 		private async Task OnOpenAccountsWindowCommandExecuted()

@@ -1,5 +1,8 @@
+using System;
+using System.IO;
 using Avalonia;
 using Avalonia.ReactiveUI;
+using MeloncherCore.Launcher;
 
 namespace MeloncherAvalonia
 {
@@ -10,8 +13,23 @@ namespace MeloncherAvalonia
 		// yet and stuff might break.
 		public static void Main(string[] args)
 		{
-			BuildAvaloniaApp()
-				.StartWithClassicDesktopLifetime(args);
+			try
+			{
+				BuildAvaloniaApp()
+					.StartWithClassicDesktopLifetime(args);
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine(e);
+				string mcpath = ExtMinecraftPath.GetOSDefaultPath();
+				if (!Directory.Exists(mcpath))
+					Directory.CreateDirectory(mcpath);
+				using (StreamWriter writer = new(Path.Combine(mcpath, "crash.log")))  
+				{  
+					writer.WriteLine(e);
+				}  
+				throw;
+			}
 		}
 
 		// Avalonia configuration, don't remove; also used by visual designer.
