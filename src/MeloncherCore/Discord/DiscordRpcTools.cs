@@ -3,13 +3,13 @@ using MeloncherCore.Launcher;
 
 namespace MeloncherCore.Discord
 {
-	public class DiscrodRPCTools
+	public class DiscordRpcTools
 	{
-		public DiscordRpcClient client;
+		private readonly DiscordRpcClient _client;
 
-		public DiscrodRPCTools()
+		public DiscordRpcTools()
 		{
-			client = new DiscordRpcClient("895992198171078666");
+			_client = new DiscordRpcClient("895992198171078666");
 			//client.Logger = new ConsoleLogger() { Level = LogLevel.Warning };
 			//client.OnReady += (sender, e) =>
 			//{
@@ -20,12 +20,12 @@ namespace MeloncherCore.Discord
 			//{
 			//	Console.WriteLine("Received Update! {0}", e.Presence);
 			//};
-			client.Initialize();
+			_client.Initialize();
 		}
 
 		public void SetStatus(string details, string state)
 		{
-			client.SetPresence(new RichPresence
+			_client.SetPresence(new RichPresence
 			{
 				Details = details,
 				State = state,

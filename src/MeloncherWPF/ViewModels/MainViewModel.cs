@@ -20,7 +20,7 @@ namespace MeloncherWPF.ViewModels
 	internal class MainViewModel : INotifyPropertyChanged
 	{
 		private AccountStorage accountStorage;
-		DiscrodRPCTools discrodRPCTools = new DiscrodRPCTools();
+		DiscordRpcTools _discordRpcTools = new DiscordRpcTools();
 
 		private McLauncher mcLauncher;
 		private IVersionLoader versionLoader;
@@ -89,11 +89,11 @@ namespace MeloncherWPF.ViewModels
 						break;
 				}
 			};
-			mcLauncher.MinecraftOutput += (e) => { discrodRPCTools.OnLog(e.Line); };
+			mcLauncher.MinecraftOutput += (e) => { _discordRpcTools.OnLog(e.Line); };
 			accountStorage = new AccountStorage(mcLauncher.MinecraftPath);
 			accountStorage.CollectionChanged += (object sender, NotifyCollectionChangedEventArgs e) => Accounts = new ObservableCollection<MSession>(accountStorage);
 			Accounts = new ObservableCollection<MSession>(accountStorage);
-			discrodRPCTools.SetStatus("Сидит в лаунчере", "");
+			_discordRpcTools.SetStatus("Сидит в лаунчере", "");
 
 			var mdts = versionLoader.GetVersionMetadatas();
 			Versions = new ObservableCollection<MVersionMetadata>(mdts);
@@ -167,7 +167,7 @@ namespace MeloncherWPF.ViewModels
 				IsNotStarted = false;
 				ProgressHidden = false;
 				Title = "Meloncher " + McVersionName;
-				discrodRPCTools.SetStatus("Играет на версии " + McVersionName, "");
+				_discordRpcTools.SetStatus("Играет на версии " + McVersionName, "");
 				mcLauncher.Offline = Offline;
 				mcLauncher.UseOptifine = Optifine;
 				//mcLauncher.SetVersionByName(McVersionName);
@@ -181,7 +181,7 @@ namespace MeloncherWPF.ViewModels
 				await mcLauncher.Launch();
 				IsNotStarted = true;
 				Title = "Meloncher";
-				discrodRPCTools.SetStatus("Сидит в лаунчере", "");
+				_discordRpcTools.SetStatus("Сидит в лаунчере", "");
 			}).Start();
 		}
 	}

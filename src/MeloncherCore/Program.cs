@@ -14,7 +14,7 @@ namespace MeloncherCore
 			ServicePointManager.DefaultConnectionLimit = 512;
 			//Console.WriteLine(McOptionsUtils.GetDefaultScale());
 			Console.WriteLine("Hello Meloncher!");
-			var discrodRPCTools = new DiscrodRPCTools();
+			var discrodRPCTools = new DiscordRpcTools();
 			discrodRPCTools.SetStatus("Сидит в лаунчере", "");
 			Console.Write("Version: ");
 			var versionName = Console.ReadLine();

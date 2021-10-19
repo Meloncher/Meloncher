@@ -1,4 +1,6 @@
-﻿using MeloncherCore.Settings;
+﻿using System.Reactive;
+using MeloncherCore.Settings;
+using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 
 namespace MeloncherAvalonia.ViewModels
@@ -9,7 +11,26 @@ namespace MeloncherAvalonia.ViewModels
 		public SettingsViewModel(LauncherSettings launcherSettings)
 		{
 			LauncherSettings = launcherSettings;
+			OkCommand = ReactiveCommand.Create(OnOkCommandExecuted);
+			ImportCommand = ReactiveCommand.Create(OnImportCommandExecuted);
 		}
-		
+		public ReactiveCommand<Unit, SettingsAction> ImportCommand { get; }
+
+		private SettingsAction OnImportCommandExecuted()
+		{
+			return SettingsAction.Import;
+		}
+		public ReactiveCommand<Unit, SettingsAction> OkCommand { get; }
+
+		private SettingsAction OnOkCommandExecuted()
+		{
+			return SettingsAction.None;
+		}
+	}
+
+	public enum SettingsAction
+	{
+		None,
+		Import
 	}
 }

@@ -1,9 +1,9 @@
-﻿using Avalonia;
-using Avalonia.Controls;
+﻿using System;
+using Avalonia;
 using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
 using MeloncherAvalonia.ViewModels;
-using MeloncherCore.Settings;
+using ReactiveUI;
 
 namespace MeloncherAvalonia.Views
 {
@@ -15,6 +15,8 @@ namespace MeloncherAvalonia.Views
 #if DEBUG
 			this.AttachDevTools();
 #endif
+			this.WhenActivated(d => d(ViewModel.OkCommand.Subscribe(action => Close(action))));
+			this.WhenActivated(d => d(ViewModel.ImportCommand.Subscribe(action => Close(action))));
 		}
 
 		private void InitializeComponent()

@@ -43,11 +43,11 @@ namespace MeloncherAvalonia.Views
 			var result = await dialog.ShowDialog<MVersionMetadata?>(this);
 			interaction.SetOutput(result);
 		}
-		private async Task DoShowSettingsDialogAsync(InteractionContext<SettingsViewModel, Unit?> interaction)
+		private async Task DoShowSettingsDialogAsync(InteractionContext<SettingsViewModel, SettingsAction?> interaction)
 		{
 			var dialog = new SettingsWindow();
 			dialog.DataContext = interaction.Input;
-			var result = await dialog.ShowDialog<Unit?>(this);
+			var result = await dialog.ShowDialog<SettingsAction?>(this);
 			interaction.SetOutput(result);
 		}
 	}

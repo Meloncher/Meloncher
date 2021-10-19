@@ -11,6 +11,7 @@ using MeloncherCore.Account;
 using MeloncherCore.Discord;
 using MeloncherCore.Launcher;
 using MeloncherCore.Launcher.Events;
+using MeloncherCore.Options;
 using MeloncherCore.Settings;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
@@ -19,13 +20,14 @@ namespace MeloncherAvalonia.ViewModels
 {
 	public class MainViewModel : ViewModelBase
 	{
-		DiscrodRPCTools discrodRPCTools = new DiscrodRPCTools();
+		private readonly DiscordRpcTools _discordRpcTools = new();
 
-		private McLauncher mcLauncher;
-		private IVersionLoader versionLoader;
-		private MVersionCollection versionCollection;
-		private AccountStorage accountStorage;
-		private string loadingType = "";
+		private readonly McLauncher _mcLauncher;
+		private readonly IVersionLoader _versionLoader;
+		private readonly MVersionCollection _versionCollection;
+		private readonly AccountStorage _accountStorage;
+		private string _loadingType = "";
+		private readonly ExtMinecraftPath _path;
 
 		public MainViewModel()
 		{
@@ -35,30 +37,30 @@ namespace MeloncherAvalonia.ViewModels
 			OpenVersionsWindowCommand = ReactiveCommand.Create(OnOpenVersionsWindowCommandExecuted);
 			OpenSettingsWindowCommand = ReactiveCommand.Create(OnOpenSettingsWindowCommandExecuted);
 
-			var path = new ExtMinecraftPath();
-			versionLoader = new DefaultVersionLoader(path);
+			_path = new ExtMinecraftPath();
+			_versionLoader = new DefaultVersionLoader(_path);
 			try
 			{
-				versionCollection = versionLoader.GetVersionMetadatas();
+				_versionCollection = _versionLoader.GetVersionMetadatas();
 			}
 			catch (Exception e)
 			{
-				versionCollection = new LocalVersionLoader(path).GetVersionMetadatas();
+				_versionCollection = new LocalVersionLoader(_path).GetVersionMetadatas();
 			}
 
-			accountStorage = new AccountStorage(path);
-			mcLauncher = new McLauncher(path);
-			LauncherSettings = LauncherSettings.Create(path);
-			SelectedVersion = versionCollection.LatestReleaseVersion;
-			if (LauncherSettings.SelectedVersion != null) SelectedVersion = versionCollection.GetVersionMetadata(LauncherSettings.SelectedVersion);
-			if (LauncherSettings.SelectedAccount != null) SelectedSession = accountStorage.Get(LauncherSettings.SelectedAccount);
+			_accountStorage = new AccountStorage(_path);
+			_mcLauncher = new McLauncher(_path);
+			LauncherSettings = LauncherSettings.Create(_path);
+			SelectedVersion = _versionCollection.LatestReleaseVersion;
+			if (LauncherSettings.SelectedVersion != null) SelectedVersion = _versionCollection.GetVersionMetadata(LauncherSettings.SelectedVersion);
+			if (LauncherSettings.SelectedAccount != null) SelectedSession = _accountStorage.Get(LauncherSettings.SelectedAccount);
 			if (SelectedSession == null) SelectedSession = MSession.GetOfflineSession("Player");
 
-			mcLauncher.FileChanged += OnMcLauncherOnFileChanged;
-			mcLauncher.ProgressChanged += OnMcLauncherOnProgressChanged;
-			mcLauncher.MinecraftOutput += (e) => { discrodRPCTools.OnLog(e.Line); };
+			_mcLauncher.FileChanged += OnMcLauncherOnFileChanged;
+			_mcLauncher.ProgressChanged += OnMcLauncherOnProgressChanged;
+			_mcLauncher.MinecraftOutput += e => { _discordRpcTools.OnLog(e.Line); };
 
-			discrodRPCTools.SetStatus("Сидит в лаунчере", "");
+			_discordRpcTools.SetStatus("Сидит в лаунчере", "");
 
 			PropertyChanged += (_, e) =>
 			{
@@ -66,10 +68,10 @@ namespace MeloncherAvalonia.ViewModels
 				if (e.PropertyName == "SelectedSession") LauncherSettings.SelectedAccount = SelectedSession?.Username;
 			};
 		}
-		
-		void OnMcLauncherOnFileChanged(McDownloadFileChangedEventArgs e)
+
+		private void OnMcLauncherOnFileChanged(McDownloadFileChangedEventArgs e)
 		{
-			loadingType = e.Type;
+			_loadingType = e.Type;
 			//ProgressText = "Загрузка " + e.Type;
 			if (ProgressValue == 0)
 				switch (e.Type)
@@ -94,10 +96,11 @@ namespace MeloncherAvalonia.ViewModels
 						break;
 				}
 		}
-		void OnMcLauncherOnProgressChanged(object _, ProgressChangedEventArgs e)
+
+		private void OnMcLauncherOnProgressChanged(object _, ProgressChangedEventArgs e)
 		{
 			ProgressValue = e.ProgressPercentage;
-			switch (loadingType)
+			switch (_loadingType)
 			{
 				case "Resource":
 					ProgressText = "Загрузка Ресурсов...";
@@ -121,15 +124,15 @@ namespace MeloncherAvalonia.ViewModels
 		}
 
 		[Reactive] public string Title { get; set; } = "Meloncher";
-		[Reactive] public int ProgressValue { get; set; } = 0;
-		[Reactive] public string ProgressText { get; set; } = null;
+		[Reactive] public int ProgressValue { get; set; }
+		[Reactive] public string? ProgressText { get; set; }
 		[Reactive] public bool ProgressHidden { get; set; } = true;
-		[Reactive] public bool IsStarted { get; set; } = false;
+		[Reactive] public bool IsStarted { get; set; }
 		[Reactive] public LauncherSettings LauncherSettings { get; set; }
 
 		public Interaction<AccountsViewModel, MSession?> ShowSelectAccountDialog { get; } = new();
 		public Interaction<VersionsViewModel, MVersionMetadata?> ShowSelectVersionDialog { get; } = new();
-		public Interaction<SettingsViewModel, Unit?> ShowSettingsDialog { get; } = new();
+		public Interaction<SettingsViewModel, SettingsAction?> ShowSettingsDialog { get; } = new();
 		[Reactive] public MVersionMetadata? SelectedVersion { get; set; }
 		[Reactive] public MSession? SelectedSession { get; set; }
 
@@ -141,12 +144,22 @@ namespace MeloncherAvalonia.ViewModels
 		private async Task OnOpenSettingsWindowCommandExecuted()
 		{
 			var dialog = new SettingsViewModel(LauncherSettings);
-			await ShowSettingsDialog.Handle(dialog);
+			var result = await ShowSettingsDialog.Handle(dialog);
+			if (result != null)
+			{
+				if (result == SettingsAction.Import)
+				{
+					var importer = new McOptionsImporter(_path);
+					importer.Import();
+					var messageBoxStandardWindow = MessageBox.Avalonia.MessageBoxManager.GetMessageBoxStandardWindow("Готово", "Готово!");
+					messageBoxStandardWindow.Show();
+				}
+			}
 		}
 
 		private async Task OnOpenAccountsWindowCommandExecuted()
 		{
-			var dialog = new AccountsViewModel(accountStorage);
+			var dialog = new AccountsViewModel(_accountStorage);
 			var result = await ShowSelectAccountDialog.Handle(dialog);
 			if (result != null)
 			{
@@ -156,7 +169,7 @@ namespace MeloncherAvalonia.ViewModels
 
 		private async Task OnOpenVersionsWindowCommandExecuted()
 		{
-			var dialog = new VersionsViewModel(versionLoader, versionCollection);
+			var dialog = new VersionsViewModel(_versionLoader, _versionCollection);
 			var result = await ShowSelectVersionDialog.Handle(dialog);
 			if (result != null)
 			{
@@ -166,33 +179,33 @@ namespace MeloncherAvalonia.ViewModels
 
 		private void OnPlayButtonCommandExecuted()
 		{
-			MSession session = SelectedSession;
 			new Task(async () =>
 			{
 				IsStarted = true;
 				ProgressHidden = false;
 				Title = "Meloncher " + SelectedVersion?.Name;
-				discrodRPCTools.SetStatus("Играет на версии " + SelectedVersion?.Name, "");
-				mcLauncher.UseOptifine = LauncherSettings.UseOptifine;
-				mcLauncher.WindowMode = LauncherSettings.WindowMode;
-				mcLauncher.SetVersion(SelectedVersion.GetVersion());
-				mcLauncher.Session = session;
+				_discordRpcTools.SetStatus("Играет на версии " + SelectedVersion?.Name, "");
+				_mcLauncher.UseOptifine = LauncherSettings.UseOptifine;
+				_mcLauncher.WindowMode = LauncherSettings.WindowMode;
+				_mcLauncher.MaximumRamMb = LauncherSettings.MaximumRamMb;
+				_mcLauncher.SetVersion(await SelectedVersion?.GetVersionAsync()!);
+				_mcLauncher.Session = SelectedSession;
 				try
 				{
-					await mcLauncher.Update();
+					await _mcLauncher.Update();
 				}
-				catch (Exception e)
+				catch (Exception)
 				{
-					mcLauncher.Offline = true;
+					_mcLauncher.Offline = true;
 				}
 
 				ProgressValue = 0;
 				ProgressText = null;
 				ProgressHidden = true;
-				await mcLauncher.Launch();
+				await _mcLauncher.Launch();
 				IsStarted = false;
 				Title = "Meloncher";
-				discrodRPCTools.SetStatus("Сидит в лаунчере", "");
+				_discordRpcTools.SetStatus("Сидит в лаунчере", "");
 			}).Start();
 		}
 	}

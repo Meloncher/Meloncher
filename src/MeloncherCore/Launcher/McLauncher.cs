@@ -25,9 +25,10 @@ namespace MeloncherCore.Launcher
 
 		public McVersion Version { get; set; }
 		public MSession Session { get; set; }
-		public bool Offline { get; set; } = false;
+		public bool Offline { get; set; }
 		public bool UseOptifine { get; set; } = true;
-		public WindowMode WindowMode { get; set; } = WindowMode.WINDOWED;
+		public int MaximumRamMb { get; set; } = 2048;
+		public WindowMode WindowMode { get; set; } = WindowMode.Windowed;
 
 		public event McDownloadFileChangedHandler FileChanged;
 		public event ProgressChangedEventHandler ProgressChanged;
@@ -89,13 +90,13 @@ namespace MeloncherCore.Launcher
 			var launchOption = new MLaunchOption
 			{
 				StartVersion = launcher.GetVersion(Version.Name),
-				MaximumRamMb = 1024,
+				MaximumRamMb = MaximumRamMb,
 				Session = Session,
 				VersionType = "Meloncher",
 				GameLauncherName = "Meloncher"
 			};
 
-			if (WindowMode == WindowMode.FULLSCREEN) launchOption.FullScreen = true;
+			if (WindowMode == WindowMode.Fullscreen) launchOption.FullScreen = true;
 
 			var sync = new McOptionsSync(path);
 			FixJavaBinaryPath(MinecraftPath, launchOption.StartVersion);
@@ -125,7 +126,7 @@ namespace MeloncherCore.Launcher
 					MinecraftOutput?.Invoke(new MinecraftOutputEventArgs(line));
 				}
 			}).Start();
-			if (WindowMode == WindowMode.BORDERLESS)
+			if (WindowMode == WindowMode.Borderless)
 			{
 				var wt = new WindowTweaks(process);
 				_ = wt.Borderless();

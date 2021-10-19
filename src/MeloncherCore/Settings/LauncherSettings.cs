@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿#nullable enable
+using System.ComponentModel;
 using System.IO;
 using MeloncherCore.Launcher;
 using Newtonsoft.Json;
@@ -7,13 +8,14 @@ namespace MeloncherCore.Settings
 {
 	public class LauncherSettings : INotifyPropertyChanged
 	{
-		string storagePath;
+		private string? _storagePath;
 		[JsonProperty("use_optifine")] public bool UseOptifine { get; set; } = true;
-		[JsonProperty("window_mode")] public WindowMode WindowMode { get; set; } = WindowMode.WINDOWED;
-		[JsonProperty("selected_version")] public string? SelectedVersion { get; set; } = null;
-		[JsonProperty("selected_account")] public string? SelectedAccount { get; set; } = null;
+		[JsonProperty("window_mode")] public WindowMode WindowMode { get; set; } = WindowMode.Windowed;
+		[JsonProperty("selected_version")] public string? SelectedVersion { get; set; }
+		[JsonProperty("selected_account")] public string? SelectedAccount { get; set; }
+		[JsonProperty("maximum_ram_mb")] public int MaximumRamMb { get; set; } = 2048;
 
-		public event PropertyChangedEventHandler PropertyChanged;
+		public event PropertyChangedEventHandler? PropertyChanged;
 
 		public static LauncherSettings Create(ExtMinecraftPath path)
 		{
@@ -21,22 +23,22 @@ namespace MeloncherCore.Settings
 			var jsonObj = "{}";
 			if (File.Exists(storagePath)) jsonObj = File.ReadAllText(storagePath);
 			var ls = JsonConvert.DeserializeObject<LauncherSettings>(jsonObj);
-			ls.storagePath = storagePath;
-			ls.PropertyChanged += (object sender, PropertyChangedEventArgs e) => { ls.SaveFile(); };
+			ls._storagePath = storagePath;
+			ls.PropertyChanged += (_, _) => { ls.SaveFile(); };
 			return ls;
 		}
 
 		private void SaveFile()
 		{
 			var jsonStr = JsonConvert.SerializeObject(this);
-			_ = File.WriteAllTextAsync(storagePath, jsonStr);
+			if (_storagePath != null) File.WriteAllTextAsync(_storagePath, jsonStr);
 		}
 	}
 
 	public enum WindowMode
 	{
-		WINDOWED,
-		FULLSCREEN,
-		BORDERLESS
+		Windowed,
+		Fullscreen,
+		Borderless
 	}
 }
