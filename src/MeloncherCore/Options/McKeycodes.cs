@@ -2,9 +2,9 @@
 
 namespace MeloncherCore.Options
 {
-	internal class McKeycodes
+	internal static class McKeycodes
 	{
-		private static readonly Dictionary<string, int> dict = new()
+		private static readonly Dictionary<string, int> Dict = new()
 		{
 			{"key.keyboard.unknown", 0},
 			{"key.mouse.left", -100},
@@ -131,12 +131,12 @@ namespace MeloncherCore.Options
 
 		public static bool Contains(string key)
 		{
-			return dict.ContainsKey(key);
+			return Dict.ContainsKey(key);
 		}
 
 		public static int Get(string key)
 		{
-			return dict[key];
+			return Dict[key];
 		}
 	}
 }

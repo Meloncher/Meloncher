@@ -17,7 +17,7 @@ namespace MeloncherCore.Settings
 
 		public event PropertyChangedEventHandler? PropertyChanged;
 
-		public static LauncherSettings Create(ExtMinecraftPath path)
+		public static LauncherSettings New(ExtMinecraftPath path)
 		{
 			var storagePath = Path.Combine(path.RootPath, "meloncher_settings.json");
 			var jsonObj = "{}";

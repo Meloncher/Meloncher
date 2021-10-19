@@ -8,41 +8,38 @@ namespace MeloncherCore.Launcher
 	internal class WindowTweaks
 	{
 		private const int SW_SHOWMAXIMIZED = 3;
+		private const int GWL_STYLE = -16;
+		private const int WS_BORDER = 0x00800000; //window with border
+		private const int WS_DLGFRAME = 0x00400000; //window with double border but no title
+		private const int WS_CAPTION = WS_BORDER | WS_DLGFRAME; //window with a title bar
 
-		//assorted constants needed
-		public static int GWL_STYLE = -16;
-		public static int WS_CHILD = 0x40000000; //child window
-		public static int WS_BORDER = 0x00800000; //window with border
-		public static int WS_DLGFRAME = 0x00400000; //window with double border but no title
-		public static int WS_CAPTION = WS_BORDER | WS_DLGFRAME; //window with a title bar
-
-		private readonly Process process;
+		private readonly Process _process;
 
 		public WindowTweaks(Process process)
 		{
-			this.process = process;
+			this._process = process;
 		}
 
-		public async Task<IntPtr> GetHWnd()
+		private async Task<IntPtr> GetHWnd()
 		{
 			for (var i = 0; i < 20; i++)
 			{
-				if (process.MainWindowHandle.ToInt32() != 0) return process.MainWindowHandle;
+				if (_process.MainWindowHandle.ToInt32() != 0) return _process.MainWindowHandle;
 				await Task.Delay(1000);
 			}
 
-			return process.MainWindowHandle;
+			return _process.MainWindowHandle;
 		}
 
 		public async Task Maximize()
 		{
-			var hWnd = await GetHWnd();
+			var hWnd = await GetHWnd().ConfigureAwait(false);
 			ShowWindow(hWnd, SW_SHOWMAXIMIZED);
 		}
 
 		public async Task Borderless()
 		{
-			var hWnd = await GetHWnd();
+			var hWnd = await GetHWnd().ConfigureAwait(false);
 			var style = GetWindowLong(hWnd, GWL_STYLE);
 			SetWindowLong(hWnd, GWL_STYLE, style & ~WS_CAPTION);
 			ShowWindow(hWnd, SW_SHOWMAXIMIZED);
@@ -52,10 +49,10 @@ namespace MeloncherCore.Launcher
 		private static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
 
 		[DllImport("user32.dll")]
-		public static extern int GetWindowLong(IntPtr hWnd, int nIndex);
+		private static extern int GetWindowLong(IntPtr hWnd, int nIndex);
 
 		[DllImport("user32.dll")]
-		public static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
+		private static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
 
 		[DllImport("user32.dll")]
 		private static extern bool DrawMenuBar(IntPtr hWnd);

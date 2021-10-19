@@ -36,19 +36,6 @@ namespace MeloncherCore.Version
 			}
 
 			if (profileName == null) profileName = "unknown";
-			//System.Console.WriteLine("Profile name = " + profileName.ToString());
-
-			//if (type == "release")
-			//{
-			//	var verSplit = mcVerName.Split(".");
-			//	if (verSplit.Length >= 2 && verSplit[0] == "1")
-			//	{
-			//		profileName = "1." + verSplit[1];
-			//	}
-			//} else if (type != "snapshot")
-			//{
-			//	profileName = "other";
-			//}
 
 			return new McVersion(mVersion.Id, type, profileName);
 		}

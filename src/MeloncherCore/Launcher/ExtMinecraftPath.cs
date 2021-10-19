@@ -35,13 +35,10 @@ namespace MeloncherCore.Launcher
 
 			Library = NormalizePath(MinecraftPath + "/libraries");
 			Versions = NormalizePath(MinecraftPath + "/versions");
-			if (!string.IsNullOrEmpty(BasePath)) ;
 
 			Runtime = NormalizePath(MinecraftPath + "/runtime");
 			Assets = NormalizePath(MinecraftPath + "/assets");
 			Natives = NormalizePath(MinecraftPath + "/natives");
-
-			//CreateDirs();
 		}
 
 		public ExtMinecraftPath(string rootPath, string basePath, string minecraftPath, string libraryPath, string versionsPath, string resourcePath, string runtimePath, string assetsPath, string nativesPath)
@@ -55,7 +52,7 @@ namespace MeloncherCore.Launcher
 			Runtime = runtimePath;
 			Assets = assetsPath;
 			Natives = nativesPath;
-			//CreateDirs();
+			Dir(rootPath);
 		}
 
 		public string Natives { get; set; }
@@ -64,17 +61,13 @@ namespace MeloncherCore.Launcher
 
 		public new static string GetOSDefaultPath()
 		{
-			switch (MRule.OSName)
+			return MRule.OSName switch
 			{
-				case "osx":
-					return MacDefaultPath;
-				case "linux":
-					return LinuxDefaultPath;
-				case "windows":
-					return WindowsDefaultPath;
-				default:
-					return Environment.CurrentDirectory;
-			}
+				"osx" => MacDefaultPath,
+				"linux" => LinuxDefaultPath,
+				"windows" => WindowsDefaultPath,
+				_ => Environment.CurrentDirectory
+			};
 		}
 
 		public ExtMinecraftPath CloneWithProfile(string profileType, string profileName)
@@ -90,15 +83,6 @@ namespace MeloncherCore.Launcher
 		public ExtMinecraftPath CloneWithProfileAbsolute(string profilePath)
 		{
 			return new ExtMinecraftPath(RootPath, profilePath, MinecraftPath, Library, Versions, NormalizePath(profilePath + "/resources"), Runtime, Assets, Natives);
-		}
-
-		public void CreateDirs()
-		{
-			//Dir(BasePath);
-			//Dir(Library);
-			//Dir(Versions);
-			//Dir(Runtime);
-			//Dir(Assets);
 		}
 
 		public override string GetNativePath(string id)

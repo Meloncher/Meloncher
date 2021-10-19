@@ -11,10 +11,9 @@ namespace MeloncherCore.Options
 			double scale = 1;
 
 			if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-				scale = int.Parse((string) Registry.GetValue(@"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\ThemeManager", "LastLoadedDPI", "96")) / 96;
+				scale = int.Parse((string) Registry.GetValue(@"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\ThemeManager", "LastLoadedDPI", "96")) / 96.0;
 
 			return (int) Math.Round(2 * scale + 0.1);
-			;
 		}
 
 		public static void SetDefaults(ExtGameOptionsFile options)

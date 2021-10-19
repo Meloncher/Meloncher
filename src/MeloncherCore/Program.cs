@@ -7,7 +7,7 @@ using MeloncherCore.Launcher;
 
 namespace MeloncherCore
 {
-	internal class Program
+	internal static class Program
 	{
 		private static async Task Main(string[] args)
 		{

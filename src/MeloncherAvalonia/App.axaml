@@ -3,6 +3,7 @@
              xmlns:local="using:MeloncherAvalonia"
              x:Class="MeloncherAvalonia.App"
              xmlns:sty="using:FluentAvalonia.Styling">
+
 	<Application.DataTemplates>
 		<local:ViewLocator />
 	</Application.DataTemplates>

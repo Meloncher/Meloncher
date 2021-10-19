@@ -12,8 +12,12 @@ namespace MeloncherAvalonia.ViewModels
 			OkCommand = ReactiveCommand.Create(OnOkCommandExecuted);
 		}
 
-		[Reactive] public string Username { get; set; }
-		[Reactive] public string Password { get; set; }
+		public AddAccountViewModel() : this(true)
+		{
+		}
+
+		[Reactive] public string? Username { get; set; }
+		[Reactive] public string? Password { get; set; }
 		[Reactive] public bool NeedPassword { get; set; }
 
 		public ReactiveCommand<Unit, AddAccountData> OkCommand { get; }
@@ -26,13 +30,13 @@ namespace MeloncherAvalonia.ViewModels
 
 	public class AddAccountData
 	{
-		public AddAccountData(string username, string password)
+		public AddAccountData(string? username, string? password)
 		{
 			Username = username;
 			Password = password;
 		}
 
-		public string Username { get; set; }
-		public string Password { get; set; }
+		public string? Username { get; set; }
+		public string? Password { get; set; }
 	}
 }

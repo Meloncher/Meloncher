@@ -16,7 +16,7 @@ namespace MeloncherAvalonia.ViewModels
 {
 	public class AccountsViewModel : ViewModelBase
 	{
-		private AccountStorage accountStorage;
+		private readonly AccountStorage _accountStorage;
 
 		public AccountsViewModel(AccountStorage accountStorage)
 		{
@@ -25,15 +25,19 @@ namespace MeloncherAvalonia.ViewModels
 			AddMojangCommand = ReactiveCommand.Create(OnAddMojangCommandExecuted);
 			AddOfflineCommand = ReactiveCommand.Create(OnAddOfflineCommandExecuted);
 			OkCommand = ReactiveCommand.Create(OnOkCommandExecuted);
-			this.accountStorage = accountStorage;
-			accountStorage.CollectionChanged += (object sender, NotifyCollectionChangedEventArgs e) => Accounts = new ObservableCollection<MSession>(accountStorage);
+			_accountStorage = accountStorage;
+			accountStorage.CollectionChanged += (_, _) => Accounts = new ObservableCollection<MSession>(accountStorage);
 			Accounts = new ObservableCollection<MSession>(accountStorage);
 		}
 
+		public AccountsViewModel()
+		{
+		}
+
 		[Reactive] public ObservableCollection<MSession> Accounts { get; set; }
-		[Reactive] public int selectedAccount { get; set; } = 0;
-		public Interaction<AddAccountViewModel, AddAccountData?> ShowAddAccountDialog { get; } = new Interaction<AddAccountViewModel, AddAccountData?>();
-		public Interaction<AddMicrosoftAccountViewModel, string?> ShowAddMicrosoftAccountDialog { get; } = new Interaction<AddMicrosoftAccountViewModel, string?>();
+		[Reactive] public int SelectedAccount { get; set; }
+		public Interaction<AddAccountViewModel, AddAccountData?> ShowAddAccountDialog { get; } = new();
+		public Interaction<AddMicrosoftAccountViewModel, string?> ShowAddMicrosoftAccountDialog { get; } = new();
 
 		public ReactiveCommand<Unit, Unit> DeleteAccountCommand { get; }
 
@@ -47,7 +51,7 @@ namespace MeloncherAvalonia.ViewModels
 
 		private void OnDeleteAccountCommandExecuted()
 		{
-			accountStorage.RemoveAt(selectedAccount);
+			_accountStorage.RemoveAt(SelectedAccount);
 		}
 
 		private async Task OnAddMicrosoftCommandExecuted()
@@ -62,13 +66,13 @@ namespace MeloncherAvalonia.ViewModels
 			if (result != null)
 			{
 				if (lh.CheckOAuthLoginSuccess(result.ToString()))
-					accountStorage.Add(lh.LoginFromOAuth());
+					_accountStorage.Add(lh.LoginFromOAuth());
 			}
 		}
 
 		private MSession OnOkCommandExecuted()
 		{
-			if (Accounts.Count > selectedAccount) return Accounts[selectedAccount];
+			if (Accounts.Count > SelectedAccount) return Accounts[SelectedAccount];
 			return null;
 		}
 
@@ -80,7 +84,7 @@ namespace MeloncherAvalonia.ViewModels
 			{
 				var login = new MLogin();
 				var resp = login.Authenticate(result.Username, result.Password);
-				if (resp.Session != null) accountStorage.Add(resp.Session);
+				if (resp.Session != null) _accountStorage.Add(resp.Session);
 			}
 		}
 
@@ -91,7 +95,7 @@ namespace MeloncherAvalonia.ViewModels
 			if (result != null)
 			{
 				MSession session = MSession.GetOfflineSession(result.Username);
-				accountStorage.Add(session);
+				_accountStorage.Add(session);
 			}
 		}
 	}

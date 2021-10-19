@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using CmlLib.Core;
@@ -16,7 +17,7 @@ namespace MeloncherCore.Optifine
 		private const string OptifineBmclUrl = "https://bmclapi2.bangbang93.com/optifine/versionlist/";
 		public event ProgressChangedEventHandler ProgressChanged;
 
-		private OptifineDownloadVersionModel[] ParseVersions(string res)
+		private OptifineDownloadVersionModel?[] ParseVersions(string res)
 		{
 			var jarr = JArray.Parse(res);
 			var ofVerList = new List<OptifineDownloadVersionModel>(jarr.Count);
@@ -30,7 +31,7 @@ namespace MeloncherCore.Optifine
 			return ofVerList.ToArray();
 		}
 
-		private async Task<OptifineDownloadVersionModel[]> ParseVersions()
+		private async Task<OptifineDownloadVersionModel?[]> ParseVersions()
 		{
 			string res;
 			using (var wc = new WebClient())
@@ -41,25 +42,25 @@ namespace MeloncherCore.Optifine
 			return ParseVersions(res);
 		}
 
-		private string getPatch(OptifineDownloadVersionModel ofVer)
+		private string getPatch(OptifineDownloadVersionModel? ofVer)
 		{
 			if (ofVer.Patch.StartsWith("pre"))
 				return ofVer.Type;
 			return ofVer.Type + "_" + ofVer.Patch;
 		}
 
-		private int getPre(OptifineDownloadVersionModel ofVer)
+		private int getPre(OptifineDownloadVersionModel? ofVer)
 		{
 			if (ofVer.Patch.StartsWith("pre"))
 				return int.Parse(ofVer.Patch.Replace("pre", ""));
 			return 1337;
 		}
 
-		private OptifineDownloadVersionModel? GetLatestOptifineVersion(OptifineDownloadVersionModel[] ofVers, string mcVersionName)
+		private OptifineDownloadVersionModel? GetLatestOptifineVersion(OptifineDownloadVersionModel?[] ofVers, string mcVersionName)
 		{
-			OptifineDownloadVersionModel latestOfVer = null;
+			OptifineDownloadVersionModel? latestOfVer = null;
 			foreach (var ofVer in ofVers)
-				if (ofVer.McVersion == mcVersionName || ofVer.McVersion == mcVersionName + ".0")
+				if (ofVer?.McVersion == mcVersionName || ofVer?.McVersion == mcVersionName + ".0")
 					if (latestOfVer == null || IsNewer(getPatch(latestOfVer), getPatch(ofVer), getPre(latestOfVer), getPre(ofVer)))
 						latestOfVer = ofVer;
 			return latestOfVer;
@@ -67,13 +68,13 @@ namespace MeloncherCore.Optifine
 
 		private async Task<OptifineDownloadVersionModel?> GetLatestOptifineVersion(string mcVersionName)
 		{
-			var versions = await ParseVersions();
+			var versions = await ParseVersions().ConfigureAwait(false);
 			return GetLatestOptifineVersion(versions, mcVersionName);
 		}
 
 		private bool IsNewer(string patch, string patchNew, int pre, int preNew)
 		{
-			var comparePatch = string.Compare(patchNew, patch);
+			var comparePatch = string.CompareOrdinal(patchNew, patch);
 			if (comparePatch == 1) return true;
 			if (comparePatch == 0 && preNew > pre) return true;
 			return false;
@@ -109,27 +110,24 @@ namespace MeloncherCore.Optifine
 			return latestName;
 		}
 
-		public async Task<string> IsLatestInstalled(string mcVersionName, MinecraftPath path)
+		public async Task<bool> IsLatestInstalled(string mcVersionName, MinecraftPath path)
 		{
 			var latest = await GetLatestOptifineVersion(mcVersionName);
-			if (latest == null) return null;
+			if (latest == null) return false;
 			var name = mcVersionName + "-Optifine_" + latest.Type + "_" + latest.Patch;
 			var versionLoader = new LocalVersionLoader(path);
-			foreach (var mtd in versionLoader.GetVersionMetadatas())
-				if (mtd.Name == name)
-					return name;
-			return null;
+			return (await versionLoader.GetVersionMetadatasAsync()).Any(mtd => mtd.Name == name);
 		}
 
-		public async Task<string> installOptifine(string mcVersionName, MinecraftPath path, string javaPath)
+		public async Task<string?> InstallOptifine(string mcVersionName, MinecraftPath path, string javaPath)
 		{
-			var latest = await GetLatestOptifineVersion(mcVersionName);
+			var latest = await GetLatestOptifineVersion(mcVersionName).ConfigureAwait(false);
 			if (latest == null) return null;
 			Console.WriteLine(latest.FileName);
-			return await installOptifine(latest, path, javaPath);
+			return await InstallOptifine(latest, path, javaPath).ConfigureAwait(false);
 		}
 
-		public async Task<string> installOptifine(OptifineDownloadVersionModel ofVer, MinecraftPath path, string javaPath)
+		public async Task<string> InstallOptifine(OptifineDownloadVersionModel ofVer, MinecraftPath path, string javaPath)
 		{
 			var installerPath = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
 			using (var wc = new WebClient())
@@ -137,18 +135,15 @@ namespace MeloncherCore.Optifine
 				var url = new Uri("https://optifine.net/download?f=" + ofVer.FileName);
 				wc.DownloadProgressChanged += (sender, e) =>
 				{
-					//Console.WriteLine("Крч джарник оптифайна качается: " + e.ProgressPercentage + "%");
 					ProgressChanged?.Invoke(sender, e);
 				};
 				await wc.DownloadFileTaskAsync(url, installerPath);
-				//Console.WriteLine("Ура Оптифайн сканчался!");
 			}
 
 			var ofInstaller = new OptifineInstaller();
 			ofInstaller.OptifineJarPath = installerPath;
 			ofInstaller.OptifineDownloadVersion = ofVer;
 			ofInstaller.JavaExecutablePath = javaPath;
-			//ofInstaller.RootPath = path.MinecraftPath;
 			ofInstaller.MinecraftPath = path;
 			return ofInstaller.Install();
 		}

@@ -16,8 +16,6 @@ namespace MeloncherCore.Optifine.Bobcat
 		public string JavaExecutablePath { get; set; }
 
 		public string OptifineJarPath { get; set; }
-
-		//public string RootPath { get; set; }
 		public MinecraftPath MinecraftPath { get; set; }
 		public string CustomId { get; set; }
 		public OptifineDownloadVersionModel OptifineDownloadVersion { get; set; }
@@ -63,8 +61,6 @@ namespace MeloncherCore.Optifine.Bobcat
 			var id = string.IsNullOrEmpty(CustomId)
 				? $"{mcVersion}-Optifine_{editionRelease}"
 				: CustomId;
-
-			//var versionPath = Path.Combine(RootPath, GamePathHelper.GetGamePath(id));
 			var versionPath = Path.Combine(MinecraftPath.Versions, id);
 			var di = new DirectoryInfo(versionPath);
 
@@ -127,18 +123,13 @@ namespace MeloncherCore.Optifine.Bobcat
 
 
 			var versionJsonPath = MinecraftPath.GetVersionJsonPath(id);
-			//var versionJsonPath = GamePathHelper.GetGameJsonPath(RootPath, id);
-
-
+			
 			var jsonStr = JsonConvert.SerializeObject(versionModel, JsonHelper.CamelCasePropertyNamesSettings);
-			await File.WriteAllTextAsync(versionJsonPath, jsonStr);
+			await File.WriteAllTextAsync(versionJsonPath, jsonStr).ConfigureAwait(false);
 
 			var librariesPath = Path.Combine(MinecraftPath.Library, "optifine",
 				"launchwrapper-of",
 				launchWrapperVersion);
-			//var librariesPath = Path.Combine(RootPath, GamePathHelper.GetLibraryRootPath(), "optifine",
-			//    "launchwrapper-of",
-			//    launchWrapperVersion);
 			var libDi = new DirectoryInfo(librariesPath);
 
 			InvokeStatusChangedEvent("Write Optifine data", 60);
@@ -158,12 +149,7 @@ namespace MeloncherCore.Optifine.Bobcat
 			var optifineLibPath = Path.Combine(MinecraftPath.Library, "optifine", "Optifine",
 				$"{OptifineDownloadVersion.McVersion}_{editionRelease}",
 				$"Optifine-{OptifineDownloadVersion.McVersion}_{editionRelease}.jar");
-			//var gameJarPath = Path.Combine(RootPath,
-			//    GamePathHelper.GetGameExecutablePath(OptifineDownloadVersion.McVersion));
-			//var optifineLibPath = Path.Combine(RootPath, GamePathHelper.GetLibraryRootPath(), "optifine", "Optifine",
-			//    $"{OptifineDownloadVersion.McVersion}_{editionRelease}",
-			//    $"Optifine-{OptifineDownloadVersion.McVersion}_{editionRelease}.jar");
-
+			
 			var optifineLibPathDi = new DirectoryInfo(Path.GetDirectoryName(optifineLibPath)!);
 			if (!optifineLibPathDi.Exists)
 				optifineLibPathDi.Create();

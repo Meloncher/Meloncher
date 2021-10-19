@@ -68,13 +68,12 @@ namespace MeloncherCore.Launcher
 			{
 				var optifineInstaller = new OptifineInstallerBobcat();
 				optifineInstaller.ProgressChanged += (s, e) => ProgressChanged?.Invoke(s, e);
-				string ofVerName = null;
-				ofVerName = await optifineInstaller.IsLatestInstalled(Version.Name, MinecraftPath);
-				if (ofVerName == null)
+				bool isLatestInstalled = await optifineInstaller.IsLatestInstalled(Version.Name, MinecraftPath);
+				if (!isLatestInstalled)
 				{
 					ProgressChanged?.Invoke(null, new ProgressChangedEventArgs(0, null));
 					FileChanged?.Invoke(new McDownloadFileChangedEventArgs("Optifine"));
-					ofVerName = await optifineInstaller.installOptifine(Version.Name, MinecraftPath, launchOption.StartVersion.JavaBinaryPath);
+					await optifineInstaller.InstallOptifine(Version.Name, MinecraftPath, launchOption.StartVersion.JavaBinaryPath);
 				}
 			}
 		}

@@ -14,7 +14,6 @@ namespace MeloncherAvalonia.UserControls
 		{
 			InitializeComponent();
 		}
-		//public static readonly StyledProperty<bool> IsEnabledProperty = AvaloniaProperty.Register<PlayButton, bool>("IsEnabled");
 
 		public string Text
 		{
@@ -32,11 +31,5 @@ namespace MeloncherAvalonia.UserControls
 		{
 			AvaloniaXamlLoader.Load(this);
 		}
-
-		//public bool IsEnabled
-		//{
-		//	get { return GetValue(IsEnabledProperty); }
-		//	set { SetValue(CommandProperty, value); }
-		//}
 	}
 }

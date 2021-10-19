@@ -10,16 +10,6 @@ namespace MeloncherCore.Discord
 		public DiscordRpcTools()
 		{
 			_client = new DiscordRpcClient("895992198171078666");
-			//client.Logger = new ConsoleLogger() { Level = LogLevel.Warning };
-			//client.OnReady += (sender, e) =>
-			//{
-			//	Console.WriteLine("Received Ready from user {0}", e.User.Username);
-			//};
-
-			//client.OnPresenceUpdate += (sender, e) =>
-			//{
-			//	Console.WriteLine("Received Update! {0}", e.Presence);
-			//};
 			_client.Initialize();
 		}
 
@@ -33,7 +23,6 @@ namespace MeloncherCore.Discord
 				{
 					LargeImageKey = "melon",
 					LargeImageText = "Meloncher"
-					//SmallImageKey = "image_small"
 				}
 			});
 		}

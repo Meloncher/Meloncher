@@ -50,7 +50,7 @@ namespace MeloncherAvalonia.ViewModels
 
 			_accountStorage = new AccountStorage(_path);
 			_mcLauncher = new McLauncher(_path);
-			LauncherSettings = LauncherSettings.Create(_path);
+			LauncherSettings = LauncherSettings.New(_path);
 			SelectedVersion = _versionCollection.LatestReleaseVersion;
 			if (LauncherSettings.SelectedVersion != null) SelectedVersion = _versionCollection.GetVersionMetadata(LauncherSettings.SelectedVersion);
 			if (LauncherSettings.SelectedAccount != null) SelectedSession = _accountStorage.Get(LauncherSettings.SelectedAccount);
@@ -72,7 +72,6 @@ namespace MeloncherAvalonia.ViewModels
 		private void OnMcLauncherOnFileChanged(McDownloadFileChangedEventArgs e)
 		{
 			_loadingType = e.Type;
-			//ProgressText = "Загрузка " + e.Type;
 			if (ProgressValue == 0)
 				switch (e.Type)
 				{
