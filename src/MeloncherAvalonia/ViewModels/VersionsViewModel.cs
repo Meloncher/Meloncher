@@ -5,6 +5,7 @@ using System.Reactive;
 using CmlLib.Core.Version;
 using CmlLib.Core.VersionLoader;
 using DynamicData;
+using MeloncherCore.Version;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 
@@ -12,15 +13,15 @@ namespace MeloncherAvalonia.ViewModels
 {
 	public class VersionsViewModel : ViewModelBase
 	{
-		private readonly IVersionLoader _versionLoader;
+		private readonly VersionTools _versionTools;
 		private readonly MVersionCollection _versionCollection;
 
-		public VersionsViewModel(IVersionLoader versionLoader, MVersionCollection? versionCollection)
+		public VersionsViewModel(VersionTools versionTools, MVersionCollection? versionCollection)
 		{
-			_versionLoader = versionLoader;
+			_versionTools = versionTools;
 			OkCommand = ReactiveCommand.Create(OnOkCommandExecuted);
+			versionCollection ??= _versionTools.GetVersionMetadatas();
 			_versionCollection = versionCollection;
-			if (_versionCollection == null) _versionCollection = versionLoader.GetVersionMetadatas();
 			UpdateList();
 			PropertyChanged += (_, e) =>
 			{
@@ -75,7 +76,7 @@ namespace MeloncherAvalonia.ViewModels
 
 		public ReactiveCommand<Unit, MVersionMetadata> OkCommand { get; }
 
-		private MVersionMetadata OnOkCommandExecuted()
+		private MVersionMetadata? OnOkCommandExecuted()
 		{
 			return SelectedVersion;
 		}

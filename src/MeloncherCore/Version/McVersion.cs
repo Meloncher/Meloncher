@@ -1,16 +1,21 @@
-﻿namespace MeloncherCore.Version
+﻿using CmlLib.Core.Version;
+
+namespace MeloncherCore.Version
 {
 	public class McVersion
 	{
-		public McVersion(string Name, string Type, string ProfileName)
+		public McVersion(string name, string type, string profileName, MVersion mVersion)
 		{
-			this.Name = Name;
-			this.Type = Type;
-			this.ProfileName = ProfileName;
+			Name = name;
+			Type = type;
+			ProfileName = profileName;
+			MVersion = mVersion;
 		}
 
 		public string Name { get; set; }
 		public string Type { get; set; }
 		public string ProfileName { get; set; }
+		
+		public MVersion MVersion { get; set; }
 	}
 }

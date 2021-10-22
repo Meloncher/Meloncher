@@ -14,8 +14,8 @@ namespace MeloncherCore
 			ServicePointManager.DefaultConnectionLimit = 512;
 			//Console.WriteLine(McOptionsUtils.GetDefaultScale());
 			Console.WriteLine("Hello Meloncher!");
-			var discrodRPCTools = new DiscordRpcTools();
-			discrodRPCTools.SetStatus("Сидит в лаунчере", "");
+			DiscordRpcTools discordRpcTools = new();
+			discordRpcTools.SetStatus("Сидит в лаунчере", "");
 			Console.Write("Version: ");
 			var versionName = Console.ReadLine();
 			var offline = Confirm("Offline?");
@@ -39,7 +39,7 @@ namespace MeloncherCore
 			{
 				// Console.WriteLine(McLogLine.Parse(e.Line));
 				Console.WriteLine(e.Line);
-				discrodRPCTools.OnLog(e.Line);
+				discordRpcTools.OnLog(e.Line);
 			};
 			var session = MSession.GetOfflineSession("tester123");
 			//var qwe = new MicrosoftAuth();
@@ -48,10 +48,9 @@ namespace MeloncherCore
 			//launcher.Version = version;
 			launcher.SetVersion(versionName);
 			launcher.Session = session;
-			launcher.Offline = offline;
 			launcher.UseOptifine = optifine;
-			discrodRPCTools.SetStatus("Играет на версии " + versionName, "");
-			await launcher.Update();
+			discordRpcTools.SetStatus("Играет на версии " + versionName, "");
+			if (!offline) await launcher.Update();
 			await launcher.Launch();
 		}
 

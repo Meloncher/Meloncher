@@ -1,25 +1,50 @@
-﻿using CmlLib.Core.Version;
+﻿using System;
+using CmlLib.Core;
+using CmlLib.Core.Version;
 using CmlLib.Core.VersionLoader;
 
 namespace MeloncherCore.Version
 {
 	public class VersionTools
 	{
-		public VersionTools(IVersionLoader versionLoader)
+		private readonly MinecraftPath _minecraftPath;
+
+		public MVersionCollection GetVersionMetadatas()
 		{
-			VersionLoader = versionLoader;
+			try
+			{
+				return new DefaultVersionLoader(_minecraftPath).GetVersionMetadatas();
+			}
+			catch (Exception)
+			{
+				return new LocalVersionLoader(_minecraftPath).GetVersionMetadatas();
+			}
+		}
+		public MVersion? GetVersion(string versionName)
+		{
+			try
+			{
+				return GetVersionMetadatas().GetVersion(versionName);
+			}
+			catch (Exception)
+			{
+				return null;
+			}
 		}
 
-		private IVersionLoader VersionLoader { get; }
-
-		public McVersion getMcVersion(string versionName)
+		public VersionTools(MinecraftPath minecraftPath)
 		{
-			var mVersion = VersionLoader.GetVersionMetadatas().GetVersion(versionName);
-			return getMcVersion(mVersion);
+			_minecraftPath = minecraftPath;
 		}
 
-		public McVersion getMcVersion(MVersion mVersion)
+		public McVersion? GetMcVersion(string versionName)
 		{
+			return GetMcVersion(GetVersion(versionName));
+		}
+
+		public McVersion? GetMcVersion(MVersion? mVersion)
+		{
+			if (mVersion == null) return null;
 			var assid = mVersion.AssetId;
 			var type = mVersion.TypeStr;
 
@@ -30,14 +55,15 @@ namespace MeloncherCore.Version
 				var parentName = mVersion.ParentVersionId;
 				if (parentName != null)
 				{
-					var parVer = VersionLoader.GetVersionMetadatas().GetVersion(parentName);
-					profileName = parVer.AssetId;
+					var parVer = GetVersion(parentName);
+					if (parVer != null) profileName = parVer.AssetId;
 				}
 			}
 
-			if (profileName == null) profileName = "unknown";
+			profileName ??= "unknown";
+			type ??= "unknown";
 
-			return new McVersion(mVersion.Id, type, profileName);
+			return new McVersion(mVersion.Id, type, profileName, mVersion);
 		}
 	}
 }
