@@ -4,12 +4,12 @@ using System.Net;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
-using Avalonia;
 using Avalonia.Controls;
 using CmlLib.Core.Auth;
 using CmlLib.Core.Version;
 using CmlLib.Core.VersionLoader;
 using MeloncherAvalonia.Models;
+using MeloncherAvalonia.Views;
 using MeloncherCore.Account;
 using MeloncherCore.Discord;
 using MeloncherCore.Launcher;
@@ -82,14 +82,17 @@ namespace MeloncherAvalonia.ViewModels
 		public async Task CheckUpdates()
 		{
 			Updater updater = new();
-			if (updater.CheckUpdates())
+			var updaterJson = updater.CheckUpdates();
+			if (updaterJson != null)
 			{
 				var res = await MessageBoxManager.GetMessageBoxStandardWindow(new MessageBoxStandardParams
 				{
 					ButtonDefinitions = ButtonEnum.YesNo,
-					ContentTitle = "Обновление",
-					ContentMessage = "Обновить сейчас?",
+					ContentHeader = "Обновление",
+					ContentTitle = "Обновить сейчас?",
+					ContentMessage = updaterJson.Description,
 					WindowStartupLocation = WindowStartupLocation.CenterScreen,
+					Topmost = true,
 					
 				}).Show();
 				if (res == ButtonResult.Yes)
@@ -106,6 +109,7 @@ namespace MeloncherAvalonia.ViewModels
 							ContentTitle = "Обновление",
 							ContentMessage = "Ошибка при обновлении",
 							WindowStartupLocation = WindowStartupLocation.CenterScreen,
+							Topmost = true,
 						}).Show();
 					}
 				}
@@ -194,7 +198,7 @@ namespace MeloncherAvalonia.ViewModels
 				{
 					var importer = new McOptionsImporter(_path);
 					importer.Import();
-					var messageBoxStandardWindow = MessageBox.Avalonia.MessageBoxManager.GetMessageBoxStandardWindow("Готово", "Готово!");
+					var messageBoxStandardWindow = MessageBoxManager.GetMessageBoxStandardWindow("Готово", "Готово!");
 					await messageBoxStandardWindow.Show();
 				}
 			}

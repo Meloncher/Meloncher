@@ -1,6 +1,6 @@
 {
 	"version": 13,
 	"direct_link": "https://github.com/Meloncher/Meloncher/releases/download/beta-1.0.3/Meloncher-Setup.exe",
-	"launch_args": "",
+	"launch_args": "/SUPPRESSMSGBOXES /NOICONS /LANG=russian /TASKS=\"\" /CLOSEAPPLICATIONS",
 	"description": "test"
 }

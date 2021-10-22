@@ -3,7 +3,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Runtime.InteropServices;
-using MeloncherCore.Optifine.Bobcat;
 using Newtonsoft.Json;
 
 namespace MeloncherAvalonia.Models
@@ -13,20 +12,20 @@ namespace MeloncherAvalonia.Models
 		private const int CurrentVersion = 13;
 		private WebClient _client = new();
 		private UpdaterJson? _updaterJson;
-		public bool CheckUpdates()
+		public UpdaterJson? CheckUpdates()
 		{
 			try
 			{
 				var jsonString = _client.DownloadString("https://raw.githubusercontent.com/Meloncher/Meloncher/master/updater.json");
 				_updaterJson = JsonConvert.DeserializeObject<UpdaterJson>(jsonString);
-				if (_updaterJson.Version > CurrentVersion) return true;
+				if (_updaterJson.Version > CurrentVersion) return _updaterJson;
 			}
 			catch (Exception)
 			{
 				// ignored
 			}
 
-			return false;
+			return null;
 		}
 
 		public bool Update()
@@ -51,7 +50,10 @@ namespace MeloncherAvalonia.Models
 			if (_updaterJson == null) return false;
 			var filename = Path.GetTempFileName() + ".exe";
 			_client.DownloadFile(_updaterJson.DirectLink, filename);
-			Process.Start(filename);
+			var proc = new Process();
+			proc.StartInfo.FileName = filename;
+			proc.StartInfo.Arguments = _updaterJson.LaunchArgs;
+			proc.Start();
 			return true;
 		}
 	}
