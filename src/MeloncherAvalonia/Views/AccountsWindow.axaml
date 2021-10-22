@@ -18,9 +18,9 @@
         ExtendClientAreaTitleBarHeightHint="26"
         WindowStartupLocation="CenterOwner">
 
-	<Window.DataContext>
-		<vm:AccountsViewModel />
-	</Window.DataContext>
+	<!-- <Window.DataContext> -->
+	<!-- 	<vm:AccountsViewModel /> -->
+	<!-- </Window.DataContext> -->
 
 	<Grid RowDefinitions="26,*,Auto">
 		<Button Content="X" Width="48" Height="26" HorizontalAlignment="Right" Click="Button_OnClick" />

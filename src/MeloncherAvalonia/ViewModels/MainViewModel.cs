@@ -4,9 +4,12 @@ using System.Net;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
+using Avalonia;
+using Avalonia.Controls;
 using CmlLib.Core.Auth;
 using CmlLib.Core.Version;
 using CmlLib.Core.VersionLoader;
+using MeloncherAvalonia.Models;
 using MeloncherCore.Account;
 using MeloncherCore.Discord;
 using MeloncherCore.Launcher;
@@ -14,6 +17,9 @@ using MeloncherCore.Launcher.Events;
 using MeloncherCore.Options;
 using MeloncherCore.Settings;
 using MeloncherCore.Version;
+using MessageBox.Avalonia;
+using MessageBox.Avalonia.DTO;
+using MessageBox.Avalonia.Enums;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 
@@ -71,6 +77,39 @@ namespace MeloncherAvalonia.ViewModels
 				if (e.PropertyName == "SelectedVersion") _launcherSettings.SelectedVersion = SelectedVersion?.Name;
 				if (e.PropertyName == "SelectedSession") _launcherSettings.SelectedAccount = SelectedSession?.Username;
 			};
+		}
+
+		public async Task CheckUpdates()
+		{
+			Updater updater = new();
+			if (updater.CheckUpdates())
+			{
+				var res = await MessageBoxManager.GetMessageBoxStandardWindow(new MessageBoxStandardParams
+				{
+					ButtonDefinitions = ButtonEnum.YesNo,
+					ContentTitle = "Обновление",
+					ContentMessage = "Обновить сейчас?",
+					WindowStartupLocation = WindowStartupLocation.CenterScreen,
+					
+				}).Show();
+				if (res == ButtonResult.Yes)
+				{
+					if (updater.Update())
+					{
+						Environment.Exit(0);
+					}
+					else
+					{
+						await MessageBoxManager.GetMessageBoxStandardWindow(new MessageBoxStandardParams
+						{
+							ButtonDefinitions = ButtonEnum.Ok,
+							ContentTitle = "Обновление",
+							ContentMessage = "Ошибка при обновлении",
+							WindowStartupLocation = WindowStartupLocation.CenterScreen,
+						}).Show();
+					}
+				}
+			}
 		}
 
 		private void OnMcLauncherOnFileChanged(McDownloadFileChangedEventArgs e)

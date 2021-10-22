@@ -21,6 +21,7 @@ namespace MeloncherAvalonia.Views
 			this.WhenActivated(d => d(ViewModel.ShowSelectAccountDialog.RegisterHandler(DoShowSelectAccountDialogAsync)));
 			this.WhenActivated(d => d(ViewModel.ShowSelectVersionDialog.RegisterHandler(DoShowSelectVersionDialogAsync)));
 			this.WhenActivated(d => d(ViewModel.ShowSettingsDialog.RegisterHandler(DoShowSettingsDialogAsync)));
+			this.WhenActivated(d => d(ViewModel.CheckUpdates()));
 		}
 
 		private void InitializeComponent()
