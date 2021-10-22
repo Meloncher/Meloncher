@@ -18,8 +18,9 @@ namespace MeloncherAvalonia.ViewModels
 	{
 		private readonly AccountStorage _accountStorage;
 
-		public AccountsViewModel(AccountStorage accountStorage)
+		public AccountsViewModel(AccountStorage accountStorage, MSession? selectedSession)
 		{
+			SelectedSession = selectedSession;
 			DeleteAccountCommand = ReactiveCommand.Create(OnDeleteAccountCommandExecuted);
 			AddMicrosoftCommand = ReactiveCommand.Create(OnAddMicrosoftCommandExecuted);
 			AddMojangCommand = ReactiveCommand.Create(OnAddMojangCommandExecuted);
@@ -35,7 +36,7 @@ namespace MeloncherAvalonia.ViewModels
 		}
 
 		[Reactive] public ObservableCollection<MSession> Accounts { get; set; }
-		[Reactive] public int SelectedAccount { get; set; }
+		[Reactive] public MSession? SelectedSession { get; set; }
 		public Interaction<AddAccountViewModel, AddAccountData?> ShowAddAccountDialog { get; } = new();
 		public Interaction<AddMicrosoftAccountViewModel, string?> ShowAddMicrosoftAccountDialog { get; } = new();
 
@@ -51,7 +52,7 @@ namespace MeloncherAvalonia.ViewModels
 
 		private void OnDeleteAccountCommandExecuted()
 		{
-			_accountStorage.RemoveAt(SelectedAccount);
+			_accountStorage.Remove(SelectedSession);
 		}
 
 		private async Task OnAddMicrosoftCommandExecuted()
@@ -72,8 +73,7 @@ namespace MeloncherAvalonia.ViewModels
 
 		private MSession OnOkCommandExecuted()
 		{
-			if (Accounts.Count > SelectedAccount) return Accounts[SelectedAccount];
-			return null;
+			return SelectedSession;
 		}
 
 		private async Task OnAddMojangCommandExecuted()

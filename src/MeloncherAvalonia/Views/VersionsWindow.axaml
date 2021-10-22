@@ -2,6 +2,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i="using:Avalonia.Xaml.Interactivity"
+        xmlns:ia="using:Avalonia.Xaml.Interactions.Core"
         xmlns:vm="clr-namespace:MeloncherAvalonia.ViewModels"
         mc:Ignorable="d"
         d:DesignWidth="320"
@@ -35,6 +37,11 @@
 					<TextBlock Text="{Binding Name}" />
 				</DataTemplate>
 			</ListBox.ItemTemplate>
+			<i:Interaction.Behaviors>
+				<ia:EventTriggerBehavior EventName="DoubleTapped">
+					<ia:InvokeCommandAction Command="{Binding OkCommand}" CommandParameter="{x:Null}"></ia:InvokeCommandAction>
+				</ia:EventTriggerBehavior>
+			</i:Interaction.Behaviors>
 		</ListBox>
 		<Button Grid.Row="3" Content="OK" Command="{Binding OkCommand}" HorizontalAlignment="Stretch" />
 	</Grid>

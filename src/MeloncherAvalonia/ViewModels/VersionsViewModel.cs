@@ -16,8 +16,9 @@ namespace MeloncherAvalonia.ViewModels
 		private readonly VersionTools _versionTools;
 		private readonly MVersionCollection _versionCollection;
 
-		public VersionsViewModel(VersionTools versionTools, MVersionCollection? versionCollection)
+		public VersionsViewModel(VersionTools versionTools, MVersionCollection? versionCollection, MVersionMetadata? selectedVersion)
 		{
+			SelectedVersion = selectedVersion;
 			_versionTools = versionTools;
 			OkCommand = ReactiveCommand.Create(OnOkCommandExecuted);
 			versionCollection ??= _versionTools.GetVersionMetadatas();
@@ -27,7 +28,6 @@ namespace MeloncherAvalonia.ViewModels
 			{
 				if (e.PropertyName == "VersionType") UpdateList();
 			};
-			SelectedVersion = versionCollection.LatestReleaseVersion;
 		}
 
 		public VersionsViewModel()
@@ -74,7 +74,7 @@ namespace MeloncherAvalonia.ViewModels
 			Versions = new ObservableCollection<MVersionMetadata>(lst);
 		}
 
-		public ReactiveCommand<Unit, MVersionMetadata> OkCommand { get; }
+		public ReactiveCommand<Unit, MVersionMetadata?> OkCommand { get; }
 
 		private MVersionMetadata? OnOkCommandExecuted()
 		{

@@ -163,7 +163,7 @@ namespace MeloncherAvalonia.ViewModels
 
 		private async Task OnOpenAccountsWindowCommandExecuted()
 		{
-			var dialog = new AccountsViewModel(_accountStorage);
+			var dialog = new AccountsViewModel(_accountStorage, SelectedSession);
 			var result = await ShowSelectAccountDialog.Handle(dialog);
 			if (result != null)
 			{
@@ -173,7 +173,7 @@ namespace MeloncherAvalonia.ViewModels
 
 		private async Task OnOpenVersionsWindowCommandExecuted()
 		{
-			var dialog = new VersionsViewModel(_versionTools, _versionCollection);
+			var dialog = new VersionsViewModel(_versionTools, _versionCollection, SelectedVersion);
 			var result = await ShowSelectVersionDialog.Handle(dialog);
 			if (result != null)
 			{
