@@ -21,9 +21,9 @@
         Background="Transparent"
         WindowStartupLocation="CenterScreen">
 
-	<Window.DataContext>
-		<vm:MainViewModel />
-	</Window.DataContext>
+	<!-- <Window.DataContext> -->
+	<!-- 	<vm:MainViewModel /> -->
+	<!-- </Window.DataContext> -->
 
 	<Grid RowDefinitions="26,*">
 		<Border IsHitTestVisible="False" Background="#000000" Opacity=".5">

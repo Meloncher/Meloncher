@@ -16,9 +16,9 @@
         ExtendClientAreaTitleBarHeightHint="-1"
         WindowStartupLocation="CenterOwner">
 
-	<Window.DataContext>
-		<vm:AddAccountViewModel />
-	</Window.DataContext>
+	<!-- <Window.DataContext> -->
+	<!-- 	<vm:AddAccountViewModel /> -->
+	<!-- </Window.DataContext> -->
 
 	<Grid RowDefinitions="*,Auto">
 		<StackPanel>

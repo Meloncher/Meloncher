@@ -16,9 +16,9 @@
         ExtendClientAreaTitleBarHeightHint="-1"
         WindowStartupLocation="CenterOwner">
 
-	<Window.DataContext>
-		<vm:AddMicrosoftAccountViewModel />
-	</Window.DataContext>
+	<!-- <Window.DataContext> -->
+	<!-- 	<vm:AddMicrosoftAccountViewModel /> -->
+	<!-- </Window.DataContext> -->
 
 	<Grid>
 		<Grid.RowDefinitions>

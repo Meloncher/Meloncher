@@ -13,9 +13,9 @@
         Title="Настройки"
         WindowStartupLocation="CenterOwner">
 	
-	<Window.DataContext>
-		<vm:SettingsViewModel />
-	</Window.DataContext>
+	<!-- <Window.DataContext> -->
+	<!-- 	<vm:SettingsViewModel /> -->
+	<!-- </Window.DataContext> -->
 
 	<Grid ColumnDefinitions="*,128" RowDefinitions="48, 48, 48, *, Auto, Auto">
 		<TextBlock Grid.Column="0" Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0" Text="Использовать Оптифайн" />
