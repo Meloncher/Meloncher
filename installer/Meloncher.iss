@@ -4,7 +4,7 @@
 #define MyAppName "Meloncher"
 #define MyAppVersion "1.0"
 #define MyAppPublisher "MelonHell"          
-#define MyAppCopyright "Copyright © MelonHell"
+#define MyAppCopyright "Copyright Â© MelonHell"
 #define MyAppURL "https://github.com/MelonHell/Meloncher/"
 #define MyAppExeName "Meloncher.exe"
 
@@ -12,7 +12,7 @@
 AppId={{A7C89DFE-4387-4C63-B005-A10E0D5CC7C4}
 AppName={#MyAppName}
 AppVersion={#MyAppVersion}
-;AppVerName={#MyAppName} {#MyAppVersion}
+AppVerName={#MyAppName}
 AppPublisher={#MyAppPublisher}
 AppPublisherURL={#MyAppURL}
 AppSupportURL={#MyAppURL}
@@ -30,7 +30,7 @@ WizardStyle=modern
 WizardImageFile="WizardImage.bmp"
 ;WizardSmallImageFile="WizardSmallImage.bmp"
 SourceDir="src"
-OutputDir={#SourcePath}
+OutputDir={#SourcePath}\out
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
@@ -44,8 +44,6 @@ Source: "X:\Projects\C#\Meloncher\src\MeloncherAvalonia\bin\Release\net5.0\publi
 Source: "X:\Projects\C#\Meloncher\src\MeloncherAvalonia\bin\Release\net5.0\publish\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "WizardHeaderImage.bmp"; Flags: dontcopy
 
-// download netcorecheck.exe: https://go.microsoft.com/fwlink/?linkid=2135256
-// download netcorecheck_x64.exe: https://go.microsoft.com/fwlink/?linkid=2135504
 Source: "netcorecheck\netcorecheck.exe"; Flags: dontcopy noencryption
 Source: "netcorecheck\netcorecheck_x64.exe"; Flags: dontcopy noencryption
 
