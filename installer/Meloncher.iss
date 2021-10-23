@@ -1,5 +1,5 @@
 #define public Dependency_NoExampleSetup
-#include "CodeDependencies.iss"
+#include "src\CodeDependencies.iss"
 
 #define MyAppName "Meloncher"
 #define MyAppVersion "1.0"
