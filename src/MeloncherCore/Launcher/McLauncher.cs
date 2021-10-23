@@ -25,14 +25,25 @@ namespace MeloncherCore.Launcher
 		private readonly ExtMinecraftPath _minecraftPath;
 
 		public McVersion? Version { get; set; }
+
 		public MSession Session { get; set; } = MSession.GetOfflineSession("Player");
+
 		// public bool Offline { get; set; }
 		public bool UseOptifine { get; set; } = true;
 		public int MaximumRamMb { get; set; } = 2048;
 		public WindowMode WindowMode { get; set; } = WindowMode.Windowed;
 
-		public event McDownloadFileChangedHandler? FileChanged;
-		public event ProgressChangedEventHandler? ProgressChanged;
+		public event McDownloadProgressEventHandler? McDownloadProgressChanged;
+
+		private string _downloadProgressType = "unknown";
+		private int _downloadProgressPercentage = 0;
+		private bool _downloadProgressIsChecking = true;
+
+		private void InvokeMcDownloadProgressEvent()
+		{
+			McDownloadProgressChanged?.Invoke(new McDownloadProgressEventArgs(_downloadProgressType, _downloadProgressPercentage, _downloadProgressIsChecking));
+		}
+
 		public event MinecraftOutputEventHandler? MinecraftOutput;
 
 		public void SetVersion(string mcVerName)
@@ -52,8 +63,21 @@ namespace MeloncherCore.Launcher
 			if (Version == null) return false;
 			var path = _minecraftPath.CloneWithProfile("vanilla", Version.ProfileName);
 			var launcher = new CMLauncher(path);
-			launcher.FileChanged += e => FileChanged?.Invoke(new McDownloadFileChangedEventArgs(e.FileKind.ToString()));
-			launcher.ProgressChanged += (s, e) => ProgressChanged?.Invoke(s, e);
+			launcher.FileChanged += args =>
+			{
+				var type = args.FileKind.ToString();
+				if (_downloadProgressType != type) _downloadProgressPercentage = 0;
+
+				_downloadProgressType = type;
+				if (_downloadProgressPercentage == 0) _downloadProgressIsChecking = true;
+				InvokeMcDownloadProgressEvent();
+			};
+			launcher.ProgressChanged += (_, args) =>
+			{
+				_downloadProgressPercentage = args.ProgressPercentage;
+				_downloadProgressIsChecking = false;
+				InvokeMcDownloadProgressEvent();
+			};
 
 			try
 			{
@@ -62,13 +86,20 @@ namespace MeloncherCore.Launcher
 				if (UseOptifine)
 				{
 					var optifineInstaller = new OptifineInstallerBobcat();
-					optifineInstaller.ProgressChanged += (s, e) => ProgressChanged?.Invoke(s, e);
+					optifineInstaller.ProgressChanged += (sender, args) =>
+					{
+						_downloadProgressPercentage = args.ProgressPercentage;
+						_downloadProgressIsChecking = false;
+						InvokeMcDownloadProgressEvent();
+					};
 
 					var isLatestInstalled = await optifineInstaller.IsLatestInstalled(Version.Name, _minecraftPath);
 					if (!isLatestInstalled)
 					{
-						ProgressChanged?.Invoke(null, new ProgressChangedEventArgs(0, null));
-						FileChanged?.Invoke(new McDownloadFileChangedEventArgs("Optifine"));
+						_downloadProgressPercentage = 0;
+						_downloadProgressType = "Optifine";
+						_downloadProgressIsChecking = true;
+						InvokeMcDownloadProgressEvent();
 						await optifineInstaller.InstallOptifine(Version.Name, _minecraftPath, Version.MVersion.JavaBinaryPath);
 					}
 				}
@@ -77,7 +108,6 @@ namespace MeloncherCore.Launcher
 			{
 				return false;
 			}
-
 
 			return true;
 		}
@@ -91,8 +121,6 @@ namespace MeloncherCore.Launcher
 				VersionLoader = new LocalVersionLoader(_minecraftPath),
 				FileDownloader = null
 			};
-			launcher.FileChanged += e => FileChanged?.Invoke(new McDownloadFileChangedEventArgs(e.FileKind.ToString()));
-			launcher.ProgressChanged += (s, e) => ProgressChanged?.Invoke(s, e);
 			var launchOption = new MLaunchOption
 			{
 				StartVersion = Version.MVersion,

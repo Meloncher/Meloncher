@@ -24,17 +24,17 @@ namespace MeloncherCore
 			var path = new ExtMinecraftPath();
 
 			var launcher = new McLauncher(path);
-			launcher.FileChanged += e =>
-			{
-				//FileChanged?.Invoke(e);
-				//Console.WriteLine("[{0}] {1} - {2}/{3}", e.FileKind.ToString(), e.FileName, e.ProgressedFileCount, e.TotalFileCount);
-				Console.WriteLine("Загрузка " + e.Type);
-			};
-			launcher.ProgressChanged += (s, e) =>
-			{
-				//ProgressChanged?.Invoke(s, e);
-				Console.WriteLine("{0}%", e.ProgressPercentage);
-			};
+			// launcher.McDownloadProgressChanged += e =>
+			// {
+			// 	//FileChanged?.Invoke(e);
+			// 	//Console.WriteLine("[{0}] {1} - {2}/{3}", e.FileKind.ToString(), e.FileName, e.ProgressedFileCount, e.TotalFileCount);
+			// 	Console.WriteLine("Загрузка " + e.Type);
+			// };
+			// launcher.ProgressChanged += (s, e) =>
+			// {
+			// 	//ProgressChanged?.Invoke(s, e);
+			// 	Console.WriteLine("{0}%", e.ProgressPercentage);
+			// };
 			launcher.MinecraftOutput += e =>
 			{
 				// Console.WriteLine(McLogLine.Parse(e.Line));

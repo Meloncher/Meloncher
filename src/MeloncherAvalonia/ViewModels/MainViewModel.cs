@@ -33,7 +33,6 @@ namespace MeloncherAvalonia.ViewModels
 		private readonly IVersionLoader _versionLoader;
 		private readonly MVersionCollection _versionCollection;
 		private readonly AccountStorage _accountStorage;
-		private string _loadingType = "";
 		private readonly ExtMinecraftPath _path;
 
 		public MainViewModel()
@@ -64,10 +63,11 @@ namespace MeloncherAvalonia.ViewModels
 					// ignored
 				}
 			}
+
 			if (_launcherSettings.SelectedAccount != null) SelectedSession = _accountStorage.Get(_launcherSettings.SelectedAccount);
 
-			_mcLauncher.FileChanged += OnMcLauncherOnFileChanged;
-			_mcLauncher.ProgressChanged += OnMcLauncherOnProgressChanged;
+			_mcLauncher.McDownloadProgressChanged += OnMcLauncherOnMcDownloadProgressChanged;
+			// _mcLauncher.ProgressChanged += OnMcLauncherOnProgressChanged;
 			_mcLauncher.MinecraftOutput += e => { _discordRpcTools.OnLog(e.Line); };
 
 			_discordRpcTools.SetStatus("Сидит в лаунчере", "");
@@ -93,7 +93,6 @@ namespace MeloncherAvalonia.ViewModels
 					ContentMessage = updaterJson.Description,
 					WindowStartupLocation = WindowStartupLocation.CenterScreen,
 					Topmost = true,
-					
 				}).Show();
 				if (res == ButtonResult.Yes)
 				{
@@ -116,57 +115,29 @@ namespace MeloncherAvalonia.ViewModels
 			}
 		}
 
-		private void OnMcLauncherOnFileChanged(McDownloadFileChangedEventArgs e)
-		{
-			_loadingType = e.Type;
-			if (ProgressValue == 0)
-				switch (e.Type)
-				{
-					case "Resource":
-						ProgressText = "Проверка Ресурсов...";
-						break;
-					case "Runtime":
-						ProgressText = "Проверка Java...";
-						break;
-					case "Library":
-						ProgressText = "Проверка Библиотек...";
-						break;
-					case "Minecraft":
-						ProgressText = "Проверка Minecraft...";
-						break;
-					case "Optifine":
-						ProgressText = "Проверка Optifine...";
-						break;
-					default:
-						ProgressText = "Проверка Файлов...";
-						break;
-				}
-		}
-
-		private void OnMcLauncherOnProgressChanged(object _, ProgressChangedEventArgs e)
+		private void OnMcLauncherOnMcDownloadProgressChanged(McDownloadProgressEventArgs e)
 		{
 			ProgressValue = e.ProgressPercentage;
-			switch (_loadingType)
-			{
-				case "Resource":
-					ProgressText = "Загрузка Ресурсов...";
-					break;
-				case "Runtime":
-					ProgressText = "Загрузка Java...";
-					break;
-				case "Library":
-					ProgressText = "Загрузка Библиотек...";
-					break;
-				case "Minecraft":
-					ProgressText = "Загрузка Minecraft...";
-					break;
-				case "Optifine":
-					ProgressText = "Загрузка Optifine...";
-					break;
-				default:
-					ProgressText = "Загрузка...";
-					break;
-			}
+			if (e.IsChecking)
+				ProgressText = e.Type switch
+				{
+					"Resource" => "Проверка Ресурсов...",
+					"Runtime" => "Проверка Java...",
+					"Library" => "Проверка Библиотек...",
+					"Minecraft" => "Проверка Minecraft...",
+					"Optifine" => "Проверка Optifine...",
+					_ => "Проверка Файлов..."
+				};
+			else
+				ProgressText = e.Type switch
+				{
+					"Resource" => "Загрузка Ресурсов...",
+					"Runtime" => "Загрузка Java...",
+					"Library" => "Загрузка Библиотек...",
+					"Minecraft" => "Загрузка Minecraft...",
+					"Optifine" => "Загрузка Optifine...",
+					_ => "Загрузка..."
+				};
 		}
 
 		[Reactive] public string Title { get; set; } = "Meloncher";
@@ -186,8 +157,9 @@ namespace MeloncherAvalonia.ViewModels
 		public ReactiveCommand<Unit, Task> OpenAccountsWindowCommand { get; }
 		public ReactiveCommand<Unit, Task> OpenVersionsWindowCommand { get; }
 		public ReactiveCommand<Unit, Unit> PlayButtonCommand { get; }
-		
+
 		public ReactiveCommand<Unit, Task> OpenSettingsWindowCommand { get; }
+
 		private async Task OnOpenSettingsWindowCommandExecuted()
 		{
 			var dialog = new SettingsViewModel(_launcherSettings);
@@ -237,7 +209,7 @@ namespace MeloncherAvalonia.ViewModels
 				_mcLauncher.MaximumRamMb = _launcherSettings.MaximumRamMb;
 				if (SelectedVersion != null) _mcLauncher.Version = _versionTools.GetMcVersion(SelectedVersion.Name);
 				if (SelectedSession != null) _mcLauncher.Session = SelectedSession;
-				
+
 				await _mcLauncher.Update();
 
 				ProgressValue = 0;
