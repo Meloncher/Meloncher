@@ -40,8 +40,8 @@ Name: "russian"; MessagesFile: "compiler:Languages\Russian.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}";
 
 [Files]
-Source: "X:\Projects\C#\Meloncher\src\MeloncherAvalonia\bin\Release\net5.0\publish\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
-Source: "X:\Projects\C#\Meloncher\src\MeloncherAvalonia\bin\Release\net5.0\publish\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "X:\Projects\C#\Meloncher\src\MeloncherAvalonia\bin\Release\net5.0\win-x86\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
+Source: "X:\Projects\C#\Meloncher\src\MeloncherAvalonia\bin\Release\net5.0\win-x86\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "WizardHeaderImage.bmp"; Flags: dontcopy
 
 Source: "netcorecheck\netcorecheck.exe"; Flags: dontcopy noencryption

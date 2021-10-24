@@ -39,6 +39,7 @@ namespace MeloncherCore.Launcher
 			Runtime = NormalizePath(MinecraftPath + "/runtime");
 			Assets = NormalizePath(MinecraftPath + "/assets");
 			Natives = NormalizePath(MinecraftPath + "/natives");
+			Dir(rootPath);
 		}
 
 		public ExtMinecraftPath(string rootPath, string basePath, string minecraftPath, string libraryPath, string versionsPath, string resourcePath, string runtimePath, string assetsPath, string nativesPath)
