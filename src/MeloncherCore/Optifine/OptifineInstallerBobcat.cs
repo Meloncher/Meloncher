@@ -123,7 +123,6 @@ namespace MeloncherCore.Optifine
 		{
 			var latest = await GetLatestOptifineVersion(mcVersionName).ConfigureAwait(false);
 			if (latest == null) return null;
-			Console.WriteLine(latest.FileName);
 			return await InstallOptifine(latest, path, javaPath).ConfigureAwait(false);
 		}
 
