@@ -5,7 +5,7 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="MeloncherAvalonia.UserControls.LoadingBar"
              x:Name="Root">
-	<Grid IsVisible="{Binding ElementName=Root, Path=!Hidden}">
+	<Grid IsVisible="{Binding ElementName=Root, Path=!Hidden}" Background="#000000">
 		<ProgressBar CornerRadius="0" Height="20" Value="{Binding ElementName=Root, Path=Value}" Foreground="#aa0000" Background="Black" />
 		<TextBlock Text="{Binding ElementName=Root, Path=Text}" TextAlignment="Center" />
 	</Grid>
