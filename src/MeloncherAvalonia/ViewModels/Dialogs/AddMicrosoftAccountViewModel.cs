@@ -2,7 +2,7 @@
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 
-namespace MeloncherAvalonia.ViewModels
+namespace MeloncherAvalonia.ViewModels.Dialogs
 {
 	public class AddMicrosoftAccountViewModel : ViewModelBase
 	{

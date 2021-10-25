@@ -2,7 +2,9 @@ using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using MeloncherAvalonia.ViewModels;
+using MeloncherAvalonia.ViewModels.Windows;
 using MeloncherAvalonia.Views;
+using MeloncherAvalonia.Views.Windows;
 
 namespace MeloncherAvalonia
 {

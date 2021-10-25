@@ -3,7 +3,7 @@ using MeloncherCore.Settings;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 
-namespace MeloncherAvalonia.ViewModels
+namespace MeloncherAvalonia.ViewModels.Dialogs
 {
 	public class SettingsViewModel : ViewModelBase
 	{

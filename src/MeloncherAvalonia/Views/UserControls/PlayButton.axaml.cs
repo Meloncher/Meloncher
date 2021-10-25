@@ -3,7 +3,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
-namespace MeloncherAvalonia.UserControls
+namespace MeloncherAvalonia.Views.UserControls
 {
 	public class PlayButton : UserControl
 	{

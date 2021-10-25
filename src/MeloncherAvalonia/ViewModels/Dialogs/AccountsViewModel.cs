@@ -1,18 +1,15 @@
 ﻿using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using CmlLib.Core.Auth;
 using CmlLib.Core.Auth.Microsoft;
-using CmlLib.Core.VersionLoader;
 using MeloncherCore.Account;
-using MeloncherCore.Launcher;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 
-namespace MeloncherAvalonia.ViewModels
+namespace MeloncherAvalonia.ViewModels.Dialogs
 {
 	public class AccountsViewModel : ViewModelBase
 	{

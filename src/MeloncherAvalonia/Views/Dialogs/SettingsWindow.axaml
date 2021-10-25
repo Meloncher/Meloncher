@@ -9,7 +9,7 @@
         Width="320"
         Height="450"
         CanResize="False"
-        x:Class="MeloncherAvalonia.Views.SettingsWindow"
+        x:Class="MeloncherAvalonia.Views.Dialogs.SettingsWindow"
         Title="Настройки"
         WindowStartupLocation="CenterOwner">
 	

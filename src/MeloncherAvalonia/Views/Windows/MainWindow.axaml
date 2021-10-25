@@ -3,12 +3,12 @@
         xmlns:vm="using:MeloncherAvalonia.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:uc="using:MeloncherAvalonia.UserControls"
         xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+        xmlns:userControls="clr-namespace:MeloncherAvalonia.Views.UserControls"
         mc:Ignorable="d"
         d:DesignWidth="800"
         d:DesignHeight="480"
-        x:Class="MeloncherAvalonia.Views.MainWindow"
+        x:Class="MeloncherAvalonia.Views.Windows.MainWindow"
         Icon="/icon.ico"
         Title="{Binding Title}"
         Width="800"
@@ -61,7 +61,7 @@
 								<TextBlock Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" Foreground="LightGray" Text="{Binding SelectedVersion.Name}" />
 							</Grid>
 						</Button>
-						<uc:PlayButton Margin="0 -40 0 0" Grid.Column="1" Text="Играть" Command="{Binding PlayButtonCommand}" IsEnabled="{Binding !IsStarted}" />
+						<userControls:PlayButton Margin="0 -40 0 0" Grid.Column="1" Text="Играть" Command="{Binding PlayButtonCommand}" IsEnabled="{Binding !IsStarted}" />
 						<Button Command="{Binding OpenAccountsWindowCommand}" Grid.Column="2" HorizontalAlignment="Right" Background="Transparent" BorderThickness="0">
 							<Grid ColumnDefinitions="Auto,Auto" RowDefinitions="Auto,Auto">
 								<Border CornerRadius="4" Margin="10, 0, 0, 0" Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Height="32" Width="32">
@@ -74,7 +74,7 @@
 							</Grid>
 						</Button>
 					</Grid>
-					<uc:LoadingBar Grid.Row="2" Text="{Binding ProgressText}" Hidden="{Binding ProgressHidden}" Value="{Binding ProgressValue}" />
+					<userControls:LoadingBar Grid.Row="2" Text="{Binding ProgressText}" Hidden="{Binding ProgressHidden}" Value="{Binding ProgressValue}" />
 				</Grid>
 			</Border>
 		</Grid>

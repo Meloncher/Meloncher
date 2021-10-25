@@ -4,10 +4,12 @@ using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
 using CmlLib.Core.Auth;
 using CmlLib.Core.Version;
-using MeloncherAvalonia.ViewModels;
+using MeloncherAvalonia.ViewModels.Dialogs;
+using MeloncherAvalonia.ViewModels.Windows;
+using MeloncherAvalonia.Views.Dialogs;
 using ReactiveUI;
 
-namespace MeloncherAvalonia.Views
+namespace MeloncherAvalonia.Views.Windows
 {
 	public class MainWindow : ReactiveWindow<MainViewModel>
 	{

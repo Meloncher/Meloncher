@@ -1,4 +1,4 @@
-﻿<Window xmlns="https://github.com/avaloniaui"
+<Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -8,33 +8,26 @@
         mc:Ignorable="d"
         d:DesignWidth="320"
         d:DesignHeight="450"
-        x:Class="MeloncherAvalonia.Views.VersionsWindow"
-        Title="Выбор версии"
+        x:Class="MeloncherAvalonia.Views.Dialogs.AccountsWindow"
+        Title="Аккаунты"
         Width="320"
         Height="480"
         CanResize="False"
-        ExtendClientAreaToDecorationsHint="True"
         ExtendClientAreaChromeHints="NoChrome"
+        ExtendClientAreaToDecorationsHint="True"
         ExtendClientAreaTitleBarHeightHint="26"
         WindowStartupLocation="CenterOwner">
 
 	<!-- <Window.DataContext> -->
-	<!-- 	<vm:VersionsViewModel /> -->
+	<!-- 	<vm:AccountsViewModel /> -->
 	<!-- </Window.DataContext> -->
-	
-	<Grid RowDefinitions="26,Auto,*,Auto">
+
+	<Grid RowDefinitions="26,*,Auto">
 		<Button Content="X" Width="48" Height="26" HorizontalAlignment="Right" Click="Button_OnClick" />
-		<ComboBox Grid.Row="1" SelectedIndex="{Binding VersionType}" HorizontalAlignment="Stretch">
-			<ComboBox.Items>
-				<ComboBoxItem Content="Релизы" />
-				<ComboBoxItem Content="Снапшоты" />
-				<ComboBoxItem Content="Устаревшие" />
-			</ComboBox.Items>
-		</ComboBox>
-		<ListBox Grid.Row="2" Items="{Binding Versions}" SelectedItem="{Binding SelectedVersion}">
+		<ListBox Grid.Row="1" SelectedItem="{Binding SelectedSession}" Items="{Binding Accounts}">
 			<ListBox.ItemTemplate>
 				<DataTemplate>
-					<TextBlock Text="{Binding Name}" />
+					<TextBlock Text="{Binding Username}" />
 				</DataTemplate>
 			</ListBox.ItemTemplate>
 			<i:Interaction.Behaviors>
@@ -43,6 +36,12 @@
 				</ia:EventTriggerBehavior>
 			</i:Interaction.Behaviors>
 		</ListBox>
-		<Button Grid.Row="3" Content="OK" Command="{Binding OkCommand}" HorizontalAlignment="Stretch" />
+		<StackPanel Grid.Row="2" Orientation="Vertical">
+			<Button HorizontalAlignment="Stretch" Command="{Binding AddOfflineCommand}" Content="Добавить Пиратку" Height="32" />
+			<Button HorizontalAlignment="Stretch" Command="{Binding AddMojangCommand}" Content="Добавить Mojang" Height="32" />
+			<Button HorizontalAlignment="Stretch" Command="{Binding AddMicrosoftCommand}" Content="Добавить Microsoft" Height="32" />
+			<Button HorizontalAlignment="Stretch" Command="{Binding DeleteAccountCommand}" Content="Удалить выбранное" Height="32" />
+			<Button Command="{Binding OkCommand}" Content="Ok" Height="32" HorizontalAlignment="Stretch" Grid.Row="2" />
+		</StackPanel>
 	</Grid>
 </Window>
