@@ -20,6 +20,7 @@ namespace MeloncherCore.Version
 				return new LocalVersionLoader(_minecraftPath).GetVersionMetadatas();
 			}
 		}
+
 		public MVersion? GetVersion(string versionName)
 		{
 			try
@@ -45,11 +46,9 @@ namespace MeloncherCore.Version
 		public McVersion? GetMcVersion(MVersion? mVersion)
 		{
 			if (mVersion == null) return null;
-			var assid = mVersion.AssetId;
 			var type = mVersion.TypeStr;
 
-			var profileName = assid;
-			if (profileName == "pre-1.6") profileName = "legacy";
+			var profileName = mVersion.AssetId;
 			if (profileName == null)
 			{
 				var parentName = mVersion.ParentVersionId;
@@ -60,6 +59,13 @@ namespace MeloncherCore.Version
 				}
 			}
 
+			if (profileName != null)
+			{
+				var split = profileName.Split(".");
+				if (split.Length == 3) profileName = split[0] + "." + split[1];
+			}
+
+			if (profileName == "pre-1.6") profileName = "legacy";
 			profileName ??= "unknown";
 			type ??= "unknown";
 
