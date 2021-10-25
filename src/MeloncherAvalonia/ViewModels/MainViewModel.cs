@@ -145,6 +145,7 @@ namespace MeloncherAvalonia.ViewModels
 		[Reactive] public string? ProgressText { get; set; }
 		[Reactive] public bool ProgressHidden { get; set; } = true;
 		[Reactive] public bool IsStarted { get; private set; }
+		[Reactive] public bool IsLaunched { get; private set; }
 		private readonly LauncherSettings _launcherSettings;
 		private readonly VersionTools _versionTools;
 
@@ -215,8 +216,10 @@ namespace MeloncherAvalonia.ViewModels
 				ProgressValue = 0;
 				ProgressText = null;
 				ProgressHidden = true;
+				IsLaunched = true;
 				await _mcLauncher.Launch();
 				IsStarted = false;
+				IsLaunched = false;
 				Title = "Meloncher";
 				_discordRpcTools.SetStatus("Сидит в лаунчере", "");
 			}).Start();
