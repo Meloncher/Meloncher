@@ -53,12 +53,34 @@ namespace MeloncherCore.Account
         //     cacheManager.SaveCache(sessionCache ?? new SessionCache());
         // }
 
-        // public MSession? LoginFromCache()
+
+        public bool Validate(MinecraftAccount minecraftAccount)
+        {
+            return minecraftAccount.XboxSession != null && DateTime.Now <= minecraftAccount.XboxSession.ExpiresOn;
+        }
+
+        public bool Refresh(MinecraftAccount minecraftAccount)
+        {
+            var mcToken = minecraftAccount?.XboxSession;
+            var msToken = minecraftAccount?.MicrosoftOAuthSession;
+            
+            if (!OAuth.TryGetTokens(out msToken, msToken?.RefreshToken)) // failed to refresh ms
+                return false;
+                
+            // success to refresh ms
+            mcToken = mcLogin(msToken);
+            var newAcc = getGameSession(msToken, mcToken);
+            minecraftAccount.GameSession = newAcc.GameSession;
+            minecraftAccount.XboxSession = newAcc.XboxSession;
+            minecraftAccount.MicrosoftOAuthSession = newAcc.MicrosoftOAuthSession;
+            return true;
+        }
+        
+        // public MinecraftAccount? LoginFromCache(MinecraftAccount minecraftAccount)
         // {
-        //     readSessionCache();
         //
-        //     var mcToken = sessionCache?.XboxSession;
-        //     var msToken = sessionCache?.MicrosoftOAuthSession;
+        //     var mcToken = minecraftAccount?.XboxSession;
+        //     var msToken = minecraftAccount?.MicrosoftOAuthSession;
         //
         //     if (mcToken == null || DateTime.Now > mcToken.ExpiresOn) // invalid mc session
         //     {
@@ -83,7 +105,7 @@ namespace MeloncherCore.Account
                 throw new MicrosoftOAuthException(msToken);
 
             var mcToken = mcLogin(msToken);
-            return getSessionCache(msToken, mcToken);
+            return getGameSession(msToken, mcToken);
         }
 
         public string CreateOAuthUrl()
@@ -103,7 +125,7 @@ namespace MeloncherCore.Account
         //     // saveSessionCache();
         // }
 
-        private MinecraftAccount getSessionCache(MicrosoftOAuthResponse? msToken, AuthenticationResponse mcToken)
+        private MinecraftAccount getGameSession(MicrosoftOAuthResponse? msToken, AuthenticationResponse mcToken)
         {
             var sessionCache = new MinecraftAccount(getSession(mcToken), msToken, mcToken);
             return sessionCache;

@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
-using CmlLib.Core.Auth;
 using MeloncherCore.Launcher;
 using Newtonsoft.Json;
 
@@ -87,7 +86,7 @@ namespace MeloncherCore.Account
 			}
 		}
 
-		private void SaveFile()
+		public void SaveFile()
 		{
 			var jsonStr = JsonConvert.SerializeObject(sessionList);
 			_ = File.WriteAllTextAsync(storagePath, jsonStr);

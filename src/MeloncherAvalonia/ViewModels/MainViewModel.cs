@@ -1,5 +1,4 @@
 using System;
-using System.ComponentModel;
 using System.Net;
 using System.Reactive;
 using System.Reactive.Linq;
@@ -9,7 +8,6 @@ using CmlLib.Core.Auth;
 using CmlLib.Core.Version;
 using CmlLib.Core.VersionLoader;
 using MeloncherAvalonia.Models;
-using MeloncherAvalonia.Views;
 using MeloncherCore.Account;
 using MeloncherCore.Discord;
 using MeloncherCore.Launcher;
@@ -75,7 +73,7 @@ namespace MeloncherAvalonia.ViewModels
 			PropertyChanged += (_, e) =>
 			{
 				if (e.PropertyName == "SelectedVersion") _launcherSettings.SelectedVersion = SelectedVersion?.Name;
-				if (e.PropertyName == "SelectedSession") _launcherSettings.SelectedAccount = SelectedAccount?.GameSession.Username;
+				if (e.PropertyName == "SelectedAccount") _launcherSettings.SelectedAccount = SelectedAccount?.GameSession.Username;
 			};
 		}
 
@@ -199,6 +197,8 @@ namespace MeloncherAvalonia.ViewModels
 
 		private void OnPlayButtonCommandExecuted()
 		{
+			
+			
 			new Task(async () =>
 			{
 				IsStarted = true;
@@ -209,7 +209,18 @@ namespace MeloncherAvalonia.ViewModels
 				_mcLauncher.WindowMode = _launcherSettings.WindowMode;
 				_mcLauncher.MaximumRamMb = _launcherSettings.MaximumRamMb;
 				if (SelectedVersion != null) _mcLauncher.Version = _versionTools.GetMcVersion(SelectedVersion.Name);
-				if (SelectedAccount != null) _mcLauncher.Session = SelectedAccount.GetSession();
+				
+				if (SelectedAccount != null)
+				{
+					if (!SelectedAccount.Validate())
+					{
+						if (SelectedAccount.Refresh())
+						{
+							_accountStorage.SaveFile();
+						}
+					}
+					_mcLauncher.Session = SelectedAccount.GameSession;
+				}
 
 				await _mcLauncher.Update();
 
