@@ -9,7 +9,7 @@ namespace MeloncherAvalonia.Models
 {
 	public class Updater
 	{
-		private const int CurrentVersion = 14;
+		private const int CurrentVersion = 15;
 		private WebClient _client = new();
 		private UpdaterJson? _updaterJson;
 		public UpdaterJson? CheckUpdates()

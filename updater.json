@@ -1,6 +1,6 @@
 {
-	"version": 13,
-	"direct_link": "https://github.com/Meloncher/Meloncher/releases/download/beta-1.0.3/Meloncher-Setup.exe",
+	"version": 15,
+	"direct_link": "https://github.com/Meloncher/Meloncher/releases/download/beta-1.0.5/MeloncherSetup.exe",
 	"launch_args": "/SUPPRESSMSGBOXES /NOICONS /LANG=russian /TASKS=\"\" /CLOSEAPPLICATIONS",
-	"description": "test"
+	"description": "Лаунчер нельзя закрыть при запущеной игре\nНовый формат аккаунтов\nАвтоматическая валидация аккаунтов"
 }
