@@ -1,14 +1,10 @@
 ﻿using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using CmlLib.Core.Auth;
-using CmlLib.Core.Auth.Microsoft;
-using CmlLib.Core.VersionLoader;
 using MeloncherCore.Account;
-using MeloncherCore.Launcher;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 
@@ -18,7 +14,7 @@ namespace MeloncherAvalonia.ViewModels
 	{
 		private readonly AccountStorage _accountStorage;
 
-		public AccountsViewModel(AccountStorage accountStorage, MSession? selectedSession)
+		public AccountsViewModel(AccountStorage accountStorage, MinecraftAccount? selectedSession)
 		{
 			SelectedSession = selectedSession;
 			DeleteAccountCommand = ReactiveCommand.Create(OnDeleteAccountCommandExecuted);
@@ -27,16 +23,16 @@ namespace MeloncherAvalonia.ViewModels
 			AddOfflineCommand = ReactiveCommand.Create(OnAddOfflineCommandExecuted);
 			OkCommand = ReactiveCommand.Create(OnOkCommandExecuted);
 			_accountStorage = accountStorage;
-			accountStorage.CollectionChanged += (_, _) => Accounts = new ObservableCollection<MSession>(accountStorage);
-			Accounts = new ObservableCollection<MSession>(accountStorage);
+			accountStorage.CollectionChanged += (_, _) => Accounts = new ObservableCollection<MinecraftAccount>(accountStorage);
+			Accounts = new ObservableCollection<MinecraftAccount>(accountStorage);
 		}
 
 		public AccountsViewModel()
 		{
 		}
 
-		[Reactive] public ObservableCollection<MSession> Accounts { get; set; }
-		[Reactive] public MSession? SelectedSession { get; set; }
+		[Reactive] public ObservableCollection<MinecraftAccount> Accounts { get; set; }
+		[Reactive] public MinecraftAccount? SelectedSession { get; set; }
 		public Interaction<AddAccountViewModel, AddAccountData?> ShowAddAccountDialog { get; } = new();
 		public Interaction<AddMicrosoftAccountViewModel, string?> ShowAddMicrosoftAccountDialog { get; } = new();
 
@@ -44,7 +40,7 @@ namespace MeloncherAvalonia.ViewModels
 
 		public ReactiveCommand<Unit, Task> AddMicrosoftCommand { get; }
 
-		public ReactiveCommand<Unit, MSession> OkCommand { get; }
+		public ReactiveCommand<Unit, MinecraftAccount> OkCommand { get; }
 
 		public ReactiveCommand<Unit, Task> AddMojangCommand { get; }
 
@@ -57,21 +53,24 @@ namespace MeloncherAvalonia.ViewModels
 
 		private async Task OnAddMicrosoftCommandExecuted()
 		{
-			var lh = new LoginHandler();
-			var psi = new ProcessStartInfo();
-			psi.UseShellExecute = true;
-			psi.FileName = lh.CreateOAuthUrl();
-			Process.Start(psi);
+			var lh = new MicrosoftLoginHandler();
+			Process.Start(new ProcessStartInfo
+			{
+				UseShellExecute = true,
+				FileName = lh.CreateOAuthUrl()
+			});
 			var dialog = new AddMicrosoftAccountViewModel();
 			var result = await ShowAddMicrosoftAccountDialog.Handle(dialog);
 			if (result != null)
 			{
-				if (lh.CheckOAuthLoginSuccess(result.ToString()))
+				if (lh.CheckOAuthLoginSuccess(result))
+				{
 					_accountStorage.Add(lh.LoginFromOAuth());
+				}
 			}
 		}
 
-		private MSession OnOkCommandExecuted()
+		private MinecraftAccount OnOkCommandExecuted()
 		{
 			return SelectedSession;
 		}
@@ -84,7 +83,7 @@ namespace MeloncherAvalonia.ViewModels
 			{
 				var login = new MLogin();
 				var resp = login.Authenticate(result.Username, result.Password);
-				if (resp.Session != null) _accountStorage.Add(resp.Session);
+				if (resp.Session != null) _accountStorage.Add(new MinecraftAccount(resp.Session));
 			}
 		}
 
@@ -95,7 +94,7 @@ namespace MeloncherAvalonia.ViewModels
 			if (result != null)
 			{
 				MSession session = MSession.GetOfflineSession(result.Username);
-				_accountStorage.Add(session);
+				_accountStorage.Add(new MinecraftAccount(session));
 			}
 		}
 	}

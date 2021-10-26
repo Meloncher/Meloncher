@@ -64,7 +64,7 @@ namespace MeloncherAvalonia.ViewModels
 				}
 			}
 
-			if (_launcherSettings.SelectedAccount != null) SelectedSession = _accountStorage.Get(_launcherSettings.SelectedAccount);
+			if (_launcherSettings.SelectedAccount != null) SelectedAccount = _accountStorage.Get(_launcherSettings.SelectedAccount);
 
 			_mcLauncher.McDownloadProgressChanged += OnMcLauncherOnMcDownloadProgressChanged;
 			// _mcLauncher.ProgressChanged += OnMcLauncherOnProgressChanged;
@@ -75,7 +75,7 @@ namespace MeloncherAvalonia.ViewModels
 			PropertyChanged += (_, e) =>
 			{
 				if (e.PropertyName == "SelectedVersion") _launcherSettings.SelectedVersion = SelectedVersion?.Name;
-				if (e.PropertyName == "SelectedSession") _launcherSettings.SelectedAccount = SelectedSession?.Username;
+				if (e.PropertyName == "SelectedSession") _launcherSettings.SelectedAccount = SelectedAccount?.GameSession.Username;
 			};
 		}
 
@@ -149,11 +149,11 @@ namespace MeloncherAvalonia.ViewModels
 		private readonly LauncherSettings _launcherSettings;
 		private readonly VersionTools _versionTools;
 
-		public Interaction<AccountsViewModel, MSession?> ShowSelectAccountDialog { get; } = new();
+		public Interaction<AccountsViewModel, MinecraftAccount?> ShowSelectAccountDialog { get; } = new();
 		public Interaction<VersionsViewModel, MVersionMetadata?> ShowSelectVersionDialog { get; } = new();
 		public Interaction<SettingsViewModel, SettingsAction?> ShowSettingsDialog { get; } = new();
 		[Reactive] public MVersionMetadata? SelectedVersion { get; set; }
-		[Reactive] public MSession? SelectedSession { get; set; } = MSession.GetOfflineSession("Player");
+		[Reactive] public MinecraftAccount? SelectedAccount { get; set; } = new(MSession.GetOfflineSession("Player"));
 
 		public ReactiveCommand<Unit, Task> OpenAccountsWindowCommand { get; }
 		public ReactiveCommand<Unit, Task> OpenVersionsWindowCommand { get; }
@@ -179,11 +179,11 @@ namespace MeloncherAvalonia.ViewModels
 
 		private async Task OnOpenAccountsWindowCommandExecuted()
 		{
-			var dialog = new AccountsViewModel(_accountStorage, SelectedSession);
+			var dialog = new AccountsViewModel(_accountStorage, SelectedAccount);
 			var result = await ShowSelectAccountDialog.Handle(dialog);
 			if (result != null)
 			{
-				SelectedSession = result;
+				SelectedAccount = result;
 			}
 		}
 
@@ -209,7 +209,7 @@ namespace MeloncherAvalonia.ViewModels
 				_mcLauncher.WindowMode = _launcherSettings.WindowMode;
 				_mcLauncher.MaximumRamMb = _launcherSettings.MaximumRamMb;
 				if (SelectedVersion != null) _mcLauncher.Version = _versionTools.GetMcVersion(SelectedVersion.Name);
-				if (SelectedSession != null) _mcLauncher.Session = SelectedSession;
+				if (SelectedAccount != null) _mcLauncher.Session = SelectedAccount.GetSession();
 
 				await _mcLauncher.Update();
 

@@ -27,7 +27,7 @@
 		<ListBox Grid.Row="1" SelectedItem="{Binding SelectedSession}" Items="{Binding Accounts}">
 			<ListBox.ItemTemplate>
 				<DataTemplate>
-					<TextBlock Text="{Binding Username}" />
+					<TextBlock Text="{Binding GameSession.Username}" />
 				</DataTemplate>
 			</ListBox.ItemTemplate>
 			<i:Interaction.Behaviors>

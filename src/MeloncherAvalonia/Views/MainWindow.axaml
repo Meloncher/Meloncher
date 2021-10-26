@@ -70,7 +70,7 @@
 									</Border.Background>
 								</Border>
 								<TextBlock Grid.Column="0" Grid.Row="0" HorizontalAlignment="Right" Text="Выбранный аккаунт" />
-								<TextBlock Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right" Foreground="LightGray" Text="{Binding SelectedSession.Username}" />
+								<TextBlock Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right" Foreground="LightGray" Text="{Binding SelectedSession.GameSession.Username}" />
 							</Grid>
 						</Button>
 					</Grid>

@@ -10,9 +10,9 @@ using Newtonsoft.Json;
 
 namespace MeloncherCore.Account
 {
-	public class AccountStorage : ICollection<MSession>, INotifyCollectionChanged
+	public class AccountStorage : ICollection<MinecraftAccount>, INotifyCollectionChanged
 	{
-		private Dictionary<string, MSession> sessionList = new();
+		private Dictionary<string, MinecraftAccount> sessionList = new();
 		private readonly string storagePath;
 
 		public AccountStorage(ExtMinecraftPath path)
@@ -21,7 +21,7 @@ namespace MeloncherCore.Account
 			LoadFile();
 		}
 
-		public IEnumerator<MSession> GetEnumerator()
+		public IEnumerator<MinecraftAccount> GetEnumerator()
 		{
 			foreach (var item in sessionList) yield return item.Value;
 		}
@@ -31,40 +31,38 @@ namespace MeloncherCore.Account
 			foreach (var item in sessionList) yield return item;
 		}
 
-		public void Add(MSession session)
+		public void Add(MinecraftAccount session)
 		{
-			sessionList.Add(session.Username, session);
+			sessionList.Add(session.GameSession.Username, session);
 			CollectionChanged.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 			SaveFile();
 		}
 
-		public MSession Get(string key)
+		public MinecraftAccount? Get(string key)
 		{
-			if (sessionList.ContainsKey(key))
-				return sessionList[key];
-			return null;
+			return sessionList.ContainsKey(key) ? sessionList[key] : null;
 		}
 
 		public void Clear()
 		{
-			sessionList = new Dictionary<string, MSession>();
+			sessionList = new Dictionary<string, MinecraftAccount>();
 			CollectionChanged.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 			SaveFile();
 		}
 
-		public bool Contains(MSession item)
+		public bool Contains(MinecraftAccount item)
 		{
-			return sessionList.ContainsKey(item.Username);
+			return sessionList.ContainsKey(item.GameSession.Username);
 		}
 
-		public void CopyTo(MSession[] array, int arrayIndex)
+		public void CopyTo(MinecraftAccount[] array, int arrayIndex)
 		{
 			sessionList.Values.CopyTo(array, arrayIndex);
 		}
 
-		public bool Remove(MSession item)
+		public bool Remove(MinecraftAccount item)
 		{
-			var remove = sessionList.Remove(item.Username);
+			var remove = sessionList.Remove(item.GameSession.Username);
 			CollectionChanged.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 			SaveFile();
 			return remove;
@@ -81,13 +79,12 @@ namespace MeloncherCore.Account
 			if (File.Exists(storagePath)) jsonStr = File.ReadAllText(storagePath);
 			try
 			{
-				sessionList = JsonConvert.DeserializeObject<Dictionary<string, MSession>>(jsonStr);
+				sessionList = JsonConvert.DeserializeObject<Dictionary<string, MinecraftAccount>>(jsonStr);
 			}
-			catch (Exception _)
+			catch (Exception)
 			{
-				sessionList = new Dictionary<string, MSession>();
+				sessionList = new Dictionary<string, MinecraftAccount>();
 			}
-			
 		}
 
 		private void SaveFile()

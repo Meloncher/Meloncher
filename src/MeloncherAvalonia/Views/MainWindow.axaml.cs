@@ -5,6 +5,7 @@ using Avalonia.ReactiveUI;
 using CmlLib.Core.Auth;
 using CmlLib.Core.Version;
 using MeloncherAvalonia.ViewModels;
+using MeloncherCore.Account;
 using ReactiveUI;
 
 namespace MeloncherAvalonia.Views
@@ -35,11 +36,11 @@ namespace MeloncherAvalonia.Views
 			AvaloniaXamlLoader.Load(this);
 		}
 
-		private async Task DoShowSelectAccountDialogAsync(InteractionContext<AccountsViewModel, MSession?> interaction)
+		private async Task DoShowSelectAccountDialogAsync(InteractionContext<AccountsViewModel, MinecraftAccount?> interaction)
 		{
 			var dialog = new AccountsWindow();
 			dialog.DataContext = interaction.Input;
-			var result = await dialog.ShowDialog<MSession?>(this);
+			var result = await dialog.ShowDialog<MinecraftAccount?>(this);
 			interaction.SetOutput(result);
 		}
 		
