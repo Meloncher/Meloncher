@@ -86,8 +86,8 @@ namespace MeloncherAvalonia.ViewModels
 				var res = await MessageBoxManager.GetMessageBoxStandardWindow(new MessageBoxStandardParams
 				{
 					ButtonDefinitions = ButtonEnum.YesNo,
-					ContentHeader = "Обновление",
-					ContentTitle = "Обновить сейчас?",
+					ContentHeader = "Обновить сейчас?",
+					ContentTitle = "Обновление",
 					ContentMessage = updaterJson.Description,
 					WindowStartupLocation = WindowStartupLocation.CenterScreen,
 					Topmost = true,

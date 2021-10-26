@@ -84,6 +84,14 @@ namespace MeloncherCore.Account
 			{
 				sessionList = new Dictionary<string, MinecraftAccount>();
 			}
+			
+			foreach (var keyValuePair in sessionList)
+			{
+				if (keyValuePair.Value.GameSession == null)
+				{
+					sessionList.Remove(keyValuePair.Key);
+				} 
+			}
 		}
 
 		public void SaveFile()

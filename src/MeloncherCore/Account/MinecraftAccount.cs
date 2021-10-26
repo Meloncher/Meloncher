@@ -1,4 +1,5 @@
-﻿using CmlLib.Core.Auth;
+﻿using System;
+using CmlLib.Core.Auth;
 using CmlLib.Core.Auth.Microsoft;
 using Newtonsoft.Json;
 using XboxAuthNet.OAuth;
@@ -43,22 +44,46 @@ namespace MeloncherCore.Account
 
 		public bool Validate()
 		{
-			return AccountType switch
+			if (AccountType == AccountType.Microsoft)
 			{
-				AccountType.Microsoft => new MicrosoftLoginHandler().Validate(this),
-				AccountType.Mojang => new MLogin().Validate(GameSession).Result == MLoginResult.Success,
-				_ => true
-			};
+				return new MicrosoftLoginHandler().Validate(this);
+			}
+
+			if (AccountType == AccountType.Mojang)
+			{
+				try
+				{
+					return new MLogin().Validate(GameSession).Result == MLoginResult.Success;
+				}
+				catch (Exception)
+				{
+					return false;
+				}
+			}
+
+			return true;
 		}
 
 		public bool Refresh()
 		{
-			return AccountType switch
+			if (AccountType == AccountType.Microsoft)
 			{
-				AccountType.Microsoft => new MicrosoftLoginHandler().Refresh(this),
-				AccountType.Mojang => new MLogin().Refresh(GameSession).Result == MLoginResult.Success,
-				_ => false
-			};
+				return new MicrosoftLoginHandler().Refresh(this);
+			}
+
+			if (AccountType == AccountType.Mojang)
+			{
+				try
+				{
+					return new MLogin().Refresh(GameSession).Result == MLoginResult.Success;
+				}
+				catch (Exception)
+				{
+					return false;
+				}
+			}
+
+			return false;
 		}
 	}
 

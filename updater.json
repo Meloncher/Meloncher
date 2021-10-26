@@ -1,6 +1,6 @@
 {
-	"version": 15,
-	"direct_link": "https://github.com/Meloncher/Meloncher/releases/download/beta-1.0.5/MeloncherSetup.exe",
+	"version": 16,
+	"direct_link": "https://github.com/Meloncher/Meloncher/releases/download/beta-1.0.6/MeloncherSetup.exe",
 	"launch_args": "/SUPPRESSMSGBOXES /NOICONS /LANG=russian /TASKS=\"\" /CLOSEAPPLICATIONS",
-	"description": "Лаунчер нельзя закрыть при запущеной игре\nНовый формат аккаунтов\nАвтоматическая валидация аккаунтов"
+	"description": "Хотфикс списка аккаунтов\nХотфикс краша при оффлайне на аккаунтах Mojang"
 }
