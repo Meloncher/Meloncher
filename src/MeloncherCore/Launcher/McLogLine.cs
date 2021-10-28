@@ -4,7 +4,7 @@ namespace MeloncherCore.Launcher
 {
 	public class McLogLine
 	{
-		public McLogLine(TimeSpan time, string thread, string type, string text)
+		private McLogLine(TimeSpan time, string thread, string type, string text)
 		{
 			Time = time;
 			Thread = thread;
@@ -13,15 +13,15 @@ namespace MeloncherCore.Launcher
 		}
 
 		public TimeSpan Time { get; set; }
-		public string Thread { get; set; }
-		public string Type { get; set; }
-		public string Text { get; set; }
+		public string? Thread { get; set; }
+		public string? Type { get; set; }
+		public string? Text { get; set; }
 
 		public static McLogLine Parse(string line)
 		{
 			var time = new TimeSpan(0, 0, 0);
-			string thread = null;
-			string type = null;
+			string? thread = null;
+			string? type = null;
 			var var0 = line.Split("] [", 2);
 			if (var0.Length == 2)
 			{
