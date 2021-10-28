@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Reactive;
 using CmlLib.Core.Version;
-using CmlLib.Core.VersionLoader;
 using DynamicData;
 using MeloncherCore.Version;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 
-namespace MeloncherAvalonia.ViewModels
+namespace MeloncherAvalonia.ViewModels.Dialogs
 {
 	public class VersionsViewModel : ViewModelBase
 	{

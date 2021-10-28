@@ -6,7 +6,7 @@
         mc:Ignorable="d"
         d:DesignWidth="512"
         d:DesignHeight="128"
-        x:Class="MeloncherAvalonia.Views.AddMicrosoftAccountWindow"
+        x:Class="MeloncherAvalonia.Views.Dialogs.AddMicrosoftAccountWindow"
         Title="Добавить аккаунт"
         Height="128"
         Width="512"

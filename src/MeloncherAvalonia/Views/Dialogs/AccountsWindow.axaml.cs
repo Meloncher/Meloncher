@@ -4,10 +4,10 @@ using Avalonia;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
-using MeloncherAvalonia.ViewModels;
+using MeloncherAvalonia.ViewModels.Dialogs;
 using ReactiveUI;
 
-namespace MeloncherAvalonia.Views
+namespace MeloncherAvalonia.Views.Dialogs
 {
 	public class AccountsWindow : ReactiveWindow<AccountsViewModel>
 	{

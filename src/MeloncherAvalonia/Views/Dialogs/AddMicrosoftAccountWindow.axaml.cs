@@ -3,14 +3,14 @@ using Avalonia;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
-using MeloncherAvalonia.ViewModels;
+using MeloncherAvalonia.ViewModels.Dialogs;
 using ReactiveUI;
 
-namespace MeloncherAvalonia.Views
+namespace MeloncherAvalonia.Views.Dialogs
 {
-	public class AddAccountWindow : ReactiveWindow<AddAccountViewModel>
+	public class AddMicrosoftAccountWindow : ReactiveWindow<AddMicrosoftAccountViewModel>
 	{
-		public AddAccountWindow()
+		public AddMicrosoftAccountWindow()
 		{
 			InitializeComponent();
 #if DEBUG

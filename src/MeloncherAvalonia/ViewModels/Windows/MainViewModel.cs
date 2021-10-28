@@ -8,6 +8,7 @@ using CmlLib.Core.Auth;
 using CmlLib.Core.Version;
 using CmlLib.Core.VersionLoader;
 using MeloncherAvalonia.Models;
+using MeloncherAvalonia.ViewModels.Dialogs;
 using MeloncherCore.Account;
 using MeloncherCore.Discord;
 using MeloncherCore.Launcher;
@@ -21,7 +22,7 @@ using MessageBox.Avalonia.Enums;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 
-namespace MeloncherAvalonia.ViewModels
+namespace MeloncherAvalonia.ViewModels.Windows
 {
 	public class MainViewModel : ViewModelBase
 	{
