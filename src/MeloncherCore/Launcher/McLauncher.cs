@@ -148,6 +148,7 @@ namespace MeloncherCore.Launcher
 			}
 			
 			McProcess = new McProcess(await launcher.CreateProcessAsync(launchOption));
+			McProcess.MinecraftOutput += args => MinecraftOutput?.Invoke(args);
 			sync.Load();
 			McProcess.Start();
 			if (WindowMode == WindowMode.Borderless)
