@@ -32,6 +32,7 @@ namespace MeloncherCore.Launcher
 		public bool UseOptifine { get; set; } = true;
 		public int MaximumRamMb { get; set; } = 2048;
 		public WindowMode WindowMode { get; set; } = WindowMode.Windowed;
+		public McProcess? McProcess = null;
 
 		public event McDownloadProgressEventHandler? McDownloadProgressChanged;
 
@@ -145,28 +146,17 @@ namespace MeloncherCore.Launcher
 					FixJavaBinaryPath(_minecraftPath, launchOption.StartVersion);
 				}
 			}
-
-			var process = await launcher.CreateProcessAsync(launchOption);
-
+			
+			McProcess = new McProcess(await launcher.CreateProcessAsync(launchOption));
 			sync.Load();
-			process.StartInfo.RedirectStandardOutput = true;
-			process.StartInfo.RedirectStandardError = true;
-			process.Start();
-			new Task(() =>
-			{
-				while (!process.StandardOutput.EndOfStream)
-				{
-					var line = process.StandardOutput.ReadLine();
-					MinecraftOutput?.Invoke(new MinecraftOutputEventArgs(line));
-				}
-			}).Start();
+			McProcess.Start();
 			if (WindowMode == WindowMode.Borderless)
 			{
-				var wt = new WindowTweaks(process);
+				var wt = new WindowTweaks(McProcess.Process);
 				_ = wt.Borderless();
 			}
 
-			await process.WaitForExitAsync();
+			await McProcess.WaitForExitAsync();
 			sync.Save();
 			return true;
 		}

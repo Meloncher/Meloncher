@@ -36,11 +36,11 @@ namespace MeloncherAvalonia.Views
 			AvaloniaXamlLoader.Load(this);
 		}
 
-		private async Task DoShowSelectAccountDialogAsync(InteractionContext<AccountsViewModel, MinecraftAccount?> interaction)
+		private async Task DoShowSelectAccountDialogAsync(InteractionContext<AccountsViewModel, McAccount?> interaction)
 		{
 			var dialog = new AccountsWindow();
 			dialog.DataContext = interaction.Input;
-			var result = await dialog.ShowDialog<MinecraftAccount?>(this);
+			var result = await dialog.ShowDialog<McAccount?>(this);
 			interaction.SetOutput(result);
 		}
 		

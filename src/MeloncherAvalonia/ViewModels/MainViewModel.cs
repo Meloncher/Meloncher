@@ -147,11 +147,11 @@ namespace MeloncherAvalonia.ViewModels
 		private readonly LauncherSettings _launcherSettings;
 		private readonly VersionTools _versionTools;
 
-		public Interaction<AccountsViewModel, MinecraftAccount?> ShowSelectAccountDialog { get; } = new();
+		public Interaction<AccountsViewModel, McAccount?> ShowSelectAccountDialog { get; } = new();
 		public Interaction<VersionsViewModel, MVersionMetadata?> ShowSelectVersionDialog { get; } = new();
 		public Interaction<SettingsViewModel, SettingsAction?> ShowSettingsDialog { get; } = new();
 		[Reactive] public MVersionMetadata? SelectedVersion { get; set; }
-		[Reactive] public MinecraftAccount? SelectedAccount { get; set; } = new(MSession.GetOfflineSession("Player"));
+		[Reactive] public McAccount? SelectedAccount { get; set; } = new(MSession.GetOfflineSession("Player"));
 
 		public ReactiveCommand<Unit, Task> OpenAccountsWindowCommand { get; }
 		public ReactiveCommand<Unit, Task> OpenVersionsWindowCommand { get; }

@@ -6,7 +6,7 @@ using XboxAuthNet.OAuth;
 
 namespace MeloncherCore.Account
 {
-	public class MinecraftAccount
+	public class McAccount
 	{
 		[JsonProperty("AccountType")] public AccountType AccountType { get; set; }
 		[JsonProperty("GameSession")] public MSession GameSession { get; set; }
@@ -16,11 +16,11 @@ namespace MeloncherCore.Account
 
 		[JsonProperty("XboxSession")] public AuthenticationResponse? XboxSession { get; set; }
 
-		public MinecraftAccount()
+		public McAccount()
 		{
 		}
 
-		public MinecraftAccount(MSession gameSession)
+		public McAccount(MSession gameSession)
 		{
 			AccountType = gameSession.ClientToken == null ? AccountType.Offline : AccountType.Mojang;
 			GameSession = gameSession;
@@ -34,7 +34,7 @@ namespace MeloncherCore.Account
 		// 	XboxSession = sessionCache.XboxSession;
 		// }
 
-		public MinecraftAccount(MSession gameSession, MicrosoftOAuthResponse microsoftOAuthSession, AuthenticationResponse xboxSession)
+		public McAccount(MSession gameSession, MicrosoftOAuthResponse microsoftOAuthSession, AuthenticationResponse xboxSession)
 		{
 			AccountType = AccountType.Microsoft;
 			GameSession = gameSession;

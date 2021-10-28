@@ -9,9 +9,9 @@ using Newtonsoft.Json;
 
 namespace MeloncherCore.Account
 {
-	public class AccountStorage : ICollection<MinecraftAccount>, INotifyCollectionChanged
+	public class AccountStorage : ICollection<McAccount>, INotifyCollectionChanged
 	{
-		private Dictionary<string, MinecraftAccount> sessionList = new();
+		private Dictionary<string, McAccount> sessionList = new();
 		private readonly string storagePath;
 
 		public AccountStorage(ExtMinecraftPath path)
@@ -20,7 +20,7 @@ namespace MeloncherCore.Account
 			LoadFile();
 		}
 
-		public IEnumerator<MinecraftAccount> GetEnumerator()
+		public IEnumerator<McAccount> GetEnumerator()
 		{
 			foreach (var item in sessionList) yield return item.Value;
 		}
@@ -30,36 +30,36 @@ namespace MeloncherCore.Account
 			foreach (var item in sessionList) yield return item;
 		}
 
-		public void Add(MinecraftAccount session)
+		public void Add(McAccount session)
 		{
 			sessionList.Add(session.GameSession.Username, session);
 			CollectionChanged.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 			SaveFile();
 		}
 
-		public MinecraftAccount? Get(string key)
+		public McAccount? Get(string key)
 		{
 			return sessionList.ContainsKey(key) ? sessionList[key] : null;
 		}
 
 		public void Clear()
 		{
-			sessionList = new Dictionary<string, MinecraftAccount>();
+			sessionList = new Dictionary<string, McAccount>();
 			CollectionChanged.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 			SaveFile();
 		}
 
-		public bool Contains(MinecraftAccount item)
+		public bool Contains(McAccount item)
 		{
 			return sessionList.ContainsKey(item.GameSession.Username);
 		}
 
-		public void CopyTo(MinecraftAccount[] array, int arrayIndex)
+		public void CopyTo(McAccount[] array, int arrayIndex)
 		{
 			sessionList.Values.CopyTo(array, arrayIndex);
 		}
 
-		public bool Remove(MinecraftAccount item)
+		public bool Remove(McAccount item)
 		{
 			var remove = sessionList.Remove(item.GameSession.Username);
 			CollectionChanged.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
@@ -78,11 +78,11 @@ namespace MeloncherCore.Account
 			if (File.Exists(storagePath)) jsonStr = File.ReadAllText(storagePath);
 			try
 			{
-				sessionList = JsonConvert.DeserializeObject<Dictionary<string, MinecraftAccount>>(jsonStr);
+				sessionList = JsonConvert.DeserializeObject<Dictionary<string, McAccount>>(jsonStr);
 			}
 			catch (Exception)
 			{
-				sessionList = new Dictionary<string, MinecraftAccount>();
+				sessionList = new Dictionary<string, McAccount>();
 			}
 			
 			foreach (var keyValuePair in sessionList)

@@ -14,7 +14,7 @@ namespace MeloncherAvalonia.ViewModels
 	{
 		private readonly AccountStorage _accountStorage;
 
-		public AccountsViewModel(AccountStorage accountStorage, MinecraftAccount? selectedSession)
+		public AccountsViewModel(AccountStorage accountStorage, McAccount? selectedSession)
 		{
 			SelectedSession = selectedSession;
 			DeleteAccountCommand = ReactiveCommand.Create(OnDeleteAccountCommandExecuted);
@@ -23,16 +23,16 @@ namespace MeloncherAvalonia.ViewModels
 			AddOfflineCommand = ReactiveCommand.Create(OnAddOfflineCommandExecuted);
 			OkCommand = ReactiveCommand.Create(OnOkCommandExecuted);
 			_accountStorage = accountStorage;
-			accountStorage.CollectionChanged += (_, _) => Accounts = new ObservableCollection<MinecraftAccount>(accountStorage);
-			Accounts = new ObservableCollection<MinecraftAccount>(accountStorage);
+			accountStorage.CollectionChanged += (_, _) => Accounts = new ObservableCollection<McAccount>(accountStorage);
+			Accounts = new ObservableCollection<McAccount>(accountStorage);
 		}
 
 		public AccountsViewModel()
 		{
 		}
 
-		[Reactive] public ObservableCollection<MinecraftAccount> Accounts { get; set; }
-		[Reactive] public MinecraftAccount? SelectedSession { get; set; }
+		[Reactive] public ObservableCollection<McAccount> Accounts { get; set; }
+		[Reactive] public McAccount? SelectedSession { get; set; }
 		public Interaction<AddAccountViewModel, AddAccountData?> ShowAddAccountDialog { get; } = new();
 		public Interaction<AddMicrosoftAccountViewModel, string?> ShowAddMicrosoftAccountDialog { get; } = new();
 
@@ -40,7 +40,7 @@ namespace MeloncherAvalonia.ViewModels
 
 		public ReactiveCommand<Unit, Task> AddMicrosoftCommand { get; }
 
-		public ReactiveCommand<Unit, MinecraftAccount> OkCommand { get; }
+		public ReactiveCommand<Unit, McAccount> OkCommand { get; }
 
 		public ReactiveCommand<Unit, Task> AddMojangCommand { get; }
 
@@ -70,7 +70,7 @@ namespace MeloncherAvalonia.ViewModels
 			}
 		}
 
-		private MinecraftAccount OnOkCommandExecuted()
+		private McAccount OnOkCommandExecuted()
 		{
 			return SelectedSession;
 		}
@@ -83,7 +83,7 @@ namespace MeloncherAvalonia.ViewModels
 			{
 				var login = new MLogin();
 				var resp = login.Authenticate(result.Username, result.Password);
-				if (resp.Session != null) _accountStorage.Add(new MinecraftAccount(resp.Session));
+				if (resp.Session != null) _accountStorage.Add(new McAccount(resp.Session));
 			}
 		}
 
@@ -94,7 +94,7 @@ namespace MeloncherAvalonia.ViewModels
 			if (result != null)
 			{
 				MSession session = MSession.GetOfflineSession(result.Username);
-				_accountStorage.Add(new MinecraftAccount(session));
+				_accountStorage.Add(new McAccount(session));
 			}
 		}
 	}
