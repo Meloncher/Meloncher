@@ -4,7 +4,6 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:i="using:Avalonia.Xaml.Interactivity"
         xmlns:ia="using:Avalonia.Xaml.Interactions.Core"
-        xmlns:vm="clr-namespace:MeloncherAvalonia.ViewModels"
         mc:Ignorable="d"
         d:DesignWidth="320"
         d:DesignHeight="450"
@@ -32,7 +31,7 @@
 			</ListBox.ItemTemplate>
 			<i:Interaction.Behaviors>
 				<ia:EventTriggerBehavior EventName="DoubleTapped">
-					<ia:InvokeCommandAction Command="{Binding OkCommand}" CommandParameter="{x:Null}"></ia:InvokeCommandAction>
+					<ia:InvokeCommandAction Command="{Binding OkCommand}" CommandParameter="{x:Null}" />
 				</ia:EventTriggerBehavior>
 			</i:Interaction.Behaviors>
 		</ListBox>
@@ -41,7 +40,7 @@
 			<Button HorizontalAlignment="Stretch" Command="{Binding AddMojangCommand}" Content="Добавить Mojang" Height="32" />
 			<Button HorizontalAlignment="Stretch" Command="{Binding AddMicrosoftCommand}" Content="Добавить Microsoft" Height="32" />
 			<Button HorizontalAlignment="Stretch" Command="{Binding DeleteAccountCommand}" Content="Удалить выбранное" Height="32" />
-			<Button Command="{Binding OkCommand}" Content="Ok" Height="32" HorizontalAlignment="Stretch" Grid.Row="2" />
+			<Button Command="{Binding OkCommand}" Content="Ok" Height="32" HorizontalAlignment="Stretch" />
 		</StackPanel>
 	</Grid>
 </Window>

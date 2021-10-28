@@ -8,11 +8,11 @@ namespace MeloncherCore.Options
 	internal class McOptionsSync
 	{
 		private readonly string[] _gameOptionsNoSyncKeys = {"resourcePacks", "incompatibleResourcePacks", "skin"};
+		private readonly string _launcherGameOptionsPath;
+		private readonly string _launcherOptifineOptionsPath;
 		private readonly string[] _optifineOptionsNoSyncKeys = Array.Empty<string>();
 		private readonly string _profileGameOptionsPath;
-		private readonly string _launcherGameOptionsPath;
 		private readonly string _profileOptifineOptionsPath;
-		private readonly string _launcherOptifineOptionsPath;
 
 		public McOptionsSync(ExtMinecraftPath path)
 		{

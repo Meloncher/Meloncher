@@ -26,13 +26,15 @@ namespace MeloncherAvalonia.ViewModels.Windows
 {
 	public class MainViewModel : ViewModelBase
 	{
+		private readonly AccountStorage _accountStorage;
 		private readonly DiscordRpcTools _discordRpcTools = new();
+		private readonly LauncherSettings _launcherSettings;
 
 		private readonly McLauncher _mcLauncher;
-		private readonly IVersionLoader _versionLoader;
-		private readonly MVersionCollection _versionCollection;
-		private readonly AccountStorage _accountStorage;
 		private readonly ExtMinecraftPath _path;
+		private readonly MVersionCollection _versionCollection;
+		private readonly IVersionLoader _versionLoader;
+		private readonly VersionTools _versionTools;
 
 		public MainViewModel()
 		{
@@ -52,7 +54,6 @@ namespace MeloncherAvalonia.ViewModels.Windows
 			_launcherSettings = LauncherSettings.New(_path);
 			SelectedVersion = _versionCollection.LatestReleaseVersion;
 			if (_launcherSettings.SelectedVersion != null)
-			{
 				try
 				{
 					SelectedVersion = _versionCollection.GetVersionMetadata(_launcherSettings.SelectedVersion);
@@ -61,7 +62,6 @@ namespace MeloncherAvalonia.ViewModels.Windows
 				{
 					// ignored
 				}
-			}
 
 			if (_launcherSettings.SelectedAccount != null) SelectedAccount = _accountStorage.Get(_launcherSettings.SelectedAccount);
 
@@ -78,6 +78,25 @@ namespace MeloncherAvalonia.ViewModels.Windows
 			};
 		}
 
+		[Reactive] public string Title { get; set; } = "Meloncher";
+		[Reactive] public int ProgressValue { get; set; }
+		[Reactive] public string? ProgressText { get; set; }
+		[Reactive] public bool ProgressHidden { get; set; } = true;
+		[Reactive] public bool IsStarted { get; private set; }
+		[Reactive] public bool IsLaunched { get; private set; }
+
+		public Interaction<AccountsViewModel, McAccount?> ShowSelectAccountDialog { get; } = new();
+		public Interaction<VersionsViewModel, MVersionMetadata?> ShowSelectVersionDialog { get; } = new();
+		public Interaction<SettingsViewModel, SettingsAction?> ShowSettingsDialog { get; } = new();
+		[Reactive] public MVersionMetadata? SelectedVersion { get; set; }
+		[Reactive] public McAccount? SelectedAccount { get; set; } = new(MSession.GetOfflineSession("Player"));
+
+		public ReactiveCommand<Unit, Task> OpenAccountsWindowCommand { get; }
+		public ReactiveCommand<Unit, Task> OpenVersionsWindowCommand { get; }
+		public ReactiveCommand<Unit, Unit> PlayButtonCommand { get; }
+
+		public ReactiveCommand<Unit, Task> OpenSettingsWindowCommand { get; }
+
 		public async Task CheckUpdates()
 		{
 			Updater updater = new();
@@ -91,25 +110,21 @@ namespace MeloncherAvalonia.ViewModels.Windows
 					ContentTitle = "Обновление",
 					ContentMessage = updaterJson.Description,
 					WindowStartupLocation = WindowStartupLocation.CenterScreen,
-					Topmost = true,
+					Topmost = true
 				}).Show();
 				if (res == ButtonResult.Yes)
 				{
 					if (updater.Update())
-					{
 						Environment.Exit(0);
-					}
 					else
-					{
 						await MessageBoxManager.GetMessageBoxStandardWindow(new MessageBoxStandardParams
 						{
 							ButtonDefinitions = ButtonEnum.Ok,
 							ContentTitle = "Обновление",
 							ContentMessage = "Ошибка при обновлении",
 							WindowStartupLocation = WindowStartupLocation.CenterScreen,
-							Topmost = true,
+							Topmost = true
 						}).Show();
-					}
 				}
 			}
 		}
@@ -139,33 +154,11 @@ namespace MeloncherAvalonia.ViewModels.Windows
 				};
 		}
 
-		[Reactive] public string Title { get; set; } = "Meloncher";
-		[Reactive] public int ProgressValue { get; set; }
-		[Reactive] public string? ProgressText { get; set; }
-		[Reactive] public bool ProgressHidden { get; set; } = true;
-		[Reactive] public bool IsStarted { get; private set; }
-		[Reactive] public bool IsLaunched { get; private set; }
-		private readonly LauncherSettings _launcherSettings;
-		private readonly VersionTools _versionTools;
-
-		public Interaction<AccountsViewModel, McAccount?> ShowSelectAccountDialog { get; } = new();
-		public Interaction<VersionsViewModel, MVersionMetadata?> ShowSelectVersionDialog { get; } = new();
-		public Interaction<SettingsViewModel, SettingsAction?> ShowSettingsDialog { get; } = new();
-		[Reactive] public MVersionMetadata? SelectedVersion { get; set; }
-		[Reactive] public McAccount? SelectedAccount { get; set; } = new(MSession.GetOfflineSession("Player"));
-
-		public ReactiveCommand<Unit, Task> OpenAccountsWindowCommand { get; }
-		public ReactiveCommand<Unit, Task> OpenVersionsWindowCommand { get; }
-		public ReactiveCommand<Unit, Unit> PlayButtonCommand { get; }
-
-		public ReactiveCommand<Unit, Task> OpenSettingsWindowCommand { get; }
-
 		private async Task OnOpenSettingsWindowCommandExecuted()
 		{
 			var dialog = new SettingsViewModel(_launcherSettings);
 			var result = await ShowSettingsDialog.Handle(dialog);
 			if (result != null)
-			{
 				if (result == SettingsAction.Import)
 				{
 					var importer = new McOptionsImporter(_path);
@@ -173,33 +166,24 @@ namespace MeloncherAvalonia.ViewModels.Windows
 					var messageBoxStandardWindow = MessageBoxManager.GetMessageBoxStandardWindow("Готово", "Готово!");
 					await messageBoxStandardWindow.Show();
 				}
-			}
 		}
 
 		private async Task OnOpenAccountsWindowCommandExecuted()
 		{
 			var dialog = new AccountsViewModel(_accountStorage, SelectedAccount);
 			var result = await ShowSelectAccountDialog.Handle(dialog);
-			if (result != null)
-			{
-				SelectedAccount = result;
-			}
+			if (result != null) SelectedAccount = result;
 		}
 
 		private async Task OnOpenVersionsWindowCommandExecuted()
 		{
 			var dialog = new VersionsViewModel(_versionTools, _versionCollection, SelectedVersion);
 			var result = await ShowSelectVersionDialog.Handle(dialog);
-			if (result != null)
-			{
-				SelectedVersion = result;
-			}
+			if (result != null) SelectedVersion = result;
 		}
 
 		private void OnPlayButtonCommandExecuted()
 		{
-			
-			
 			new Task(async () =>
 			{
 				IsStarted = true;
@@ -210,16 +194,12 @@ namespace MeloncherAvalonia.ViewModels.Windows
 				_mcLauncher.WindowMode = _launcherSettings.WindowMode;
 				_mcLauncher.MaximumRamMb = _launcherSettings.MaximumRamMb;
 				if (SelectedVersion != null) _mcLauncher.Version = _versionTools.GetMcVersion(SelectedVersion.Name);
-				
+
 				if (SelectedAccount != null)
 				{
 					if (!SelectedAccount.Validate())
-					{
 						if (SelectedAccount.Refresh())
-						{
 							_accountStorage.SaveFile();
-						}
-					}
 					_mcLauncher.Session = SelectedAccount.GameSession;
 				}
 

@@ -123,7 +123,7 @@ namespace MeloncherCore.Optifine.Bobcat
 
 
 			var versionJsonPath = MinecraftPath.GetVersionJsonPath(id);
-			
+
 			var jsonStr = JsonConvert.SerializeObject(versionModel, JsonHelper.CamelCasePropertyNamesSettings);
 			await File.WriteAllTextAsync(versionJsonPath, jsonStr).ConfigureAwait(false);
 
@@ -149,7 +149,7 @@ namespace MeloncherCore.Optifine.Bobcat
 			var optifineLibPath = Path.Combine(MinecraftPath.Library, "optifine", "Optifine",
 				$"{OptifineDownloadVersion.McVersion}_{editionRelease}",
 				$"Optifine-{OptifineDownloadVersion.McVersion}_{editionRelease}.jar");
-			
+
 			var optifineLibPathDi = new DirectoryInfo(Path.GetDirectoryName(optifineLibPath)!);
 			if (!optifineLibPathDi.Exists)
 				optifineLibPathDi.Create();

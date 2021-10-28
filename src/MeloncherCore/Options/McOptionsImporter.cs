@@ -9,11 +9,11 @@ namespace MeloncherCore.Options
 	public class McOptionsImporter
 	{
 		private readonly string[] _gameOptionsNoSyncKeys = {"resourcePacks", "incompatibleResourcePacks", "skin"};
-		private readonly string[] _optifineOptionsNoSyncKeys = Array.Empty<string>();
 		private readonly string _importGameOptionsPath;
 		private readonly string _importOptifineOptionsPath;
 		private readonly string _launcherGameOptionsPath;
 		private readonly string _launcherOptifineOptionsPath;
+		private readonly string[] _optifineOptionsNoSyncKeys = Array.Empty<string>();
 
 		public McOptionsImporter(ExtMinecraftPath path)
 		{
@@ -28,7 +28,7 @@ namespace MeloncherCore.Options
 			save(_launcherGameOptionsPath, _importGameOptionsPath, _gameOptionsNoSyncKeys);
 			save(_launcherOptifineOptionsPath, _importOptifineOptionsPath, _optifineOptionsNoSyncKeys);
 		}
-		
+
 		private void save(string launcherOptionsPath, string profileOptionsPath, string[] noSyncKeys)
 		{
 			if (!File.Exists(launcherOptionsPath))

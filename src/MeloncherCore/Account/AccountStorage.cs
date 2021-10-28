@@ -11,8 +11,8 @@ namespace MeloncherCore.Account
 {
 	public class AccountStorage : ICollection<McAccount>, INotifyCollectionChanged
 	{
-		private Dictionary<string, McAccount> sessionList = new();
 		private readonly string storagePath;
+		private Dictionary<string, McAccount> sessionList = new();
 
 		public AccountStorage(ExtMinecraftPath path)
 		{
@@ -35,11 +35,6 @@ namespace MeloncherCore.Account
 			sessionList.Add(session.GameSession.Username, session);
 			CollectionChanged.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 			SaveFile();
-		}
-
-		public McAccount? Get(string key)
-		{
-			return sessionList.ContainsKey(key) ? sessionList[key] : null;
 		}
 
 		public void Clear()
@@ -72,6 +67,11 @@ namespace MeloncherCore.Account
 
 		public event NotifyCollectionChangedEventHandler CollectionChanged;
 
+		public McAccount? Get(string key)
+		{
+			return sessionList.ContainsKey(key) ? sessionList[key] : null;
+		}
+
 		private void LoadFile()
 		{
 			var jsonStr = "{}";
@@ -84,14 +84,10 @@ namespace MeloncherCore.Account
 			{
 				sessionList = new Dictionary<string, McAccount>();
 			}
-			
+
 			foreach (var keyValuePair in sessionList)
-			{
 				if (keyValuePair.Value.GameSession == null)
-				{
 					sessionList.Remove(keyValuePair.Key);
-				} 
-			}
 		}
 
 		public void SaveFile()

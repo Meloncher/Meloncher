@@ -15,7 +15,7 @@ namespace MeloncherCore.Version
 		public string Name { get; set; }
 		public string Type { get; set; }
 		public string ProfileName { get; set; }
-		
+
 		public MVersion MVersion { get; set; }
 	}
 }

@@ -44,7 +44,7 @@ namespace MeloncherAvalonia.Views.Windows
 			var result = await dialog.ShowDialog<McAccount?>(this);
 			interaction.SetOutput(result);
 		}
-		
+
 		private async Task DoShowSelectVersionDialogAsync(InteractionContext<VersionsViewModel, MVersionMetadata?> interaction)
 		{
 			var dialog = new VersionsWindow();

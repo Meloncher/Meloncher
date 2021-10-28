@@ -12,8 +12,8 @@ namespace MeloncherAvalonia.ViewModels.Dialogs
 {
 	public class VersionsViewModel : ViewModelBase
 	{
-		private readonly VersionTools _versionTools;
 		private readonly MVersionCollection _versionCollection;
+		private readonly VersionTools _versionTools;
 
 		public VersionsViewModel(VersionTools versionTools, MVersionCollection? versionCollection, MVersionMetadata? selectedVersion)
 		{
@@ -36,6 +36,8 @@ namespace MeloncherAvalonia.ViewModels.Dialogs
 		[Reactive] public ObservableCollection<MVersionMetadata> Versions { get; set; }
 		[Reactive] public MVersionMetadata? SelectedVersion { get; set; }
 		[Reactive] public int VersionType { get; set; }
+
+		public ReactiveCommand<Unit, MVersionMetadata?> OkCommand { get; }
 
 		private void UpdateList()
 		{
@@ -72,8 +74,6 @@ namespace MeloncherAvalonia.ViewModels.Dialogs
 			}));
 			Versions = new ObservableCollection<MVersionMetadata>(lst);
 		}
-
-		public ReactiveCommand<Unit, MVersionMetadata?> OkCommand { get; }
 
 		private MVersionMetadata? OnOkCommandExecuted()
 		{

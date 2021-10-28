@@ -17,7 +17,7 @@ namespace MeloncherCore.Launcher
 
 		public WindowTweaks(Process process)
 		{
-			this._process = process;
+			_process = process;
 		}
 
 		private async Task<IntPtr> GetHWnd()

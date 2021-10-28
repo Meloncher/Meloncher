@@ -9,6 +9,11 @@ namespace MeloncherCore.Version
 	{
 		private readonly MinecraftPath _minecraftPath;
 
+		public VersionTools(MinecraftPath minecraftPath)
+		{
+			_minecraftPath = minecraftPath;
+		}
+
 		public MVersionCollection GetVersionMetadatas()
 		{
 			try
@@ -31,11 +36,6 @@ namespace MeloncherCore.Version
 			{
 				return null;
 			}
-		}
-
-		public VersionTools(MinecraftPath minecraftPath)
-		{
-			_minecraftPath = minecraftPath;
 		}
 
 		public McVersion? GetMcVersion(string versionName)

@@ -4,7 +4,6 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:i="using:Avalonia.Xaml.Interactivity"
         xmlns:ia="using:Avalonia.Xaml.Interactions.Core"
-        xmlns:vm="clr-namespace:MeloncherAvalonia.ViewModels"
         mc:Ignorable="d"
         d:DesignWidth="320"
         d:DesignHeight="450"
@@ -21,7 +20,7 @@
 	<!-- <Window.DataContext> -->
 	<!-- 	<vm:VersionsViewModel /> -->
 	<!-- </Window.DataContext> -->
-	
+
 	<Grid RowDefinitions="26,Auto,*,Auto">
 		<Button Content="X" Width="48" Height="26" HorizontalAlignment="Right" Click="Button_OnClick" />
 		<ComboBox Grid.Row="1" SelectedIndex="{Binding VersionType}" HorizontalAlignment="Stretch">
@@ -39,7 +38,7 @@
 			</ListBox.ItemTemplate>
 			<i:Interaction.Behaviors>
 				<ia:EventTriggerBehavior EventName="DoubleTapped">
-					<ia:InvokeCommandAction Command="{Binding OkCommand}" CommandParameter="{x:Null}"></ia:InvokeCommandAction>
+					<ia:InvokeCommandAction Command="{Binding OkCommand}" CommandParameter="{x:Null}" />
 				</ia:EventTriggerBehavior>
 			</i:Interaction.Behaviors>
 		</ListBox>

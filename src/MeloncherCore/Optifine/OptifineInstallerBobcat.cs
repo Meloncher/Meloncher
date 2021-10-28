@@ -132,10 +132,7 @@ namespace MeloncherCore.Optifine
 			using (var wc = new WebClient())
 			{
 				var url = new Uri("https://optifine.net/download?f=" + ofVer.FileName);
-				wc.DownloadProgressChanged += (sender, e) =>
-				{
-					ProgressChanged?.Invoke(sender, e);
-				};
+				wc.DownloadProgressChanged += (sender, e) => { ProgressChanged?.Invoke(sender, e); };
 				await wc.DownloadFileTaskAsync(url, installerPath);
 			}
 

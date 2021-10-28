@@ -10,8 +10,9 @@ namespace MeloncherAvalonia.Models
 	public class Updater
 	{
 		private const int CurrentVersion = 16;
-		private WebClient _client = new();
+		private readonly WebClient _client = new();
 		private UpdaterJson? _updaterJson;
+
 		public UpdaterJson? CheckUpdates()
 		{
 			try
@@ -31,7 +32,6 @@ namespace MeloncherAvalonia.Models
 		public bool Update()
 		{
 			if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-			{
 				try
 				{
 					return updateWindows();
@@ -40,7 +40,6 @@ namespace MeloncherAvalonia.Models
 				{
 					// ignored
 				}
-			}
 
 			return false;
 		}

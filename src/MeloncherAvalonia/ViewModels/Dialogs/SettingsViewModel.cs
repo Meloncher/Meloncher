@@ -7,8 +7,6 @@ namespace MeloncherAvalonia.ViewModels.Dialogs
 {
 	public class SettingsViewModel : ViewModelBase
 	{
-		[Reactive] public LauncherSettings LauncherSettings { get; set; }
-
 		public SettingsViewModel(LauncherSettings launcherSettings)
 		{
 			LauncherSettings = launcherSettings;
@@ -20,14 +18,16 @@ namespace MeloncherAvalonia.ViewModels.Dialogs
 		{
 		}
 
+		[Reactive] public LauncherSettings LauncherSettings { get; set; }
+
 		public ReactiveCommand<Unit, SettingsAction> ImportCommand { get; }
+
+		public ReactiveCommand<Unit, SettingsAction> OkCommand { get; }
 
 		private SettingsAction OnImportCommandExecuted()
 		{
 			return SettingsAction.Import;
 		}
-
-		public ReactiveCommand<Unit, SettingsAction> OkCommand { get; }
 
 		private SettingsAction OnOkCommandExecuted()
 		{

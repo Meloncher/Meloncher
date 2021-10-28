@@ -17,12 +17,17 @@ namespace MeloncherCore.Launcher
 {
 	public class McLauncher
 	{
+		private readonly ExtMinecraftPath _minecraftPath;
+		private bool _downloadProgressIsChecking = true;
+		private int _downloadProgressPercentage;
+
+		private string _downloadProgressType = "unknown";
+		public McProcess? McProcess;
+
 		public McLauncher(ExtMinecraftPath minecraftPath)
 		{
 			_minecraftPath = minecraftPath;
 		}
-
-		private readonly ExtMinecraftPath _minecraftPath;
 
 		public McVersion? Version { get; set; }
 
@@ -32,13 +37,8 @@ namespace MeloncherCore.Launcher
 		public bool UseOptifine { get; set; } = true;
 		public int MaximumRamMb { get; set; } = 2048;
 		public WindowMode WindowMode { get; set; } = WindowMode.Windowed;
-		public McProcess? McProcess = null;
 
 		public event McDownloadProgressEventHandler? McDownloadProgressChanged;
-
-		private string _downloadProgressType = "unknown";
-		private int _downloadProgressPercentage = 0;
-		private bool _downloadProgressIsChecking = true;
 
 		private void InvokeMcDownloadProgressEvent()
 		{
@@ -146,7 +146,7 @@ namespace MeloncherCore.Launcher
 					FixJavaBinaryPath(_minecraftPath, launchOption.StartVersion);
 				}
 			}
-			
+
 			McProcess = new McProcess(await launcher.CreateProcessAsync(launchOption));
 			McProcess.MinecraftOutput += args => MinecraftOutput?.Invoke(args);
 			sync.Load();

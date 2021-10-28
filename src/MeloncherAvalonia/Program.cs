@@ -24,10 +24,11 @@ namespace MeloncherAvalonia
 				string mcpath = ExtMinecraftPath.GetOSDefaultPath();
 				if (!Directory.Exists(mcpath))
 					Directory.CreateDirectory(mcpath);
-				using (StreamWriter writer = new(Path.Combine(mcpath, "crash.log")))  
-				{  
+				using (StreamWriter writer = new(Path.Combine(mcpath, "crash.log")))
+				{
 					writer.WriteLine(e);
-				}  
+				}
+
 				throw;
 			}
 		}

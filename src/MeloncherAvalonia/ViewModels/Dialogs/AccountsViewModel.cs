@@ -4,7 +4,6 @@ using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using CmlLib.Core.Auth;
-using CmlLib.Core.Auth.Microsoft;
 using MeloncherCore.Account;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
@@ -63,12 +62,8 @@ namespace MeloncherAvalonia.ViewModels.Dialogs
 			var dialog = new AddMicrosoftAccountViewModel();
 			var result = await ShowAddMicrosoftAccountDialog.Handle(dialog);
 			if (result != null)
-			{
 				if (lh.CheckOAuthLoginSuccess(result))
-				{
 					_accountStorage.Add(lh.LoginFromOAuth());
-				}
-			}
 		}
 
 		private McAccount OnOkCommandExecuted()
