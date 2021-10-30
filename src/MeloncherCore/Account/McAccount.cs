@@ -33,6 +33,12 @@ namespace MeloncherCore.Account
 			MicrosoftOAuthSession = microsoftOAuthSession;
 			XboxSession = xboxSession;
 		}
+		
+		public McAccount(string username)
+		{
+			AccountType = AccountType.Offline;
+			GameSession = new MSession(username, null, null);
+		}
 
 		[JsonProperty("AccountType")] public AccountType AccountType { get; set; }
 		[JsonProperty("GameSession")] public MSession GameSession { get; set; }

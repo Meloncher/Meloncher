@@ -89,8 +89,7 @@ namespace MeloncherAvalonia.ViewModels.Dialogs
 			var result = await ShowAddAccountDialog.Handle(dialog);
 			if (result != null)
 			{
-				MSession session = MSession.GetOfflineSession(result.Username);
-				_accountStorage.Add(new McAccount(session));
+				_accountStorage.Add(new McAccount(result.Username));
 			}
 		}
 	}

@@ -89,7 +89,7 @@ namespace MeloncherAvalonia.ViewModels.Windows
 		public Interaction<VersionsViewModel, MVersionMetadata?> ShowSelectVersionDialog { get; } = new();
 		public Interaction<SettingsViewModel, SettingsAction?> ShowSettingsDialog { get; } = new();
 		[Reactive] public MVersionMetadata? SelectedVersion { get; set; }
-		[Reactive] public McAccount? SelectedAccount { get; set; } = new(MSession.GetOfflineSession("Player"));
+		[Reactive] public McAccount? SelectedAccount { get; set; } = new("Player");
 
 		public ReactiveCommand<Unit, Task> OpenAccountsWindowCommand { get; }
 		public ReactiveCommand<Unit, Task> OpenVersionsWindowCommand { get; }
