@@ -14,6 +14,7 @@ namespace MeloncherCore.Settings
 		[JsonProperty("selected_version")] public string? SelectedVersion { get; set; }
 		[JsonProperty("selected_account")] public string? SelectedAccount { get; set; }
 		[JsonProperty("maximum_ram_mb")] public int MaximumRamMb { get; set; } = 1024;
+		[JsonProperty("glass_background")] public bool GlassBackground { get; set; } = true;
 
 		public event PropertyChangedEventHandler? PropertyChanged;
 

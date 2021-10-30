@@ -75,9 +75,16 @@ namespace MeloncherAvalonia.ViewModels.Windows
 				if (e.PropertyName == "SelectedVersion") _launcherSettings.SelectedVersion = SelectedVersion?.Name;
 				if (e.PropertyName == "SelectedAccount") _launcherSettings.SelectedAccount = SelectedAccount?.GameSession.Username;
 			};
+			
+			TransparencyLevelHint = _launcherSettings.GlassBackground ? WindowTransparencyLevel.Blur : WindowTransparencyLevel.None;
+			_launcherSettings.PropertyChanged += (sender, args) =>
+			{
+				if (args.PropertyName == "GlassBackground") TransparencyLevelHint = _launcherSettings.GlassBackground ? WindowTransparencyLevel.Blur : WindowTransparencyLevel.None;
+			};
 		}
 
 		[Reactive] public string Title { get; set; } = "Meloncher";
+		[Reactive] public WindowTransparencyLevel TransparencyLevelHint { get; set; } = WindowTransparencyLevel.None;
 		[Reactive] public int ProgressValue { get; set; }
 		[Reactive] public string? ProgressText { get; set; }
 		[Reactive] public bool ProgressHidden { get; set; } = true;
