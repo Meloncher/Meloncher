@@ -4,7 +4,6 @@ using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using Avalonia.Controls;
-using CmlLib.Core.Auth;
 using CmlLib.Core.Version;
 using CmlLib.Core.VersionLoader;
 using MeloncherAvalonia.Models;
@@ -198,8 +197,12 @@ namespace MeloncherAvalonia.ViewModels.Windows
 				if (SelectedAccount != null)
 				{
 					if (!SelectedAccount.Validate())
+					{
 						if (SelectedAccount.Refresh())
+						{
 							_accountStorage.SaveFile();
+						}
+					}
 					_mcLauncher.Session = SelectedAccount.GameSession;
 				}
 
