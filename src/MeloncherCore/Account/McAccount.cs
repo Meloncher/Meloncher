@@ -37,7 +37,8 @@ namespace MeloncherCore.Account
 		public McAccount(string username)
 		{
 			AccountType = AccountType.Offline;
-			GameSession = new MSession(username, null, null);
+			GameSession = MSession.GetOfflineSession(username);
+			// GameSession = new MSession(username, null, null);
 		}
 
 		[JsonProperty("AccountType")] public AccountType AccountType { get; set; }
