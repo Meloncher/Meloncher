@@ -16,14 +16,7 @@ namespace MeloncherCore.Version
 
 		public MVersionCollection GetVersionMetadatas()
 		{
-			try
-			{
-				return new DefaultVersionLoader(_minecraftPath).GetVersionMetadatas();
-			}
-			catch (Exception)
-			{
-				return new LocalVersionLoader(_minecraftPath).GetVersionMetadatas();
-			}
+			return new ExtVersionLoader(_minecraftPath).GetVersionMetadatas();
 		}
 
 		public MVersion? GetVersion(string versionName)

@@ -5,7 +5,6 @@ using System.Reactive.Linq;
 using System.Threading.Tasks;
 using Avalonia.Controls;
 using CmlLib.Core.Version;
-using CmlLib.Core.VersionLoader;
 using MeloncherAvalonia.Models;
 using MeloncherAvalonia.ViewModels.Dialogs;
 using MeloncherCore.Account;
@@ -32,7 +31,6 @@ namespace MeloncherAvalonia.ViewModels.Windows
 		private readonly McLauncher _mcLauncher;
 		private readonly ExtMinecraftPath _path;
 		private readonly MVersionCollection _versionCollection;
-		private readonly IVersionLoader _versionLoader;
 		private readonly VersionTools _versionTools;
 
 		public MainViewModel()
@@ -46,7 +44,6 @@ namespace MeloncherAvalonia.ViewModels.Windows
 			_path = new ExtMinecraftPath();
 			_versionTools = new VersionTools(_path);
 			_versionCollection = _versionTools.GetVersionMetadatas();
-			// _versionCollection = new LocalVersionLoader(_path).GetVersionMetadatas();
 
 			_accountStorage = new AccountStorage(_path);
 			_mcLauncher = new McLauncher(_path);
