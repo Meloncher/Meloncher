@@ -4,7 +4,6 @@ using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using Avalonia.Controls;
-using CmlLib.Core.Auth;
 using CmlLib.Core.Version;
 using CmlLib.Core.VersionLoader;
 using MeloncherAvalonia.Models;
@@ -33,7 +32,6 @@ namespace MeloncherAvalonia.ViewModels.Windows
 		private readonly McLauncher _mcLauncher;
 		private readonly ExtMinecraftPath _path;
 		private readonly MVersionCollection _versionCollection;
-		private readonly IVersionLoader _versionLoader;
 		private readonly VersionTools _versionTools;
 
 		public MainViewModel()
@@ -47,7 +45,6 @@ namespace MeloncherAvalonia.ViewModels.Windows
 			_path = new ExtMinecraftPath();
 			_versionTools = new VersionTools(_path);
 			_versionCollection = _versionTools.GetVersionMetadatas();
-			// _versionCollection = new LocalVersionLoader(_path).GetVersionMetadatas();
 
 			_accountStorage = new AccountStorage(_path);
 			_mcLauncher = new McLauncher(_path);
@@ -76,9 +73,16 @@ namespace MeloncherAvalonia.ViewModels.Windows
 				if (e.PropertyName == "SelectedVersion") _launcherSettings.SelectedVersion = SelectedVersion?.Name;
 				if (e.PropertyName == "SelectedAccount") _launcherSettings.SelectedAccount = SelectedAccount?.GameSession.Username;
 			};
+			
+			TransparencyLevelHint = _launcherSettings.GlassBackground ? WindowTransparencyLevel.Blur : WindowTransparencyLevel.None;
+			_launcherSettings.PropertyChanged += (sender, args) =>
+			{
+				if (args.PropertyName == "GlassBackground") TransparencyLevelHint = _launcherSettings.GlassBackground ? WindowTransparencyLevel.Blur : WindowTransparencyLevel.None;
+			};
 		}
 
 		[Reactive] public string Title { get; set; } = "Meloncher";
+		[Reactive] public WindowTransparencyLevel TransparencyLevelHint { get; set; } = WindowTransparencyLevel.None;
 		[Reactive] public int ProgressValue { get; set; }
 		[Reactive] public string? ProgressText { get; set; }
 		[Reactive] public bool ProgressHidden { get; set; } = true;
@@ -89,7 +93,7 @@ namespace MeloncherAvalonia.ViewModels.Windows
 		public Interaction<VersionsViewModel, MVersionMetadata?> ShowSelectVersionDialog { get; } = new();
 		public Interaction<SettingsViewModel, SettingsAction?> ShowSettingsDialog { get; } = new();
 		[Reactive] public MVersionMetadata? SelectedVersion { get; set; }
-		[Reactive] public McAccount? SelectedAccount { get; set; } = new(MSession.GetOfflineSession("Player"));
+		[Reactive] public McAccount? SelectedAccount { get; set; } = new("Player");
 
 		public ReactiveCommand<Unit, Task> OpenAccountsWindowCommand { get; }
 		public ReactiveCommand<Unit, Task> OpenVersionsWindowCommand { get; }
@@ -195,11 +199,18 @@ namespace MeloncherAvalonia.ViewModels.Windows
 				_mcLauncher.MaximumRamMb = _launcherSettings.MaximumRamMb;
 				if (SelectedVersion != null) _mcLauncher.Version = _versionTools.GetMcVersion(SelectedVersion.Name);
 
+				// var test = new DefaultVersionLoader(_path).GetVersionMetadatas().GetVersion("1.12.2");
+				// _mcLauncher.Version = new McVersion(test, ProfileType.Custom, "TestModPack");
+				
 				if (SelectedAccount != null)
 				{
 					if (!SelectedAccount.Validate())
+					{
 						if (SelectedAccount.Refresh())
+						{
 							_accountStorage.SaveFile();
+						}
+					}
 					_mcLauncher.Session = SelectedAccount.GameSession;
 				}
 

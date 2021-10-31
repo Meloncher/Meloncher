@@ -34,6 +34,12 @@ namespace MeloncherCore.Account
 			XboxSession = xboxSession;
 		}
 
+		public McAccount(string username)
+		{
+			AccountType = AccountType.Offline;
+			GameSession = new MSession(username, null, null);
+		}
+
 		[JsonProperty("AccountType")] public AccountType AccountType { get; set; }
 		[JsonProperty("GameSession")] public MSession GameSession { get; set; }
 
@@ -49,7 +55,7 @@ namespace MeloncherCore.Account
 			if (AccountType == AccountType.Mojang)
 				try
 				{
-					return new MLogin().Validate(GameSession).Result == MLoginResult.Success;
+					return new MojangLogin().Validate(GameSession).Result == MLoginResult.Success;
 				}
 				catch (Exception)
 				{
@@ -66,7 +72,10 @@ namespace MeloncherCore.Account
 			if (AccountType == AccountType.Mojang)
 				try
 				{
-					return new MLogin().Refresh(GameSession).Result == MLoginResult.Success;
+					var mLoginResponse = new MojangLogin().Refresh(GameSession);
+					if (mLoginResponse.Result != MLoginResult.Success || mLoginResponse.Session == null) return false;
+					GameSession = mLoginResponse.Session;
+					return true;
 				}
 				catch (Exception)
 				{

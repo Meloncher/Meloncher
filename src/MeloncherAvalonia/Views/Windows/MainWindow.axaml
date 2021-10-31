@@ -16,7 +16,7 @@
         MinHeight="480"
         ExtendClientAreaToDecorationsHint="True"
         ExtendClientAreaTitleBarHeightHint="26"
-        TransparencyLevelHint="Blur"
+        TransparencyLevelHint="{Binding TransparencyLevelHint}"
         Background="Transparent"
         WindowStartupLocation="CenterScreen">
 

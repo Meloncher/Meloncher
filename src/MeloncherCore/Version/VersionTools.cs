@@ -16,14 +16,7 @@ namespace MeloncherCore.Version
 
 		public MVersionCollection GetVersionMetadatas()
 		{
-			try
-			{
-				return new DefaultVersionLoader(_minecraftPath).GetVersionMetadatas();
-			}
-			catch (Exception)
-			{
-				return new LocalVersionLoader(_minecraftPath).GetVersionMetadatas();
-			}
+			return new ExtVersionLoader(_minecraftPath).GetVersionMetadatas();
 		}
 
 		public MVersion? GetVersion(string versionName)
@@ -46,7 +39,6 @@ namespace MeloncherCore.Version
 		public McVersion? GetMcVersion(MVersion? mVersion)
 		{
 			if (mVersion == null) return null;
-			var type = mVersion.TypeStr;
 
 			var profileName = mVersion.AssetId;
 			if (profileName == null)
@@ -67,9 +59,8 @@ namespace MeloncherCore.Version
 
 			if (profileName == "pre-1.6") profileName = "legacy";
 			profileName ??= "unknown";
-			type ??= "unknown";
 
-			return new McVersion(mVersion.Id, type, profileName, mVersion);
+			return new McVersion(mVersion, ProfileType.Vanilla, profileName);
 		}
 	}
 }

@@ -1,6 +1,6 @@
 {
-	"version": 16,
-	"direct_link": "https://github.com/Meloncher/Meloncher/releases/download/beta-1.0.6/MeloncherSetup.exe",
+	"version": 17,
+	"direct_link": "https://github.com/Meloncher/Meloncher/releases/download/beta-1.0.7/MeloncherSetup.exe",
 	"launch_args": "/SUPPRESSMSGBOXES /NOICONS /LANG=russian /TASKS=\"\" /CLOSEAPPLICATIONS",
-	"description": "Хотфикс списка аккаунтов\nХотфикс краша при оффлайне на аккаунтах Mojang"
+	"description": "Фикс продления Можданг аккаунтов\nВозможность отключить прозрачность"
 }
