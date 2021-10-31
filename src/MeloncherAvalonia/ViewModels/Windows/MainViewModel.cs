@@ -49,11 +49,13 @@ namespace MeloncherAvalonia.ViewModels.Windows
 			_accountStorage = new AccountStorage(_path);
 			_mcLauncher = new McLauncher(_path);
 			_launcherSettings = LauncherSettings.New(_path);
-			SelectedVersion = _versionCollection.LatestReleaseVersion;
+			// SelectedVersion = _versionCollection.LatestReleaseVersion;
+			SelectedVersion = _versionTools.GetMcVersion(_versionCollection.LatestReleaseVersion.GetVersion());
 			if (_launcherSettings.SelectedVersion != null)
 				try
 				{
-					SelectedVersion = _versionCollection.GetVersionMetadata(_launcherSettings.SelectedVersion);
+					SelectedVersion = _versionTools.GetMcVersion(_launcherSettings.SelectedVersion);
+					// SelectedVersion = _versionCollection.GetVersionMetadata(_launcherSettings.SelectedVersion);
 				}
 				catch (Exception)
 				{
@@ -70,7 +72,7 @@ namespace MeloncherAvalonia.ViewModels.Windows
 
 			PropertyChanged += (_, e) =>
 			{
-				if (e.PropertyName == "SelectedVersion") _launcherSettings.SelectedVersion = SelectedVersion?.Name;
+				if (e.PropertyName == "SelectedVersion") _launcherSettings.SelectedVersion = SelectedVersion?.MVersion.Id;
 				if (e.PropertyName == "SelectedAccount") _launcherSettings.SelectedAccount = SelectedAccount?.GameSession.Username;
 			};
 			
@@ -92,7 +94,8 @@ namespace MeloncherAvalonia.ViewModels.Windows
 		public Interaction<AccountsViewModel, McAccount?> ShowSelectAccountDialog { get; } = new();
 		public Interaction<VersionsViewModel, MVersionMetadata?> ShowSelectVersionDialog { get; } = new();
 		public Interaction<SettingsViewModel, SettingsAction?> ShowSettingsDialog { get; } = new();
-		[Reactive] public MVersionMetadata? SelectedVersion { get; set; }
+		// [Reactive] public MVersionMetadata? SelectedVersion { get; set; }
+		[Reactive] public McVersion? SelectedVersion { get; set; }
 		[Reactive] public McAccount? SelectedAccount { get; set; } = new("Player");
 
 		public ReactiveCommand<Unit, Task> OpenAccountsWindowCommand { get; }
@@ -181,9 +184,9 @@ namespace MeloncherAvalonia.ViewModels.Windows
 
 		private async Task OnOpenVersionsWindowCommandExecuted()
 		{
-			var dialog = new VersionsViewModel(_versionTools, _versionCollection, SelectedVersion);
+			var dialog = new VersionsViewModel(_versionTools, _versionCollection);
 			var result = await ShowSelectVersionDialog.Handle(dialog);
-			if (result != null) SelectedVersion = result;
+			if (result != null) SelectedVersion = _versionTools.GetMcVersion(result.GetVersion());
 		}
 
 		private void OnPlayButtonCommandExecuted()
@@ -192,13 +195,13 @@ namespace MeloncherAvalonia.ViewModels.Windows
 			{
 				IsStarted = true;
 				ProgressHidden = false;
-				Title = "Meloncher " + SelectedVersion?.Name;
-				_discordRpcTools.SetStatus("Играет на версии " + SelectedVersion?.Name, "");
+				Title = "Meloncher " + SelectedVersion?.MVersion.Id;
+				_discordRpcTools.SetStatus("Играет на версии " + SelectedVersion?.MVersion.Id, "");
 				_mcLauncher.UseOptifine = _launcherSettings.UseOptifine;
 				_mcLauncher.WindowMode = _launcherSettings.WindowMode;
 				_mcLauncher.MaximumRamMb = _launcherSettings.MaximumRamMb;
-				if (SelectedVersion != null) _mcLauncher.Version = _versionTools.GetMcVersion(SelectedVersion.Name);
-
+				// if (SelectedVersion != null) _mcLauncher.Version = _versionTools.GetMcVersion(SelectedVersion.MVersion.Id);
+				if (SelectedVersion != null) _mcLauncher.Version = SelectedVersion;
 				// var test = new DefaultVersionLoader(_path).GetVersionMetadatas().GetVersion("1.12.2");
 				// _mcLauncher.Version = new McVersion(test, ProfileType.Custom, "TestModPack");
 				

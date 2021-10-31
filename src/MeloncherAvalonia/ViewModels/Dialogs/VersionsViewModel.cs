@@ -15,9 +15,9 @@ namespace MeloncherAvalonia.ViewModels.Dialogs
 		private readonly MVersionCollection _versionCollection;
 		private readonly VersionTools _versionTools;
 
-		public VersionsViewModel(VersionTools versionTools, MVersionCollection? versionCollection, MVersionMetadata? selectedVersion)
+		public VersionsViewModel(VersionTools versionTools, MVersionCollection? versionCollection)
 		{
-			SelectedVersion = selectedVersion;
+			// SelectedVersion = selectedVersion;
 			_versionTools = versionTools;
 			OkCommand = ReactiveCommand.Create(OnOkCommandExecuted);
 			versionCollection ??= _versionTools.GetVersionMetadatas();

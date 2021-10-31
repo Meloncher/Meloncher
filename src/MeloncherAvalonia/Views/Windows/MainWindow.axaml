@@ -60,7 +60,7 @@
 												</Border.Background>
 											</Border>
 											<TextBlock Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Text="Выбранная версия" />
-											<TextBlock Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" Foreground="LightGray" Text="{Binding SelectedVersion.Name}" />
+											<TextBlock Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" Foreground="LightGray" Text="{Binding SelectedVersion.MVersion.Id}" />
 										</Grid>
 									</Button>
 									<userControls:PlayButton Margin="0 -40 0 0" Grid.Column="1" Text="Играть" Command="{Binding PlayButtonCommand}" IsEnabled="{Binding !IsStarted}" />
@@ -79,7 +79,14 @@
 								<userControls:LoadingBar Grid.Row="2" Text="{Binding ProgressText}" Hidden="{Binding ProgressHidden}" Value="{Binding ProgressValue}" />
 							</Grid>
 						</TabItem>
-						<TabItem Header="Сборки" />
+						<TabItem Header="Сборки" >
+							<Grid RowDefinitions="Auto, *">
+								<StackPanel Orientation="Horizontal">
+									<Button Content="Добавить сборку" />
+									<Button Content="Я кнопка" />
+								</StackPanel>
+							</Grid>
+						</TabItem>
 					</TabControl.Items>
 				</TabControl>
 			</Border>
