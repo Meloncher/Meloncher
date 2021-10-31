@@ -62,7 +62,7 @@ namespace MeloncherCore.Launcher
 		public async Task<bool> Update()
 		{
 			if (Version == null) return false;
-			var path = _minecraftPath.CloneWithProfile("vanilla", Version.ProfileName);
+			var path = _minecraftPath.CloneWithProfile(Version.ProfileType.ToString().ToLower(), Version.ProfileName);
 			var launcher = new CMLauncher(path);
 			launcher.FileChanged += args =>
 			{
@@ -87,21 +87,21 @@ namespace MeloncherCore.Launcher
 				if (UseOptifine)
 				{
 					var optifineInstaller = new OptifineInstallerBobcat();
-					optifineInstaller.ProgressChanged += (sender, args) =>
+					optifineInstaller.ProgressChanged += (_, args) =>
 					{
 						_downloadProgressPercentage = args.ProgressPercentage;
 						_downloadProgressIsChecking = false;
 						InvokeMcDownloadProgressEvent();
 					};
 
-					var isLatestInstalled = await optifineInstaller.IsLatestInstalled(Version.Name, _minecraftPath);
+					var isLatestInstalled = await optifineInstaller.IsLatestInstalled(Version.MVersion.Id, _minecraftPath);
 					if (!isLatestInstalled)
 					{
 						_downloadProgressPercentage = 0;
 						_downloadProgressType = "Optifine";
 						_downloadProgressIsChecking = true;
 						InvokeMcDownloadProgressEvent();
-						await optifineInstaller.InstallOptifine(Version.Name, _minecraftPath, Version.MVersion.JavaBinaryPath);
+						await optifineInstaller.InstallOptifine(Version.MVersion.Id, _minecraftPath, Version.MVersion.JavaBinaryPath);
 					}
 				}
 			}
@@ -116,7 +116,7 @@ namespace MeloncherCore.Launcher
 		public async Task<bool> Launch()
 		{
 			if (Version == null) return false;
-			var path = _minecraftPath.CloneWithProfile("vanilla", Version.ProfileName);
+			var path = _minecraftPath.CloneWithProfile(Version.ProfileType.ToString().ToLower(), Version.ProfileName);
 			var launcher = new CMLauncher(path)
 			{
 				VersionLoader = new LocalVersionLoader(_minecraftPath),
@@ -139,7 +139,7 @@ namespace MeloncherCore.Launcher
 			if (UseOptifine)
 			{
 				var optifineInstaller = new OptifineInstallerBobcat();
-				var ofVerName = optifineInstaller.GetLatestInstalled(Version.Name, _minecraftPath);
+				var ofVerName = optifineInstaller.GetLatestInstalled(Version.MVersion.Id, _minecraftPath);
 				if (ofVerName != null)
 				{
 					launchOption.StartVersion = await (await launcher.VersionLoader.GetVersionMetadatasAsync()).GetVersionAsync(ofVerName);

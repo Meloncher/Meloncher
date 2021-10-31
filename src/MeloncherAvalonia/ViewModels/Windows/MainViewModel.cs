@@ -5,6 +5,7 @@ using System.Reactive.Linq;
 using System.Threading.Tasks;
 using Avalonia.Controls;
 using CmlLib.Core.Version;
+using CmlLib.Core.VersionLoader;
 using MeloncherAvalonia.Models;
 using MeloncherAvalonia.ViewModels.Dialogs;
 using MeloncherCore.Account;
@@ -198,6 +199,9 @@ namespace MeloncherAvalonia.ViewModels.Windows
 				_mcLauncher.MaximumRamMb = _launcherSettings.MaximumRamMb;
 				if (SelectedVersion != null) _mcLauncher.Version = _versionTools.GetMcVersion(SelectedVersion.Name);
 
+				// var test = new DefaultVersionLoader(_path).GetVersionMetadatas().GetVersion("1.12.2");
+				// _mcLauncher.Version = new McVersion(test, ProfileType.Custom, "TestModPack");
+				
 				if (SelectedAccount != null)
 				{
 					if (!SelectedAccount.Validate())
