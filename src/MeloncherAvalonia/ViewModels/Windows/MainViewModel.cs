@@ -36,6 +36,8 @@ namespace MeloncherAvalonia.ViewModels.Windows
 		[Reactive] public ModPackStorage ModPackStorage { get; set; }
 		[Reactive] public string SelectedModPack { get; set; }
 
+		[Reactive] public string Logs { get; set; } = "";
+
 		public MainViewModel()
 		{
 			ServicePointManager.DefaultConnectionLimit = 512;
@@ -69,7 +71,11 @@ namespace MeloncherAvalonia.ViewModels.Windows
 
 			_mcLauncher.McDownloadProgressChanged += OnMcLauncherOnMcDownloadProgressChanged;
 			// _mcLauncher.ProgressChanged += OnMcLauncherOnProgressChanged;
-			_mcLauncher.MinecraftOutput += e => { _discordRpcTools.OnLog(e.Line); };
+			_mcLauncher.MinecraftOutput += e =>
+			{
+				Logs += e.Line + "\n";
+				_discordRpcTools.OnLog(e.Line);
+			};
 
 			_discordRpcTools.SetStatus("Сидит в лаунчере", "");
 
@@ -79,11 +85,8 @@ namespace MeloncherAvalonia.ViewModels.Windows
 				if (e.PropertyName == "SelectedAccount") _launcherSettings.SelectedAccount = SelectedAccount?.GameSession.Username;
 				if (e.PropertyName == "SelectedModPack")
 				{
-					if (ModPackStorage.ContainsKey(SelectedModPack))
-					{
-						var mVersion = _versionTools.GetVersion(ModPackStorage[SelectedModPack].VersionName);
-						if (mVersion != null) SelectedVersion = new McVersion(SelectedModPack, mVersion, ProfileType.Custom, SelectedModPack);
-					}
+					var mcVersion = _versionTools.GetMcVersion(SelectedModPack, ModPackStorage);
+					if (mcVersion != null) SelectedVersion = mcVersion;
 				}
 			};
 			
@@ -206,8 +209,8 @@ namespace MeloncherAvalonia.ViewModels.Windows
 			{
 				IsStarted = true;
 				ProgressHidden = false;
-				Title = "Meloncher " + SelectedVersion?.MVersion.Id;
-				_discordRpcTools.SetStatus("Играет на версии " + SelectedVersion?.MVersion.Id, "");
+				Title = "Meloncher " + SelectedVersion?.Name;
+				_discordRpcTools.SetStatus("Играет на версии " + SelectedVersion?.Name, "");
 				_mcLauncher.UseOptifine = _launcherSettings.UseOptifine;
 				_mcLauncher.WindowMode = _launcherSettings.WindowMode;
 				_mcLauncher.MaximumRamMb = _launcherSettings.MaximumRamMb;
