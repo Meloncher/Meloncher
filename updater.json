@@ -1,6 +1,6 @@
 {
-	"version": 17,
-	"direct_link": "https://github.com/Meloncher/Meloncher/releases/download/beta-1.0.7/MeloncherSetup.exe",
+	"version": 18,
+	"direct_link": "https://github.com/Meloncher/Meloncher/releases/download/beta-1.0.8/MeloncherSetup.exe",
 	"launch_args": "/SUPPRESSMSGBOXES /NOICONS /LANG=russian /TASKS=\"\" /CLOSEAPPLICATIONS",
-	"description": "Фикс продления Можданг аккаунтов\nВозможность отключить прозрачность"
+	"description": "Хотфикс краша пираток из версии 1.0.7"
 }
