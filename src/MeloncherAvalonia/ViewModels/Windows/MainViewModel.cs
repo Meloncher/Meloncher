@@ -59,7 +59,12 @@ namespace MeloncherAvalonia.ViewModels.Windows
 			if (_launcherSettings.SelectedVersion != null)
 				try
 				{
-					SelectedVersion = _versionTools.GetMcVersion(_launcherSettings.SelectedVersion);
+					SelectedVersion = _launcherSettings.SelectedProfileType switch
+					{
+						ProfileType.Vanilla => _versionTools.GetMcVersion(_launcherSettings.SelectedVersion),
+						ProfileType.Custom => _versionTools.GetMcVersion(_launcherSettings.SelectedVersion, ModPackStorage),
+						_ => SelectedVersion
+					};
 					// SelectedVersion = _versionCollection.GetVersionMetadata(_launcherSettings.SelectedVersion);
 				}
 				catch (Exception)
@@ -81,7 +86,11 @@ namespace MeloncherAvalonia.ViewModels.Windows
 
 			PropertyChanged += (_, e) =>
 			{
-				if (e.PropertyName == "SelectedVersion") _launcherSettings.SelectedVersion = SelectedVersion?.MVersion.Id;
+				if (e.PropertyName == "SelectedVersion" && SelectedVersion != null)
+				{
+					_launcherSettings.SelectedVersion = SelectedVersion.Name;
+					_launcherSettings.SelectedProfileType = SelectedVersion.ProfileType;
+				}
 				if (e.PropertyName == "SelectedAccount") _launcherSettings.SelectedAccount = SelectedAccount?.GameSession.Username;
 				if (e.PropertyName == "SelectedModPack")
 				{

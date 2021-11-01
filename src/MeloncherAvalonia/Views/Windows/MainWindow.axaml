@@ -90,8 +90,7 @@
 						</TabItem>
 						<TabItem Header="Логи" >
 							<Grid>
-								<ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Background="White" Foreground="Black" Content="{Binding Logs}"></ScrollViewer>
-								<!-- <TextBlock Text="{Binding Logs}" Padding="5" Background="White" Foreground="Black" /> -->
+								<ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Background="White" Foreground="Black" Content="{Binding Logs}" />
 							</Grid>
 						</TabItem>
 					</TabControl.Items>

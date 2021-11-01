@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.IO;
 using MeloncherCore.Launcher;
+using MeloncherCore.Version;
 using Newtonsoft.Json;
 
 namespace MeloncherCore.Settings
@@ -12,6 +13,8 @@ namespace MeloncherCore.Settings
 		[JsonProperty("use_optifine")] public bool UseOptifine { get; set; } = true;
 		[JsonProperty("window_mode")] public WindowMode WindowMode { get; set; } = WindowMode.Windowed;
 		[JsonProperty("selected_version")] public string? SelectedVersion { get; set; }
+
+		[JsonProperty("selected_profile_type")] public ProfileType SelectedProfileType { get; set; } = ProfileType.Vanilla;
 		[JsonProperty("selected_account")] public string? SelectedAccount { get; set; }
 		[JsonProperty("maximum_ram_mb")] public int MaximumRamMb { get; set; } = 1024;
 		[JsonProperty("glass_background")] public bool GlassBackground { get; set; } = true;

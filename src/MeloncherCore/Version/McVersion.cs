@@ -20,10 +20,4 @@ namespace MeloncherCore.Version
 		public ProfileType ProfileType { get; set; }
 		public string ProfileName { get; set; }
 	}
-
-	public enum ProfileType
-	{
-		Vanilla,
-		Custom
-	}
 }
