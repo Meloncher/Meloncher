@@ -27,7 +27,7 @@ namespace MeloncherCore.Account
 
 		IEnumerator IEnumerable.GetEnumerator()
 		{
-			foreach (var item in sessionList) yield return item;
+			return GetEnumerator();
 		}
 
 		public void Add(McAccount session)
