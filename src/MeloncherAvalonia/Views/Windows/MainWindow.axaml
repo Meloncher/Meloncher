@@ -60,7 +60,7 @@
 												</Border.Background>
 											</Border>
 											<TextBlock Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Text="Выбранная версия" />
-											<TextBlock Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" Foreground="LightGray" Text="{Binding SelectedVersion.MVersion.Id}" />
+											<TextBlock Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" Foreground="LightGray" Text="{Binding SelectedVersion.Name}" />
 										</Grid>
 									</Button>
 									<userControls:PlayButton Margin="0 -40 0 0" Grid.Column="1" Text="Играть" Command="{Binding PlayButtonCommand}" IsEnabled="{Binding !IsStarted}" />
@@ -85,6 +85,7 @@
 									<Button Content="Добавить сборку" />
 									<Button Content="Я кнопка" />
 								</StackPanel>
+								<ListBox Grid.Row="1" Items="{Binding ModPackStorage.Keys}" SelectedItem="{Binding SelectedModPack}"></ListBox>
 							</Grid>
 						</TabItem>
 						<TabItem Header="Логи" >

@@ -22,7 +22,9 @@ namespace MeloncherCore.ModPack
 		private void Load()
 		{
 			_dictionary.Clear();
-			var directories = Directory.GetDirectories(Path.Combine(_path.RootPath, "profiles", "custom"));
+			var profilesDir = Path.Combine(_path.RootPath, "profiles", "custom");
+			if (!Directory.Exists(profilesDir)) return;
+			var directories = Directory.GetDirectories(profilesDir);
 			foreach (var directory in directories)
 			{
 				var jsonPath = Path.Combine(directory, "modpack.json");
@@ -39,7 +41,7 @@ namespace MeloncherCore.ModPack
 			var modPackDir = Path.Combine(_path.RootPath, "profiles", "custom", key);
 			if (!Directory.Exists(modPackDir)) Directory.CreateDirectory(modPackDir);
 			var jsonStr = JsonConvert.SerializeObject(value);
-			File.WriteAllText(modPackDir, jsonStr);
+			File.WriteAllText(Path.Combine(modPackDir, "modpack.json"), jsonStr);
 			Load();
 			CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add));
 		}

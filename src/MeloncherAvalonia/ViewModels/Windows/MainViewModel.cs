@@ -5,13 +5,13 @@ using System.Reactive.Linq;
 using System.Threading.Tasks;
 using Avalonia.Controls;
 using CmlLib.Core.Version;
-using CmlLib.Core.VersionLoader;
 using MeloncherAvalonia.Models;
 using MeloncherAvalonia.ViewModels.Dialogs;
 using MeloncherCore.Account;
 using MeloncherCore.Discord;
 using MeloncherCore.Launcher;
 using MeloncherCore.Launcher.Events;
+using MeloncherCore.ModPack;
 using MeloncherCore.Options;
 using MeloncherCore.Settings;
 using MeloncherCore.Version;
@@ -33,6 +33,8 @@ namespace MeloncherAvalonia.ViewModels.Windows
 		private readonly ExtMinecraftPath _path;
 		private readonly MVersionCollection _versionCollection;
 		private readonly VersionTools _versionTools;
+		[Reactive] public ModPackStorage ModPackStorage { get; set; }
+		[Reactive] public string SelectedModPack { get; set; }
 
 		public MainViewModel()
 		{
@@ -49,6 +51,7 @@ namespace MeloncherAvalonia.ViewModels.Windows
 			_accountStorage = new AccountStorage(_path);
 			_mcLauncher = new McLauncher(_path);
 			_launcherSettings = LauncherSettings.New(_path);
+			ModPackStorage = new ModPackStorage(_path);
 			// SelectedVersion = _versionCollection.LatestReleaseVersion;
 			SelectedVersion = _versionTools.GetMcVersion(_versionCollection.LatestReleaseVersion.GetVersion());
 			if (_launcherSettings.SelectedVersion != null)
@@ -74,6 +77,14 @@ namespace MeloncherAvalonia.ViewModels.Windows
 			{
 				if (e.PropertyName == "SelectedVersion") _launcherSettings.SelectedVersion = SelectedVersion?.MVersion.Id;
 				if (e.PropertyName == "SelectedAccount") _launcherSettings.SelectedAccount = SelectedAccount?.GameSession.Username;
+				if (e.PropertyName == "SelectedModPack")
+				{
+					if (ModPackStorage.ContainsKey(SelectedModPack))
+					{
+						var mVersion = _versionTools.GetVersion(ModPackStorage[SelectedModPack].VersionName);
+						if (mVersion != null) SelectedVersion = new McVersion(SelectedModPack, mVersion, ProfileType.Custom, SelectedModPack);
+					}
+				}
 			};
 			
 			TransparencyLevelHint = _launcherSettings.GlassBackground ? WindowTransparencyLevel.Blur : WindowTransparencyLevel.None;

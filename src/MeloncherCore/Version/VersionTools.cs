@@ -33,12 +33,12 @@ namespace MeloncherCore.Version
 
 		public McVersion? GetMcVersion(string versionName)
 		{
-			return GetMcVersion(GetVersion(versionName));
+			var mVersion = GetVersion(versionName);
+			return mVersion != null ? GetMcVersion(mVersion) : null;
 		}
 
-		public McVersion? GetMcVersion(MVersion? mVersion)
+		public McVersion GetMcVersion(MVersion mVersion)
 		{
-			if (mVersion == null) return null;
 
 			var profileName = mVersion.AssetId;
 			if (profileName == null)
@@ -60,7 +60,7 @@ namespace MeloncherCore.Version
 			if (profileName == "pre-1.6") profileName = "legacy";
 			profileName ??= "unknown";
 
-			return new McVersion(mVersion, ProfileType.Vanilla, profileName);
+			return new McVersion(mVersion.Id, mVersion, ProfileType.Vanilla, profileName);
 		}
 	}
 }
