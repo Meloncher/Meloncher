@@ -87,6 +87,11 @@
 								</StackPanel>
 							</Grid>
 						</TabItem>
+						<TabItem Header="Логи" >
+							<Grid>
+								<TextBlock Text="Тут будут логи" Padding="5" Background="White" Foreground="Black" />
+							</Grid>
+						</TabItem>
 					</TabControl.Items>
 				</TabControl>
 			</Border>
