@@ -29,11 +29,19 @@
 			<TextBlock Text="{Binding Title}" TextAlignment="Center" VerticalAlignment="Center" />
 		</Border>
 		<Grid Grid.Row="1" ColumnDefinitions="40,*">
-			<Border Background="#202020" Opacity=".5">
+			<Border Background="#202020" Opacity="0.5">
 				<Grid RowDefinitions="*,auto">
-					<StackPanel>
-						<!--<Button Height="40" Width="40" Content="P" />-->
-					</StackPanel>
+					<ListBox Margin="-4, 0, 0, 0" SelectedIndex="{Binding SelectedTabIndex}" Background="Transparent">
+						<ListBox.Items>
+							<avalonia:MaterialIcon Kind="PlayCircle" />
+							<avalonia:MaterialIcon Kind="Archive" />
+							<avalonia:MaterialIcon Kind="TextBox" />
+						</ListBox.Items>
+					</ListBox>
+					<!-- <StackPanel> -->
+					<!--<Button Height="40" Width="40" Content="P" />-->
+
+					<!-- </StackPanel> -->
 					<StackPanel Grid.Row="1">
 						<Button Height="40" Width="40" Command="{Binding OpenSettingsWindowCommand}" Background="Transparent" BorderThickness="0">
 							<avalonia:MaterialIcon Kind="Settings" />
@@ -42,7 +50,17 @@
 				</Grid>
 			</Border>
 			<Border Grid.Column="1" Background="#c0303030">
-				<TabControl>
+				<TabControl SelectedIndex="{Binding SelectedTabIndex}">
+					<TabControl.Template>
+						<ControlTemplate>
+							<Grid>
+								<ItemsPresenter IsVisible="False" Name="PART_ItemsPresenter" />
+								<ContentPresenter Name="PART_SelectedContentHost"
+								                  Content="{TemplateBinding SelectedContent}"
+								                  ContentTemplate="{TemplateBinding SelectedContentTemplate}" />
+							</Grid>
+						</ControlTemplate>
+					</TabControl.Template>
 					<TabControl.Items>
 						<TabItem Header="Играть">
 							<Grid RowDefinitions="*,64,auto">
@@ -79,16 +97,16 @@
 								<userControls:LoadingBar Grid.Row="2" Text="{Binding ProgressText}" Hidden="{Binding ProgressHidden}" Value="{Binding ProgressValue}" />
 							</Grid>
 						</TabItem>
-						<TabItem Header="Сборки" >
+						<TabItem Header="Сборки">
 							<Grid RowDefinitions="Auto, *">
 								<StackPanel Orientation="Horizontal">
-									<Button Content="Добавить сборку" />
+									<Button Content="Добавить сборку" Command="{Binding OpenAddModPackWindowCommand}" />
 									<Button Content="Я кнопка" />
 								</StackPanel>
-								<ListBox Grid.Row="1" Items="{Binding ModPackStorage.Keys}" SelectedItem="{Binding SelectedModPack}"></ListBox>
+								<ListBox Grid.Row="1" Items="{Binding ModPackStorage.ObservableKeys}"  SelectedItem="{Binding SelectedModPack}" />
 							</Grid>
 						</TabItem>
-						<TabItem Header="Логи" >
+						<TabItem Header="Логи">
 							<Grid>
 								<ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Background="White" Foreground="Black" Content="{Binding Logs}" />
 							</Grid>

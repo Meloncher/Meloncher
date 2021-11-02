@@ -149,7 +149,7 @@ namespace MeloncherCore.Launcher
 
 			McProcess = new McProcess(await launcher.CreateProcessAsync(launchOption));
 			McProcess.MinecraftOutput += args => MinecraftOutput?.Invoke(args);
-			sync.Load();
+			if (Version.ProfileType == ProfileType.Vanilla) sync.Load();
 			McProcess.Start();
 			if (WindowMode == WindowMode.Borderless)
 			{
@@ -158,7 +158,7 @@ namespace MeloncherCore.Launcher
 			}
 
 			await McProcess.WaitForExitAsync();
-			sync.Save();
+			if (Version.ProfileType == ProfileType.Vanilla) sync.Save();
 			return true;
 		}
 

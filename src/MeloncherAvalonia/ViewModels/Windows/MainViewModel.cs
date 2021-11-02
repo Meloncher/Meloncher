@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Reactive;
 using System.Reactive.Linq;
@@ -37,6 +38,7 @@ namespace MeloncherAvalonia.ViewModels.Windows
 		[Reactive] public string SelectedModPack { get; set; }
 
 		[Reactive] public string Logs { get; set; } = "";
+		[Reactive] public int SelectedTabIndex { get; set; } = 0;
 
 		public MainViewModel()
 		{
@@ -45,7 +47,8 @@ namespace MeloncherAvalonia.ViewModels.Windows
 			OpenAccountsWindowCommand = ReactiveCommand.Create(OnOpenAccountsWindowCommandExecuted);
 			OpenVersionsWindowCommand = ReactiveCommand.Create(OnOpenVersionsWindowCommandExecuted);
 			OpenSettingsWindowCommand = ReactiveCommand.Create(OnOpenSettingsWindowCommandExecuted);
-
+			OpenAddModPackWindowCommand = ReactiveCommand.Create(OnOpenAddModPackWindowCommandExecuted);
+			
 			_path = new ExtMinecraftPath();
 			_versionTools = new VersionTools(_path);
 			_versionCollection = _versionTools.GetVersionMetadatas();
@@ -117,6 +120,7 @@ namespace MeloncherAvalonia.ViewModels.Windows
 		public Interaction<AccountsViewModel, McAccount?> ShowSelectAccountDialog { get; } = new();
 		public Interaction<VersionsViewModel, MVersionMetadata?> ShowSelectVersionDialog { get; } = new();
 		public Interaction<SettingsViewModel, SettingsAction?> ShowSettingsDialog { get; } = new();
+		public Interaction<AddModPackViewModel, KeyValuePair<string, ModPackInfo>> ShowAddModPackDialog { get; } = new();
 		// [Reactive] public MVersionMetadata? SelectedVersion { get; set; }
 		[Reactive] public McVersion? SelectedVersion { get; set; }
 		[Reactive] public McAccount? SelectedAccount { get; set; } = new("Player");
@@ -126,6 +130,7 @@ namespace MeloncherAvalonia.ViewModels.Windows
 		public ReactiveCommand<Unit, Unit> PlayButtonCommand { get; }
 
 		public ReactiveCommand<Unit, Task> OpenSettingsWindowCommand { get; }
+		public ReactiveCommand<Unit, Task> OpenAddModPackWindowCommand { get; }
 
 		public async Task CheckUpdates()
 		{
@@ -182,6 +187,13 @@ namespace MeloncherAvalonia.ViewModels.Windows
 					"Optifine" => "Загрузка Optifine...",
 					_ => "Загрузка..."
 				};
+		}
+		
+		private async Task OnOpenAddModPackWindowCommandExecuted()
+		{
+			var dialog = new AddModPackViewModel(_versionTools, _versionCollection);
+			var result = await ShowAddModPackDialog.Handle(dialog);
+			ModPackStorage.Add(result);
 		}
 
 		private async Task OnOpenSettingsWindowCommandExecuted()

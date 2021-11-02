@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Markup.Xaml;
@@ -7,6 +8,7 @@ using MeloncherAvalonia.ViewModels.Dialogs;
 using MeloncherAvalonia.ViewModels.Windows;
 using MeloncherAvalonia.Views.Dialogs;
 using MeloncherCore.Account;
+using MeloncherCore.ModPack;
 using ReactiveUI;
 
 namespace MeloncherAvalonia.Views.Windows
@@ -24,6 +26,7 @@ namespace MeloncherAvalonia.Views.Windows
 				disposable(ViewModel.ShowSelectAccountDialog.RegisterHandler(DoShowSelectAccountDialogAsync));
 				disposable(ViewModel.ShowSelectVersionDialog.RegisterHandler(DoShowSelectVersionDialogAsync));
 				disposable(ViewModel.ShowSettingsDialog.RegisterHandler(DoShowSettingsDialogAsync));
+				disposable(ViewModel.ShowAddModPackDialog.RegisterHandler(DoShowAddModPackDialogAsync));
 				disposable(ViewModel.CheckUpdates());
 			});
 			Closing += (sender, args) =>
@@ -58,6 +61,14 @@ namespace MeloncherAvalonia.Views.Windows
 			var dialog = new SettingsWindow();
 			dialog.DataContext = interaction.Input;
 			var result = await dialog.ShowDialog<SettingsAction?>(this);
+			interaction.SetOutput(result);
+		}
+		
+		private async Task DoShowAddModPackDialogAsync(InteractionContext<AddModPackViewModel, KeyValuePair<string, ModPackInfo>> interaction)
+		{
+			var dialog = new AddModPackWindow();
+			dialog.DataContext = interaction.Input;
+			var result = await dialog.ShowDialog<KeyValuePair<string, ModPackInfo>>(this);
 			interaction.SetOutput(result);
 		}
 	}
