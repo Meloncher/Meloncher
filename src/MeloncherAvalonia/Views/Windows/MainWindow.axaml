@@ -6,6 +6,7 @@
         xmlns:uc="clr-namespace:MeloncherAvalonia.Views.UserControls"
         xmlns:i="using:Avalonia.Xaml.Interactivity"
         xmlns:ia="using:Avalonia.Xaml.Interactions.Core"
+        xmlns:dh="clr-namespace:DialogHost;assembly=DialogHost.Avalonia"
         mc:Ignorable="d"
         d:DesignWidth="800"
         d:DesignHeight="480"
@@ -26,105 +27,109 @@
 	<!-- 	<vm:MainViewModel /> -->
 	<!-- </Window.DataContext> -->
 
-	<Grid RowDefinitions="26,*">
-		<Border IsHitTestVisible="False" Background="#000000" Opacity=".5">
-			<TextBlock Text="{Binding Title}" TextAlignment="Center" VerticalAlignment="Center" />
-		</Border>
-		<Grid Grid.Row="1" ColumnDefinitions="40,*">
-			<Border Background="#202020" Opacity="0.5">
-				<Grid RowDefinitions="*,auto">
-					<ListBox Margin="-4, 0, 0, 0" SelectedIndex="{Binding SelectedTabIndex}" Background="Transparent">
-						<ListBox.Items>
-							<avalonia:MaterialIcon Kind="PlayCircle" />
-							<avalonia:MaterialIcon Kind="Archive" />
-							<avalonia:MaterialIcon Kind="TextBox" />
-						</ListBox.Items>
-					</ListBox>
-					<!-- <StackPanel> -->
-					<!--<Button Height="40" Width="40" Content="P" />-->
+	<dh:DialogHost CloseOnClickAway="True">
+		<dh:DialogHost.DialogContent>
+		</dh:DialogHost.DialogContent>
+		<Grid RowDefinitions="26,*">
+			<Border IsHitTestVisible="False" Background="#000000" Opacity=".5">
+				<TextBlock Text="{Binding Title}" TextAlignment="Center" VerticalAlignment="Center" />
+			</Border>
+			<Grid Grid.Row="1" ColumnDefinitions="40,*">
+				<Border Background="#202020" Opacity="0.5">
+					<Grid RowDefinitions="*,auto">
+						<ListBox Margin="-4, 0, 0, 0" SelectedIndex="{Binding SelectedTabIndex}" Background="Transparent">
+							<ListBox.Items>
+								<avalonia:MaterialIcon Kind="PlayCircle" />
+								<avalonia:MaterialIcon Kind="Archive" />
+								<avalonia:MaterialIcon Kind="TextBox" />
+							</ListBox.Items>
+						</ListBox>
+						<!-- <StackPanel> -->
+						<!--<Button Height="40" Width="40" Content="P" />-->
 
-					<!-- </StackPanel> -->
-					<StackPanel Grid.Row="1">
-						<Button Height="40" Width="40" Command="{Binding OpenSettingsWindowCommand}" Background="Transparent" BorderThickness="0">
-							<avalonia:MaterialIcon Kind="Settings" />
-						</Button>
-					</StackPanel>
-				</Grid>
-			</Border>
-			<Border Grid.Column="1" Background="#c0303030">
-				<TabControl SelectedIndex="{Binding SelectedTabIndex}">
-					<TabControl.Template>
-						<ControlTemplate>
-							<Grid>
-								<ItemsPresenter IsVisible="False" Name="PART_ItemsPresenter" />
-								<ContentPresenter Name="PART_SelectedContentHost"
-								                  Content="{TemplateBinding SelectedContent}"
-								                  ContentTemplate="{TemplateBinding SelectedContentTemplate}" />
-							</Grid>
-						</ControlTemplate>
-					</TabControl.Template>
-					<TabControl.Items>
-						<TabItem Header="Играть">
-							<Grid RowDefinitions="*,64,auto">
-								<Border>
-									<Border.Background>
-										<ImageBrush Source="/Assets/Images/Background.jpg" Stretch="UniformToFill" />
-									</Border.Background>
-								</Border>
-								<Grid Grid.Row="1" Background="#252525" ColumnDefinitions="*,auto,*">
-									<Button Command="{Binding OpenVersionsWindowCommand}" Grid.Column="0" HorizontalAlignment="Left" Background="Transparent" BorderThickness="0">
-										<Grid ColumnDefinitions="Auto,Auto" RowDefinitions="Auto,Auto">
-											<Border CornerRadius="4" Margin="0, 0, 10, 0" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Height="32" Width="32">
-												<Border.Background>
-													<ImageBrush Source="/Assets/Images/Grass.png" />
-												</Border.Background>
-											</Border>
-											<TextBlock Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Text="Выбранная версия" />
-											<TextBlock Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" Foreground="LightGray" Text="{Binding SelectedVersion.Name}" />
-										</Grid>
-									</Button>
-									<uc:PlayButton Margin="0 -40 0 0" Grid.Column="1" Text="Играть" Command="{Binding PlayButtonCommand}" IsEnabled="{Binding !IsStarted}" />
-									<Button Command="{Binding OpenAccountsWindowCommand}" Grid.Column="2" HorizontalAlignment="Right" Background="Transparent" BorderThickness="0">
-										<Grid ColumnDefinitions="Auto,Auto" RowDefinitions="Auto,Auto">
-											<Border CornerRadius="4" Margin="10, 0, 0, 0" Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Height="32" Width="32">
-												<Border.Background>
-													<ImageBrush Source="/Assets/Images/Steve.png" />
-												</Border.Background>
-											</Border>
-											<TextBlock Grid.Column="0" Grid.Row="0" HorizontalAlignment="Right" Text="Выбранный аккаунт" />
-											<TextBlock Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right" Foreground="LightGray" Text="{Binding SelectedAccount.GameSession.Username}" />
-										</Grid>
-									</Button>
+						<!-- </StackPanel> -->
+						<StackPanel Grid.Row="1">
+							<Button Height="40" Width="40" Command="{Binding OpenSettingsWindowCommand}" Background="Transparent" BorderThickness="0">
+								<avalonia:MaterialIcon Kind="Settings" />
+							</Button>
+						</StackPanel>
+					</Grid>
+				</Border>
+				<Border Grid.Column="1" Background="#c0303030">
+					<TabControl SelectedIndex="{Binding SelectedTabIndex}">
+						<TabControl.Template>
+							<ControlTemplate>
+								<Grid>
+									<ItemsPresenter IsVisible="False" Name="PART_ItemsPresenter" />
+									<ContentPresenter Name="PART_SelectedContentHost"
+									                  Content="{TemplateBinding SelectedContent}"
+									                  ContentTemplate="{TemplateBinding SelectedContentTemplate}" />
 								</Grid>
-								<uc:LoadingBar Grid.Row="2" Text="{Binding ProgressText}" Hidden="{Binding ProgressHidden}" Value="{Binding ProgressValue}" />
-							</Grid>
-						</TabItem>
-						<TabItem Header="Сборки">
-							<Grid RowDefinitions="Auto, Auto, *">
-								<TextBlock Text="Сборки (Beta)" FontSize="32" Margin="16, 0, 0, 4" />
-								<StackPanel Grid.Row="1" Orientation="Horizontal">
-									<Button Content="Добавить сборку" Command="{Binding OpenAddModPackWindowCommand}" />
-									<Button Content="Удалить сборку" Command="{Binding RemoveSelectedModPackCommand}" />
-									<Button Content="Открыть папку сборки" Command="{Binding OpenModPackFolderCommand}" />
-								</StackPanel>
-								<ListBox Grid.Row="2" Items="{Binding ModPackStorage.ObservableKeys}"  SelectedItem="{Binding SelectedModPack}">
-									<i:Interaction.Behaviors>
-										<ia:EventTriggerBehavior EventName="DoubleTapped">
-											<ia:InvokeCommandAction Command="{Binding SelectModPackCommand}" CommandParameter="{x:Null}" />
-										</ia:EventTriggerBehavior>
-									</i:Interaction.Behaviors>
-								</ListBox>
-							</Grid>
-						</TabItem>
-						<TabItem Header="Логи">
-							<Grid RowDefinitions="Auto, *">
-								<TextBlock Text="Логи (Beta)" FontSize="32" Margin="16, 0, 0, 4" />
-								<ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Background="White" Foreground="Black" Content="{Binding Logs}" />
-							</Grid>
-						</TabItem>
-					</TabControl.Items>
-				</TabControl>
-			</Border>
+							</ControlTemplate>
+						</TabControl.Template>
+						<TabControl.Items>
+							<TabItem Header="Играть">
+								<Grid RowDefinitions="*,64,auto">
+									<Border>
+										<Border.Background>
+											<ImageBrush Source="/Assets/Images/Background.jpg" Stretch="UniformToFill" />
+										</Border.Background>
+									</Border>
+									<Grid Grid.Row="1" Background="#252525" ColumnDefinitions="*,auto,*">
+										<Button Command="{Binding OpenVersionsWindowCommand}" Grid.Column="0" HorizontalAlignment="Left" Background="Transparent" BorderThickness="0">
+											<Grid ColumnDefinitions="Auto,Auto" RowDefinitions="Auto,Auto">
+												<Border CornerRadius="4" Margin="0, 0, 10, 0" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Height="32" Width="32">
+													<Border.Background>
+														<ImageBrush Source="/Assets/Images/Grass.png" />
+													</Border.Background>
+												</Border>
+												<TextBlock Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Text="Выбранная версия" />
+												<TextBlock Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" Foreground="LightGray" Text="{Binding SelectedVersion.Name}" />
+											</Grid>
+										</Button>
+										<uc:PlayButton Margin="0 -40 0 0" Grid.Column="1" Text="Играть" Command="{Binding PlayButtonCommand}" IsEnabled="{Binding !IsStarted}" />
+										<Button Command="{Binding OpenAccountsWindowCommand}" Grid.Column="2" HorizontalAlignment="Right" Background="Transparent" BorderThickness="0">
+											<Grid ColumnDefinitions="Auto,Auto" RowDefinitions="Auto,Auto">
+												<Border CornerRadius="4" Margin="10, 0, 0, 0" Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Height="32" Width="32">
+													<Border.Background>
+														<ImageBrush Source="/Assets/Images/Steve.png" />
+													</Border.Background>
+												</Border>
+												<TextBlock Grid.Column="0" Grid.Row="0" HorizontalAlignment="Right" Text="Выбранный аккаунт" />
+												<TextBlock Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right" Foreground="LightGray" Text="{Binding SelectedAccount.GameSession.Username}" />
+											</Grid>
+										</Button>
+									</Grid>
+									<uc:LoadingBar Grid.Row="2" Text="{Binding ProgressText}" Hidden="{Binding ProgressHidden}" Value="{Binding ProgressValue}" />
+								</Grid>
+							</TabItem>
+							<TabItem Header="Сборки">
+								<Grid RowDefinitions="Auto, Auto, *">
+									<TextBlock Text="Сборки (Beta)" FontSize="32" Margin="16, 0, 0, 4" />
+									<StackPanel Grid.Row="1" Orientation="Horizontal">
+										<Button Content="Добавить сборку" Command="{Binding OpenAddModPackWindowCommand}" />
+										<Button Content="Удалить сборку" Command="{Binding RemoveSelectedModPackCommand}" />
+										<Button Content="Открыть папку сборки" Command="{Binding OpenModPackFolderCommand}" />
+									</StackPanel>
+									<ListBox Grid.Row="2" Items="{Binding ModPackStorage.ObservableKeys}" SelectedItem="{Binding SelectedModPack}">
+										<i:Interaction.Behaviors>
+											<ia:EventTriggerBehavior EventName="DoubleTapped">
+												<ia:InvokeCommandAction Command="{Binding SelectModPackCommand}" CommandParameter="{x:Null}" />
+											</ia:EventTriggerBehavior>
+										</i:Interaction.Behaviors>
+									</ListBox>
+								</Grid>
+							</TabItem>
+							<TabItem Header="Логи">
+								<Grid RowDefinitions="Auto, *">
+									<TextBlock Text="Логи (Beta)" FontSize="32" Margin="16, 0, 0, 4" />
+									<ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Background="White" Foreground="Black" Content="{Binding Logs}" />
+								</Grid>
+							</TabItem>
+						</TabControl.Items>
+					</TabControl>
+				</Border>
+			</Grid>
 		</Grid>
-	</Grid>
+	</dh:DialogHost>
 </Window>
