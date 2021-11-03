@@ -1,6 +1,4 @@
-﻿using System.Reactive;
-using MeloncherCore.Settings;
-using ReactiveUI;
+﻿using MeloncherCore.Settings;
 using ReactiveUI.Fody.Helpers;
 
 namespace MeloncherAvalonia.ViewModels.Dialogs
@@ -10,24 +8,18 @@ namespace MeloncherAvalonia.ViewModels.Dialogs
 		public SettingsViewModel(LauncherSettings launcherSettings)
 		{
 			LauncherSettings = launcherSettings;
-			OkCommand = ReactiveCommand.Create(OnOkCommandExecuted);
-			ImportCommand = ReactiveCommand.Create(OnImportCommandExecuted);
 		}
 
 		[Reactive] public LauncherSettings LauncherSettings { get; set; }
 
-		public ReactiveCommand<Unit, SettingsAction> ImportCommand { get; }
-
-		public ReactiveCommand<Unit, SettingsAction> OkCommand { get; }
-
-		private SettingsAction OnImportCommandExecuted()
+		private void ImportCommand()
 		{
-			return SettingsAction.Import;
+			DialogHost.DialogHost.GetDialogSession("MainDialogHost")?.Close(SettingsAction.Import);
 		}
 
-		private SettingsAction OnOkCommandExecuted()
+		private void OkCommand()
 		{
-			return SettingsAction.None;
+			DialogHost.DialogHost.GetDialogSession("MainDialogHost")?.Close(SettingsAction.None);
 		}
 	}
 

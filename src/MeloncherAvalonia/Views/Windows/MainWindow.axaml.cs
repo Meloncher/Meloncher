@@ -21,7 +21,6 @@ namespace MeloncherAvalonia.Views.Windows
 #endif
 			this.WhenActivated(disposable =>
 			{
-				disposable(ViewModel.ShowSettingsDialog.RegisterHandler(DoShowSettingsDialogAsync));
 				disposable(ViewModel.CheckUpdates());
 			});
 			Closing += (sender, args) =>
@@ -33,14 +32,6 @@ namespace MeloncherAvalonia.Views.Windows
 		private void InitializeComponent()
 		{
 			AvaloniaXamlLoader.Load(this);
-		}
-
-		private async Task DoShowSettingsDialogAsync(InteractionContext<SettingsViewModel, SettingsAction?> interaction)
-		{
-			var dialog = new SettingsWindow();
-			dialog.DataContext = interaction.Input;
-			var result = await dialog.ShowDialog<SettingsAction?>(this);
-			interaction.SetOutput(result);
 		}
 	}
 }

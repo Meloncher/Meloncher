@@ -215,16 +215,18 @@ namespace MeloncherAvalonia.ViewModels.Windows
 
 		private async Task OpenSettingsWindowCommand()
 		{
-			var dialog = new SettingsViewModel(_launcherSettings);
-			var result = await ShowSettingsDialog.Handle(dialog);
-			if (result != null)
-				if (result == SettingsAction.Import)
-				{
-					var importer = new McOptionsImporter(_path);
-					importer.Import();
-					var messageBoxStandardWindow = MessageBoxManager.GetMessageBoxStandardWindow("Готово", "Готово!");
-					await messageBoxStandardWindow.Show();
-				}
+			var dialog = new SettingsDialog
+			{
+				DataContext = new SettingsViewModel(_launcherSettings)
+			};
+			var result = await DialogHost.DialogHost.Show(dialog);
+			if (result is SettingsAction.Import)
+			{
+				var importer = new McOptionsImporter(_path);
+				importer.Import();
+				var messageBoxStandardWindow = MessageBoxManager.GetMessageBoxStandardWindow("Готово", "Готово!");
+				await messageBoxStandardWindow.Show();
+			}
 		}
 
 		private async Task OpenAccountsWindowCommand()

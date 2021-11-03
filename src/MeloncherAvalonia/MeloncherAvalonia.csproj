@@ -60,4 +60,7 @@
 			<SubType>Code</SubType>
 		</Compile>
 	</ItemGroup>
+	<ItemGroup>
+	  <UpToDateCheckInput Remove="Views\OldDialogs\SettingsWindow.axaml" />
+	</ItemGroup>
 </Project>

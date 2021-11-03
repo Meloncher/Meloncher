@@ -50,12 +50,6 @@ namespace MeloncherAvalonia.ViewModels.Dialogs
 			{
 				if (lh.CheckOAuthLoginSuccess(url)) _accountStorage.Add(lh.LoginFromOAuth());
 			}
-			
-			// var dialog = new AddMicrosoftAccountViewModel();
-			// var result = await ShowAddMicrosoftAccountDialog.Handle(dialog);
-			// if (result != null)
-			// 	if (lh.CheckOAuthLoginSuccess(result))
-			// 		_accountStorage.Add(lh.LoginFromOAuth());
 		}
 
 		private void OkCommand()
