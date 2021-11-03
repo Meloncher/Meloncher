@@ -1,7 +1,6 @@
 ﻿using System;
 using CmlLib.Core;
 using CmlLib.Core.Version;
-using CmlLib.Core.VersionLoader;
 using MeloncherCore.ModPack;
 
 namespace MeloncherCore.Version
@@ -45,9 +44,9 @@ namespace MeloncherCore.Version
 			var mVersion = GetVersion(modPackStorage[modPackName].VersionName);
 			return mVersion != null ? new McVersion(modPackName, mVersion, ProfileType.Custom, modPackName) : null;
 		}
+
 		public McVersion GetMcVersion(MVersion mVersion)
 		{
-
 			var profileName = mVersion.AssetId;
 			if (profileName == null)
 			{

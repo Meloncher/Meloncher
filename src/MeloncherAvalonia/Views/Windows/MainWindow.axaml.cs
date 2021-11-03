@@ -1,12 +1,7 @@
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
-using MeloncherAvalonia.ViewModels.Dialogs;
 using MeloncherAvalonia.ViewModels.Windows;
-using MeloncherAvalonia.Views.Dialogs;
-using MeloncherCore.ModPack;
 using ReactiveUI;
 
 namespace MeloncherAvalonia.Views.Windows
@@ -19,10 +14,7 @@ namespace MeloncherAvalonia.Views.Windows
 #if DEBUG
 			this.AttachDevTools();
 #endif
-			this.WhenActivated(disposable =>
-			{
-				disposable(ViewModel.CheckUpdates());
-			});
+			this.WhenActivated(disposable => { disposable(ViewModel.CheckUpdates()); });
 			Closing += (sender, args) =>
 			{
 				if (ViewModel.IsLaunched) args.Cancel = true;

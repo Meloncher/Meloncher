@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
-using System.Reactive.Linq;
 using System.Threading.Tasks;
 using Avalonia.Controls;
 using CmlLib.Core.Version;
-using DialogHost;
+using MeloncherAvalonia.Models;
 using MeloncherAvalonia.ViewModels.Dialogs;
 using MeloncherAvalonia.Views.Dialogs;
 using MeloncherCore.Account;
@@ -23,7 +22,6 @@ using MessageBox.Avalonia.DTO;
 using MessageBox.Avalonia.Enums;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
-using Updater = MeloncherAvalonia.Models.Updater;
 
 namespace MeloncherAvalonia.ViewModels.Windows
 {
@@ -37,11 +35,6 @@ namespace MeloncherAvalonia.ViewModels.Windows
 		private readonly ExtMinecraftPath _path;
 		private readonly MVersionCollection _versionCollection;
 		private readonly VersionTools _versionTools;
-		[Reactive] public ModPackStorage ModPackStorage { get; set; }
-		[Reactive] public string SelectedModPack { get; set; }
-
-		[Reactive] public string Logs { get; set; } = "";
-		[Reactive] public int SelectedTabIndex { get; set; } = 0;
 
 		public MainViewModel()
 		{
@@ -107,6 +100,12 @@ namespace MeloncherAvalonia.ViewModels.Windows
 				if (args.PropertyName == "GlassBackground") TransparencyLevelHint = _launcherSettings.GlassBackground ? WindowTransparencyLevel.Blur : WindowTransparencyLevel.None;
 			};
 		}
+
+		[Reactive] public ModPackStorage ModPackStorage { get; set; }
+		[Reactive] public string SelectedModPack { get; set; }
+
+		[Reactive] public string Logs { get; set; } = "";
+		[Reactive] public int SelectedTabIndex { get; set; }
 
 		[Reactive] public string Title { get; set; } = "Meloncher";
 		[Reactive] public WindowTransparencyLevel TransparencyLevelHint { get; set; } = WindowTransparencyLevel.None;
@@ -207,10 +206,8 @@ namespace MeloncherAvalonia.ViewModels.Windows
 
 		private void OpenModPackFolderCommand()
 		{
-			// Process.Start(@"c:\users\");
 			var modPackPath = Path.Combine(_path.RootPath, "profiles", "custom", SelectedModPack);
 			Process.Start("explorer.exe", modPackPath);
-			// Process.Start("file://" + modPackPath);
 		}
 
 		private async Task OpenSettingsWindowCommand()
@@ -268,12 +265,8 @@ namespace MeloncherAvalonia.ViewModels.Windows
 				if (SelectedAccount != null)
 				{
 					if (!SelectedAccount.Validate())
-					{
 						if (SelectedAccount.Refresh())
-						{
 							_accountStorage.SaveFile();
-						}
-					}
 
 					_mcLauncher.Session = SelectedAccount.GameSession;
 				}

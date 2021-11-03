@@ -8,12 +8,12 @@ namespace MeloncherCore.Version
 {
 	public class ExtVersionLoader : IVersionLoader
 	{
+		private readonly MinecraftPath _minecraftPath;
+
 		public ExtVersionLoader(MinecraftPath path)
 		{
 			_minecraftPath = path;
 		}
-
-		private readonly MinecraftPath _minecraftPath;
 
 		public MVersionCollection GetVersionMetadatas()
 		{

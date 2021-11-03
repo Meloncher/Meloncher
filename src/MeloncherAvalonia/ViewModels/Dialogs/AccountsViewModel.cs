@@ -1,7 +1,5 @@
 ﻿using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Reactive;
-using System.Reactive.Linq;
 using System.Threading.Tasks;
 using CmlLib.Core.Auth;
 using MeloncherAvalonia.Views.Dialogs;
@@ -27,6 +25,7 @@ namespace MeloncherAvalonia.ViewModels.Dialogs
 		[Reactive] public McAccount? SelectedSession { get; set; }
 		public Interaction<AddAccountViewModel, AddAccountData?> ShowAddAccountDialog { get; } = new();
 		public Interaction<AddMicrosoftAccountViewModel, string?> ShowAddMicrosoftAccountDialog { get; } = new();
+
 		private void DeleteAccountCommand()
 		{
 			_accountStorage.Remove(SelectedSession);
@@ -40,16 +39,15 @@ namespace MeloncherAvalonia.ViewModels.Dialogs
 				UseShellExecute = true,
 				FileName = lh.CreateOAuthUrl()
 			});
-			
+
 			var dialog = new AddMicrosoftAccountDialog
 			{
 				DataContext = new AddMicrosoftAccountViewModel()
 			};
 			var result = await DialogHost.DialogHost.Show(dialog, "AccountSelectorDialogHost");
 			if (result is string url)
-			{
-				if (lh.CheckOAuthLoginSuccess(url)) _accountStorage.Add(lh.LoginFromOAuth());
-			}
+				if (lh.CheckOAuthLoginSuccess(url))
+					_accountStorage.Add(lh.LoginFromOAuth());
 		}
 
 		private void OkCommand()
@@ -65,13 +63,11 @@ namespace MeloncherAvalonia.ViewModels.Dialogs
 			};
 			var result = await DialogHost.DialogHost.Show(dialog, "AccountSelectorDialogHost");
 			if (result is AddAccountData addAccountData)
-			{
 				if (addAccountData.Username != null && addAccountData.Password != null)
 				{
 					var resp = new MLogin().Authenticate(addAccountData.Username, addAccountData.Password);
 					if (resp.Session != null) _accountStorage.Add(new McAccount(resp.Session));
 				}
-			}
 		}
 
 		private async Task AddOfflineCommand()
@@ -82,9 +78,8 @@ namespace MeloncherAvalonia.ViewModels.Dialogs
 			};
 			var result = await DialogHost.DialogHost.Show(dialog, "AccountSelectorDialogHost");
 			if (result is AddAccountData addAccountData)
-			{
-				if (addAccountData.Username != null) _accountStorage.Add(new McAccount(addAccountData.Username));
-			}
+				if (addAccountData.Username != null)
+					_accountStorage.Add(new McAccount(addAccountData.Username));
 		}
 	}
 }

@@ -4,7 +4,6 @@ namespace MeloncherCore.ModPack
 {
 	public class ModPackInfo
 	{
-
 		public ModPackInfo(string versionName)
 		{
 			VersionName = versionName;

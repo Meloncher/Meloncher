@@ -1,6 +1,4 @@
-﻿using System.Reactive;
-using ReactiveUI;
-using ReactiveUI.Fody.Helpers;
+﻿using ReactiveUI.Fody.Helpers;
 
 namespace MeloncherAvalonia.ViewModels.Dialogs
 {

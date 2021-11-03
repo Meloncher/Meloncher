@@ -1,20 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Reactive;
 using CmlLib.Core.Version;
-using DialogHost;
 using DynamicData;
 using MeloncherCore.Version;
-using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 
 namespace MeloncherAvalonia.ViewModels.Dialogs
 {
 	public class VersionsViewModel : ViewModelBase
 	{
-		private readonly MVersionCollection _versionCollection;
 		private readonly string _dialogIdentifier;
+		private readonly MVersionCollection _versionCollection;
 		private readonly VersionTools _versionTools;
 
 		public VersionsViewModel(string dialogIdentifier, VersionTools versionTools, MVersionCollection? versionCollection)
