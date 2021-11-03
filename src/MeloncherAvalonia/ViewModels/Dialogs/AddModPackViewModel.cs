@@ -20,14 +20,11 @@ namespace MeloncherAvalonia.ViewModels.Dialogs
 			_versionTools = versionTools;
 			_versionCollection = versionCollection;
 			OkCommand = ReactiveCommand.Create(OnOkCommandExecuted);
-			OpenVersionsWindowCommand = ReactiveCommand.Create(OnOpenVersionsWindowCommandExecuted);
 		}
-		
+
 		public ReactiveCommand<Unit, KeyValuePair<string, ModPackInfo>> OkCommand { get; }
 
-		public ReactiveCommand<Unit, Task> OpenVersionsWindowCommand { get; }
-		
-		private async Task OnOpenVersionsWindowCommandExecuted()
+		private async Task OpenVersionsWindowCommand()
 		{
 			var dialog = new VersionsViewModel(_versionTools, _versionCollection);
 			var result = await ShowSelectVersionDialog.Handle(dialog);
@@ -38,8 +35,8 @@ namespace MeloncherAvalonia.ViewModels.Dialogs
 		{
 			return new KeyValuePair<string, ModPackInfo>(Name, new ModPackInfo(SelectedVersionMetadata.GetVersion().Id));
 		}
-		
-		
+
+
 		[Reactive] public MVersionMetadata SelectedVersionMetadata { get; set; }
 		[Reactive] public string Name { get; set; }
 		public Interaction<VersionsViewModel, MVersionMetadata?> ShowSelectVersionDialog { get; } = new();

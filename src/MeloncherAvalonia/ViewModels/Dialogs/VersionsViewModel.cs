@@ -17,7 +17,6 @@ namespace MeloncherAvalonia.ViewModels.Dialogs
 
 		public VersionsViewModel(VersionTools versionTools, MVersionCollection? versionCollection)
 		{
-			// SelectedVersion = selectedVersion;
 			_versionTools = versionTools;
 			OkCommand = ReactiveCommand.Create(OnOkCommandExecuted);
 			versionCollection ??= _versionTools.GetVersionMetadatas();
@@ -27,10 +26,6 @@ namespace MeloncherAvalonia.ViewModels.Dialogs
 			{
 				if (e.PropertyName == "VersionType") UpdateList();
 			};
-		}
-
-		public VersionsViewModel()
-		{
 		}
 
 		[Reactive] public ObservableCollection<MVersionMetadata> Versions { get; set; }

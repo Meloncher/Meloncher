@@ -17,41 +17,24 @@ namespace MeloncherAvalonia.ViewModels.Dialogs
 		public AccountsViewModel(AccountStorage accountStorage, McAccount? selectedSession)
 		{
 			SelectedSession = selectedSession;
-			DeleteAccountCommand = ReactiveCommand.Create(OnDeleteAccountCommandExecuted);
-			AddMicrosoftCommand = ReactiveCommand.Create(OnAddMicrosoftCommandExecuted);
-			AddMojangCommand = ReactiveCommand.Create(OnAddMojangCommandExecuted);
-			AddOfflineCommand = ReactiveCommand.Create(OnAddOfflineCommandExecuted);
 			OkCommand = ReactiveCommand.Create(OnOkCommandExecuted);
 			_accountStorage = accountStorage;
 			accountStorage.CollectionChanged += (_, _) => Accounts = new ObservableCollection<McAccount>(accountStorage);
 			Accounts = new ObservableCollection<McAccount>(accountStorage);
 		}
 
-		public AccountsViewModel()
-		{
-		}
-
 		[Reactive] public ObservableCollection<McAccount> Accounts { get; set; }
 		[Reactive] public McAccount? SelectedSession { get; set; }
 		public Interaction<AddAccountViewModel, AddAccountData?> ShowAddAccountDialog { get; } = new();
 		public Interaction<AddMicrosoftAccountViewModel, string?> ShowAddMicrosoftAccountDialog { get; } = new();
-
-		public ReactiveCommand<Unit, Unit> DeleteAccountCommand { get; }
-
-		public ReactiveCommand<Unit, Task> AddMicrosoftCommand { get; }
-
 		public ReactiveCommand<Unit, McAccount> OkCommand { get; }
 
-		public ReactiveCommand<Unit, Task> AddMojangCommand { get; }
-
-		public ReactiveCommand<Unit, Task> AddOfflineCommand { get; }
-
-		private void OnDeleteAccountCommandExecuted()
+		private void DeleteAccountCommand()
 		{
 			_accountStorage.Remove(SelectedSession);
 		}
 
-		private async Task OnAddMicrosoftCommandExecuted()
+		private async Task AddMicrosoftCommand()
 		{
 			var lh = new MicrosoftLoginHandler();
 			Process.Start(new ProcessStartInfo
@@ -71,7 +54,7 @@ namespace MeloncherAvalonia.ViewModels.Dialogs
 			return SelectedSession;
 		}
 
-		private async Task OnAddMojangCommandExecuted()
+		private async Task AddMojangCommand()
 		{
 			var dialog = new AddAccountViewModel(true);
 			var result = await ShowAddAccountDialog.Handle(dialog);
@@ -83,7 +66,7 @@ namespace MeloncherAvalonia.ViewModels.Dialogs
 			}
 		}
 
-		private async Task OnAddOfflineCommandExecuted()
+		private async Task AddOfflineCommand()
 		{
 			var dialog = new AddAccountViewModel(false);
 			var result = await ShowAddAccountDialog.Handle(dialog);

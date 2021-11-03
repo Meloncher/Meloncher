@@ -12,10 +12,6 @@ namespace MeloncherAvalonia.ViewModels.Dialogs
 			OkCommand = ReactiveCommand.Create(OnOkCommandExecuted);
 		}
 
-		public AddAccountViewModel() : this(true)
-		{
-		}
-
 		[Reactive] public string? Username { get; set; }
 		[Reactive] public string? Password { get; set; }
 		[Reactive] public bool NeedPassword { get; set; }

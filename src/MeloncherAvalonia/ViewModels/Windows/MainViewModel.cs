@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
-using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using Avalonia.Controls;
@@ -45,14 +44,6 @@ namespace MeloncherAvalonia.ViewModels.Windows
 		public MainViewModel()
 		{
 			ServicePointManager.DefaultConnectionLimit = 512;
-			PlayButtonCommand = ReactiveCommand.Create(OnPlayButtonCommandExecuted);
-			OpenAccountsWindowCommand = ReactiveCommand.Create(OnOpenAccountsWindowCommandExecuted);
-			OpenVersionsWindowCommand = ReactiveCommand.Create(OnOpenVersionsWindowCommandExecuted);
-			OpenSettingsWindowCommand = ReactiveCommand.Create(OnOpenSettingsWindowCommandExecuted);
-			OpenAddModPackWindowCommand = ReactiveCommand.Create(OnOpenAddModPackWindowCommandExecuted);
-			RemoveSelectedModPackCommand = ReactiveCommand.Create(OnRemoveSelectedModPackCommandExecuted);
-			SelectModPackCommand = ReactiveCommand.Create(OnSelectModPackCommandExecuted);
-			OpenModPackFolderCommand = ReactiveCommand.Create(OnOpenModPackFolderCommandExecuted);
 			
 			_path = new ExtMinecraftPath();
 			_versionTools = new VersionTools(_path);
@@ -129,18 +120,7 @@ namespace MeloncherAvalonia.ViewModels.Windows
 		// [Reactive] public MVersionMetadata? SelectedVersion { get; set; }
 		[Reactive] public McVersion? SelectedVersion { get; set; }
 		[Reactive] public McAccount? SelectedAccount { get; set; } = new("Player");
-
-		public ReactiveCommand<Unit, Task> OpenAccountsWindowCommand { get; }
-		public ReactiveCommand<Unit, Task> OpenVersionsWindowCommand { get; }
-		public ReactiveCommand<Unit, Unit> PlayButtonCommand { get; }
-
-		public ReactiveCommand<Unit, Task> OpenSettingsWindowCommand { get; }
-		public ReactiveCommand<Unit, Task> OpenAddModPackWindowCommand { get; }
-		public ReactiveCommand<Unit, Unit> RemoveSelectedModPackCommand { get; }
-		public ReactiveCommand<Unit, Unit> SelectModPackCommand { get; }
-		public ReactiveCommand<Unit, Unit> OpenModPackFolderCommand { get; }
 		
-
 		public async Task CheckUpdates()
 		{
 			Updater updater = new();
@@ -198,26 +178,26 @@ namespace MeloncherAvalonia.ViewModels.Windows
 				};
 		}
 		
-		private async Task OnOpenAddModPackWindowCommandExecuted()
+		private async Task OpenAddModPackWindowCommand()
 		{
 			var dialog = new AddModPackViewModel(_versionTools, _versionCollection);
 			var result = await ShowAddModPackDialog.Handle(dialog);
 			ModPackStorage.Add(result);
 		}
 		
-		private void OnRemoveSelectedModPackCommandExecuted()
+		private void RemoveSelectedModPackCommand()
 		{
 			ModPackStorage.Remove(SelectedModPack);
 		}
 		
-		private void OnSelectModPackCommandExecuted()
+		private void SelectModPackCommand()
 		{
 			SelectedTabIndex = 0;
 			var mcVersion = _versionTools.GetMcVersion(SelectedModPack, ModPackStorage);
 			if (mcVersion != null) SelectedVersion = mcVersion;
 		}
 		
-		private void OnOpenModPackFolderCommandExecuted()
+		private void OpenModPackFolderCommand()
 		{
 			// Process.Start(@"c:\users\");
 			var modPackPath = Path.Combine(_path.RootPath, "profiles", "custom", SelectedModPack);
@@ -225,7 +205,7 @@ namespace MeloncherAvalonia.ViewModels.Windows
 			// Process.Start("file://" + modPackPath);
 		}
 
-		private async Task OnOpenSettingsWindowCommandExecuted()
+		private async Task OpenSettingsWindowCommand()
 		{
 			var dialog = new SettingsViewModel(_launcherSettings);
 			var result = await ShowSettingsDialog.Handle(dialog);
@@ -239,21 +219,21 @@ namespace MeloncherAvalonia.ViewModels.Windows
 				}
 		}
 
-		private async Task OnOpenAccountsWindowCommandExecuted()
+		private async Task OpenAccountsWindowCommand()
 		{
 			var dialog = new AccountsViewModel(_accountStorage, SelectedAccount);
 			var result = await ShowSelectAccountDialog.Handle(dialog);
 			if (result != null) SelectedAccount = result;
 		}
 
-		private async Task OnOpenVersionsWindowCommandExecuted()
+		private async Task OpenVersionsWindowCommand()
 		{
 			var dialog = new VersionsViewModel(_versionTools, _versionCollection);
 			var result = await ShowSelectVersionDialog.Handle(dialog);
 			if (result != null) SelectedVersion = _versionTools.GetMcVersion(result.GetVersion());
 		}
 
-		private void OnPlayButtonCommandExecuted()
+		private void PlayButtonCommand()
 		{
 			new Task(async () =>
 			{

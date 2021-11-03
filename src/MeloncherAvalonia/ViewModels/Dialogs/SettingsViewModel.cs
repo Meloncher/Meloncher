@@ -14,10 +14,6 @@ namespace MeloncherAvalonia.ViewModels.Dialogs
 			ImportCommand = ReactiveCommand.Create(OnImportCommandExecuted);
 		}
 
-		public SettingsViewModel()
-		{
-		}
-
 		[Reactive] public LauncherSettings LauncherSettings { get; set; }
 
 		public ReactiveCommand<Unit, SettingsAction> ImportCommand { get; }
