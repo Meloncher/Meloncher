@@ -59,7 +59,7 @@ namespace MeloncherCore.ModPack
 		{
 			if (!ContainsKey(key)) return false;
 			var modPackDir = Path.Combine(_path.RootPath, "profiles", "custom", key);
-			if (!Directory.Exists(modPackDir)) Directory.Delete(modPackDir, true);
+			if (Directory.Exists(modPackDir)) Directory.Delete(modPackDir, true);
 			Load();
 			CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 			return true;

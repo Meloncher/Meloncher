@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Net;
 using System.Reactive;
 using System.Reactive.Linq;
@@ -48,6 +50,9 @@ namespace MeloncherAvalonia.ViewModels.Windows
 			OpenVersionsWindowCommand = ReactiveCommand.Create(OnOpenVersionsWindowCommandExecuted);
 			OpenSettingsWindowCommand = ReactiveCommand.Create(OnOpenSettingsWindowCommandExecuted);
 			OpenAddModPackWindowCommand = ReactiveCommand.Create(OnOpenAddModPackWindowCommandExecuted);
+			RemoveSelectedModPackCommand = ReactiveCommand.Create(OnRemoveSelectedModPackCommandExecuted);
+			SelectModPackCommand = ReactiveCommand.Create(OnSelectModPackCommandExecuted);
+			OpenModPackFolderCommand = ReactiveCommand.Create(OnOpenModPackFolderCommandExecuted);
 			
 			_path = new ExtMinecraftPath();
 			_versionTools = new VersionTools(_path);
@@ -131,6 +136,10 @@ namespace MeloncherAvalonia.ViewModels.Windows
 
 		public ReactiveCommand<Unit, Task> OpenSettingsWindowCommand { get; }
 		public ReactiveCommand<Unit, Task> OpenAddModPackWindowCommand { get; }
+		public ReactiveCommand<Unit, Unit> RemoveSelectedModPackCommand { get; }
+		public ReactiveCommand<Unit, Unit> SelectModPackCommand { get; }
+		public ReactiveCommand<Unit, Unit> OpenModPackFolderCommand { get; }
+		
 
 		public async Task CheckUpdates()
 		{
@@ -194,6 +203,26 @@ namespace MeloncherAvalonia.ViewModels.Windows
 			var dialog = new AddModPackViewModel(_versionTools, _versionCollection);
 			var result = await ShowAddModPackDialog.Handle(dialog);
 			ModPackStorage.Add(result);
+		}
+		
+		private void OnRemoveSelectedModPackCommandExecuted()
+		{
+			ModPackStorage.Remove(SelectedModPack);
+		}
+		
+		private void OnSelectModPackCommandExecuted()
+		{
+			SelectedTabIndex = 0;
+			var mcVersion = _versionTools.GetMcVersion(SelectedModPack, ModPackStorage);
+			if (mcVersion != null) SelectedVersion = mcVersion;
+		}
+		
+		private void OnOpenModPackFolderCommandExecuted()
+		{
+			// Process.Start(@"c:\users\");
+			var modPackPath = Path.Combine(_path.RootPath, "profiles", "custom", SelectedModPack);
+			Process.Start("explorer.exe", modPackPath);
+			// Process.Start("file://" + modPackPath);
 		}
 
 		private async Task OnOpenSettingsWindowCommandExecuted()

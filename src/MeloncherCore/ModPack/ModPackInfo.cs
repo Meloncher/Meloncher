@@ -1,6 +1,4 @@
-﻿using CmlLib.Core.Version;
-using MeloncherCore.Account;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace MeloncherCore.ModPack
 {
