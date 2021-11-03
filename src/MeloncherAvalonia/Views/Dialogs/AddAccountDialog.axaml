@@ -1,0 +1,20 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="MeloncherAvalonia.Views.Dialogs.AddAccountDialog"
+             Height="200"
+             Width="256">
+	<Grid RowDefinitions="*,Auto">
+		<StackPanel>
+			<Label Content="Логин" />
+			<TextBox Text="{Binding Username}" Margin="4" Height="32" TextWrapping="Wrap" VerticalAlignment="Top" />
+			<Label Content="Пароль" IsVisible="{Binding NeedPassword}" />
+			<TextBox PasswordChar="●" Text="{Binding Password}" Margin="4" Height="32" VerticalAlignment="Top" IsVisible="{Binding NeedPassword}" />
+		</StackPanel>
+		<StackPanel Grid.Row="1" Orientation="Horizontal">
+			<Button HorizontalAlignment="Stretch" Command="{Binding OkCommand}" Content="Добавить" Height="40" Margin="4" VerticalAlignment="Top" />
+		</StackPanel>
+	</Grid>
+</UserControl>

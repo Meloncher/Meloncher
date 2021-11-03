@@ -4,6 +4,7 @@ using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using CmlLib.Core.Auth;
+using MeloncherAvalonia.Views.Dialogs;
 using MeloncherCore.Account;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
@@ -17,7 +18,6 @@ namespace MeloncherAvalonia.ViewModels.Dialogs
 		public AccountsViewModel(AccountStorage accountStorage, McAccount? selectedSession)
 		{
 			SelectedSession = selectedSession;
-			OkCommand = ReactiveCommand.Create(OnOkCommandExecuted);
 			_accountStorage = accountStorage;
 			accountStorage.CollectionChanged += (_, _) => Accounts = new ObservableCollection<McAccount>(accountStorage);
 			Accounts = new ObservableCollection<McAccount>(accountStorage);
@@ -27,8 +27,6 @@ namespace MeloncherAvalonia.ViewModels.Dialogs
 		[Reactive] public McAccount? SelectedSession { get; set; }
 		public Interaction<AddAccountViewModel, AddAccountData?> ShowAddAccountDialog { get; } = new();
 		public Interaction<AddMicrosoftAccountViewModel, string?> ShowAddMicrosoftAccountDialog { get; } = new();
-		public ReactiveCommand<Unit, McAccount> OkCommand { get; }
-
 		private void DeleteAccountCommand()
 		{
 			_accountStorage.Remove(SelectedSession);
@@ -42,37 +40,56 @@ namespace MeloncherAvalonia.ViewModels.Dialogs
 				UseShellExecute = true,
 				FileName = lh.CreateOAuthUrl()
 			});
-			var dialog = new AddMicrosoftAccountViewModel();
-			var result = await ShowAddMicrosoftAccountDialog.Handle(dialog);
-			if (result != null)
-				if (lh.CheckOAuthLoginSuccess(result))
-					_accountStorage.Add(lh.LoginFromOAuth());
+			
+			var dialog = new AddMicrosoftAccountDialog
+			{
+				DataContext = new AddMicrosoftAccountViewModel()
+			};
+			var result = await DialogHost.DialogHost.Show(dialog, "AccountSelectorDialogHost");
+			if (result is string url)
+			{
+				if (lh.CheckOAuthLoginSuccess(url)) _accountStorage.Add(lh.LoginFromOAuth());
+			}
+			
+			// var dialog = new AddMicrosoftAccountViewModel();
+			// var result = await ShowAddMicrosoftAccountDialog.Handle(dialog);
+			// if (result != null)
+			// 	if (lh.CheckOAuthLoginSuccess(result))
+			// 		_accountStorage.Add(lh.LoginFromOAuth());
 		}
 
-		private McAccount OnOkCommandExecuted()
+		private void OkCommand()
 		{
-			return SelectedSession;
+			DialogHost.DialogHost.GetDialogSession("MainDialogHost")?.Close(SelectedSession);
 		}
 
 		private async Task AddMojangCommand()
 		{
-			var dialog = new AddAccountViewModel(true);
-			var result = await ShowAddAccountDialog.Handle(dialog);
-			if (result != null)
+			var dialog = new AddAccountDialog
 			{
-				var login = new MLogin();
-				var resp = login.Authenticate(result.Username, result.Password);
-				if (resp.Session != null) _accountStorage.Add(new McAccount(resp.Session));
+				DataContext = new AddAccountViewModel(true)
+			};
+			var result = await DialogHost.DialogHost.Show(dialog, "AccountSelectorDialogHost");
+			if (result is AddAccountData addAccountData)
+			{
+				if (addAccountData.Username != null && addAccountData.Password != null)
+				{
+					var resp = new MLogin().Authenticate(addAccountData.Username, addAccountData.Password);
+					if (resp.Session != null) _accountStorage.Add(new McAccount(resp.Session));
+				}
 			}
 		}
 
 		private async Task AddOfflineCommand()
 		{
-			var dialog = new AddAccountViewModel(false);
-			var result = await ShowAddAccountDialog.Handle(dialog);
-			if (result != null)
+			var dialog = new AddAccountDialog
 			{
-				_accountStorage.Add(new McAccount(result.Username));
+				DataContext = new AddAccountViewModel(false)
+			};
+			var result = await DialogHost.DialogHost.Show(dialog, "AccountSelectorDialogHost");
+			if (result is AddAccountData addAccountData)
+			{
+				if (addAccountData.Username != null) _accountStorage.Add(new McAccount(addAccountData.Username));
 			}
 		}
 	}

@@ -3,6 +3,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+        xmlns:vm="clr-namespace:MeloncherAvalonia.ViewModels.Windows"
         xmlns:uc="clr-namespace:MeloncherAvalonia.Views.UserControls"
         xmlns:i="using:Avalonia.Xaml.Interactivity"
         xmlns:ia="using:Avalonia.Xaml.Interactions.Core"
@@ -26,8 +27,11 @@
 	<!-- <Window.DataContext> -->
 	<!-- 	<vm:MainViewModel /> -->
 	<!-- </Window.DataContext> -->
+	<Design.DataContext>
+		<vm:MainViewModel />
+	</Design.DataContext>
 
-	<dh:DialogHost CloseOnClickAway="True">
+	<dh:DialogHost CloseOnClickAway="True" Identifier="MainDialogHost">
 		<dh:DialogHost.DialogContent>
 		</dh:DialogHost.DialogContent>
 		<Grid RowDefinitions="26,*">

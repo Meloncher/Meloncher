@@ -3,6 +3,7 @@ using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using CmlLib.Core.Version;
+using MeloncherAvalonia.Views.Dialogs;
 using MeloncherCore.ModPack;
 using MeloncherCore.Version;
 using ReactiveUI;
@@ -19,21 +20,21 @@ namespace MeloncherAvalonia.ViewModels.Dialogs
 		{
 			_versionTools = versionTools;
 			_versionCollection = versionCollection;
-			OkCommand = ReactiveCommand.Create(OnOkCommandExecuted);
 		}
-
-		public ReactiveCommand<Unit, KeyValuePair<string, ModPackInfo>> OkCommand { get; }
-
 		private async Task OpenVersionsWindowCommand()
 		{
-			var dialog = new VersionsViewModel(_versionTools, _versionCollection);
-			var result = await ShowSelectVersionDialog.Handle(dialog);
-			if (result != null) SelectedVersionMetadata = result;
+			var dialog = new VersionSelectorDialog
+			{
+				DataContext = new VersionsViewModel("AddModPackDialogHost", _versionTools, _versionCollection)
+			};
+			var result = await DialogHost.DialogHost.Show(dialog, "AddModPackDialogHost");
+			if (result is MVersionMetadata mVersionMetadata) SelectedVersionMetadata = mVersionMetadata;
 		}
 
-		private KeyValuePair<string, ModPackInfo> OnOkCommandExecuted()
+		private void OkCommand()
 		{
-			return new KeyValuePair<string, ModPackInfo>(Name, new ModPackInfo(SelectedVersionMetadata.GetVersion().Id));
+			var keyValuePair = new KeyValuePair<string, ModPackInfo>(Name, new ModPackInfo(SelectedVersionMetadata.GetVersion().Id));
+			DialogHost.DialogHost.GetDialogSession("MainDialogHost")?.Close(keyValuePair);
 		}
 
 

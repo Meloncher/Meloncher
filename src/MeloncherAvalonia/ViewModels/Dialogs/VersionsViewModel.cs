@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Reactive;
 using CmlLib.Core.Version;
+using DialogHost;
 using DynamicData;
 using MeloncherCore.Version;
 using ReactiveUI;
@@ -13,12 +14,13 @@ namespace MeloncherAvalonia.ViewModels.Dialogs
 	public class VersionsViewModel : ViewModelBase
 	{
 		private readonly MVersionCollection _versionCollection;
+		private readonly string _dialogIdentifier;
 		private readonly VersionTools _versionTools;
 
-		public VersionsViewModel(VersionTools versionTools, MVersionCollection? versionCollection)
+		public VersionsViewModel(string dialogIdentifier, VersionTools versionTools, MVersionCollection? versionCollection)
 		{
+			_dialogIdentifier = dialogIdentifier;
 			_versionTools = versionTools;
-			OkCommand = ReactiveCommand.Create(OnOkCommandExecuted);
 			versionCollection ??= _versionTools.GetVersionMetadatas();
 			_versionCollection = versionCollection;
 			UpdateList();
@@ -32,7 +34,6 @@ namespace MeloncherAvalonia.ViewModels.Dialogs
 		[Reactive] public MVersionMetadata? SelectedVersion { get; set; }
 		[Reactive] public int VersionType { get; set; }
 
-		public ReactiveCommand<Unit, MVersionMetadata?> OkCommand { get; }
 
 		private void UpdateList()
 		{
@@ -70,9 +71,9 @@ namespace MeloncherAvalonia.ViewModels.Dialogs
 			Versions = new ObservableCollection<MVersionMetadata>(lst);
 		}
 
-		private MVersionMetadata? OnOkCommandExecuted()
+		private void OkCommand()
 		{
-			return SelectedVersion;
+			DialogHost.DialogHost.GetDialogSession(_dialogIdentifier)?.Close(SelectedVersion);
 		}
 	}
 }

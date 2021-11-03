@@ -1,0 +1,38 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Avalonia.Xaml.Interactivity"
+             xmlns:ia="using:Avalonia.Xaml.Interactions.Core"
+             xmlns:dh="clr-namespace:DialogHost;assembly=DialogHost.Avalonia"
+             mc:Ignorable="d"
+             x:Class="MeloncherAvalonia.Views.Dialogs.AccountSelectorDialog"
+             Width="256"
+             Height="480">
+
+	<dh:DialogHost CloseOnClickAway="True" Identifier="AccountSelectorDialogHost">
+		<dh:DialogHost.DialogContent>
+		</dh:DialogHost.DialogContent>
+		<Grid RowDefinitions="*,Auto">
+			<ListBox Grid.Row="0" SelectedItem="{Binding SelectedSession}" Items="{Binding Accounts}">
+				<ListBox.ItemTemplate>
+					<DataTemplate>
+						<TextBlock Text="{Binding GameSession.Username}" />
+					</DataTemplate>
+				</ListBox.ItemTemplate>
+				<i:Interaction.Behaviors>
+					<ia:EventTriggerBehavior EventName="DoubleTapped">
+						<ia:InvokeCommandAction Command="{Binding OkCommand}" CommandParameter="{x:Null}" />
+					</ia:EventTriggerBehavior>
+				</i:Interaction.Behaviors>
+			</ListBox>
+			<StackPanel Grid.Row="1" Orientation="Vertical">
+				<Button HorizontalAlignment="Stretch" Command="{Binding AddOfflineCommand}" Content="Добавить Пиратку" Height="32" />
+				<Button HorizontalAlignment="Stretch" Command="{Binding AddMojangCommand}" Content="Добавить Mojang" Height="32" />
+				<Button HorizontalAlignment="Stretch" Command="{Binding AddMicrosoftCommand}" Content="Добавить Microsoft" Height="32" />
+				<Button HorizontalAlignment="Stretch" Command="{Binding DeleteAccountCommand}" Content="Удалить выбранное" Height="32" />
+				<Button Command="{Binding OkCommand}" Content="Ok" Height="32" HorizontalAlignment="Stretch" />
+			</StackPanel>
+		</Grid>
+	</dh:DialogHost>
+</UserControl>

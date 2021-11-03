@@ -1,0 +1,27 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:dh="clr-namespace:DialogHost;assembly=DialogHost.Avalonia"
+             mc:Ignorable="d"
+             x:Class="MeloncherAvalonia.Views.Dialogs.AddModPackDialog"
+             Height="480"
+             Width="256">
+
+	<dh:DialogHost CloseOnClickAway="True" Identifier="AddModPackDialogHost">
+		<dh:DialogHost.DialogContent>
+		</dh:DialogHost.DialogContent>
+		<Grid RowDefinitions="*,Auto">
+			<StackPanel>
+				<Label Content="Название" />
+				<TextBox Text="{Binding Name}" Margin="4" Height="32" TextWrapping="Wrap" VerticalAlignment="Top" />
+				<StackPanel Orientation="Horizontal">
+					<Label Content="Версия" />
+					<Label Content="{Binding SelectedVersionMetadata.Name}" />
+				</StackPanel>
+				<Button Content="Выбрать версию" Command="{Binding OpenVersionsWindowCommand}" HorizontalAlignment="Stretch" Margin="4,0" />
+			</StackPanel>
+			<Button Grid.Row="1" HorizontalAlignment="Stretch" Command="{Binding OkCommand}" Content="Добавить" Height="40" Margin="4" />
+		</Grid>
+	</dh:DialogHost>
+</UserControl>

@@ -9,18 +9,15 @@ namespace MeloncherAvalonia.ViewModels.Dialogs
 		public AddAccountViewModel(bool needPassword)
 		{
 			NeedPassword = needPassword;
-			OkCommand = ReactiveCommand.Create(OnOkCommandExecuted);
 		}
 
 		[Reactive] public string? Username { get; set; }
 		[Reactive] public string? Password { get; set; }
 		[Reactive] public bool NeedPassword { get; set; }
 
-		public ReactiveCommand<Unit, AddAccountData> OkCommand { get; }
-
-		private AddAccountData OnOkCommandExecuted()
+		private void OkCommand()
 		{
-			return new AddAccountData(Username, Password);
+			DialogHost.DialogHost.GetDialogSession("AccountSelectorDialogHost")?.Close(new AddAccountData(Username, Password));
 		}
 	}
 

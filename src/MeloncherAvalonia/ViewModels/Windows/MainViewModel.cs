@@ -7,8 +7,9 @@ using System.Reactive.Linq;
 using System.Threading.Tasks;
 using Avalonia.Controls;
 using CmlLib.Core.Version;
-using MeloncherAvalonia.Models;
+using DialogHost;
 using MeloncherAvalonia.ViewModels.Dialogs;
+using MeloncherAvalonia.Views.Dialogs;
 using MeloncherCore.Account;
 using MeloncherCore.Discord;
 using MeloncherCore.Launcher;
@@ -22,6 +23,7 @@ using MessageBox.Avalonia.DTO;
 using MessageBox.Avalonia.Enums;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
+using Updater = MeloncherAvalonia.Models.Updater;
 
 namespace MeloncherAvalonia.ViewModels.Windows
 {
@@ -44,7 +46,7 @@ namespace MeloncherAvalonia.ViewModels.Windows
 		public MainViewModel()
 		{
 			ServicePointManager.DefaultConnectionLimit = 512;
-			
+
 			_path = new ExtMinecraftPath();
 			_versionTools = new VersionTools(_path);
 			_versionCollection = _versionTools.GetVersionMetadatas();
@@ -90,6 +92,7 @@ namespace MeloncherAvalonia.ViewModels.Windows
 					_launcherSettings.SelectedVersion = SelectedVersion.Name;
 					_launcherSettings.SelectedProfileType = SelectedVersion.ProfileType;
 				}
+
 				if (e.PropertyName == "SelectedAccount") _launcherSettings.SelectedAccount = SelectedAccount?.GameSession.Username;
 				if (e.PropertyName == "SelectedModPack")
 				{
@@ -97,7 +100,7 @@ namespace MeloncherAvalonia.ViewModels.Windows
 					if (mcVersion != null) SelectedVersion = mcVersion;
 				}
 			};
-			
+
 			TransparencyLevelHint = _launcherSettings.GlassBackground ? WindowTransparencyLevel.Blur : WindowTransparencyLevel.None;
 			_launcherSettings.PropertyChanged += (sender, args) =>
 			{
@@ -116,11 +119,13 @@ namespace MeloncherAvalonia.ViewModels.Windows
 		public Interaction<AccountsViewModel, McAccount?> ShowSelectAccountDialog { get; } = new();
 		public Interaction<VersionsViewModel, MVersionMetadata?> ShowSelectVersionDialog { get; } = new();
 		public Interaction<SettingsViewModel, SettingsAction?> ShowSettingsDialog { get; } = new();
+
 		public Interaction<AddModPackViewModel, KeyValuePair<string, ModPackInfo>> ShowAddModPackDialog { get; } = new();
+
 		// [Reactive] public MVersionMetadata? SelectedVersion { get; set; }
 		[Reactive] public McVersion? SelectedVersion { get; set; }
 		[Reactive] public McAccount? SelectedAccount { get; set; } = new("Player");
-		
+
 		public async Task CheckUpdates()
 		{
 			Updater updater = new();
@@ -177,26 +182,29 @@ namespace MeloncherAvalonia.ViewModels.Windows
 					_ => "Загрузка..."
 				};
 		}
-		
+
 		private async Task OpenAddModPackWindowCommand()
 		{
-			var dialog = new AddModPackViewModel(_versionTools, _versionCollection);
-			var result = await ShowAddModPackDialog.Handle(dialog);
-			ModPackStorage.Add(result);
+			var dialog = new AddModPackDialog
+			{
+				DataContext = new AddModPackViewModel(_versionTools, _versionCollection)
+			};
+			var result = await DialogHost.DialogHost.Show(dialog);
+			if (result is KeyValuePair<string, ModPackInfo> keyValuePair) ModPackStorage.Add(keyValuePair);
 		}
-		
+
 		private void RemoveSelectedModPackCommand()
 		{
 			ModPackStorage.Remove(SelectedModPack);
 		}
-		
+
 		private void SelectModPackCommand()
 		{
 			SelectedTabIndex = 0;
 			var mcVersion = _versionTools.GetMcVersion(SelectedModPack, ModPackStorage);
 			if (mcVersion != null) SelectedVersion = mcVersion;
 		}
-		
+
 		private void OpenModPackFolderCommand()
 		{
 			// Process.Start(@"c:\users\");
@@ -221,16 +229,22 @@ namespace MeloncherAvalonia.ViewModels.Windows
 
 		private async Task OpenAccountsWindowCommand()
 		{
-			var dialog = new AccountsViewModel(_accountStorage, SelectedAccount);
-			var result = await ShowSelectAccountDialog.Handle(dialog);
-			if (result != null) SelectedAccount = result;
+			var dialog = new AccountSelectorDialog
+			{
+				DataContext = new AccountsViewModel(_accountStorage, SelectedAccount)
+			};
+			var result = await DialogHost.DialogHost.Show(dialog);
+			if (result is McAccount mcAccount) SelectedAccount = mcAccount;
 		}
 
 		private async Task OpenVersionsWindowCommand()
 		{
-			var dialog = new VersionsViewModel(_versionTools, _versionCollection);
-			var result = await ShowSelectVersionDialog.Handle(dialog);
-			if (result != null) SelectedVersion = _versionTools.GetMcVersion(result.GetVersion());
+			var dialog = new VersionSelectorDialog
+			{
+				DataContext = new VersionsViewModel("MainDialogHost", _versionTools, _versionCollection)
+			};
+			var result = await DialogHost.DialogHost.Show(dialog);
+			if (result is MVersionMetadata mVersionMetadata) SelectedVersion = _versionTools.GetMcVersion(mVersionMetadata.GetVersion());
 		}
 
 		private void PlayButtonCommand()
@@ -248,7 +262,7 @@ namespace MeloncherAvalonia.ViewModels.Windows
 				if (SelectedVersion != null) _mcLauncher.Version = SelectedVersion;
 				// var test = new DefaultVersionLoader(_path).GetVersionMetadatas().GetVersion("1.12.2");
 				// _mcLauncher.Version = new McVersion(test, ProfileType.Custom, "TestModPack");
-				
+
 				if (SelectedAccount != null)
 				{
 					if (!SelectedAccount.Validate())
@@ -258,6 +272,7 @@ namespace MeloncherAvalonia.ViewModels.Windows
 							_accountStorage.SaveFile();
 						}
 					}
+
 					_mcLauncher.Session = SelectedAccount.GameSession;
 				}
 

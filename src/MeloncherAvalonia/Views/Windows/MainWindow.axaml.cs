@@ -3,11 +3,9 @@ using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
-using CmlLib.Core.Version;
 using MeloncherAvalonia.ViewModels.Dialogs;
 using MeloncherAvalonia.ViewModels.Windows;
 using MeloncherAvalonia.Views.Dialogs;
-using MeloncherCore.Account;
 using MeloncherCore.ModPack;
 using ReactiveUI;
 
@@ -23,10 +21,7 @@ namespace MeloncherAvalonia.Views.Windows
 #endif
 			this.WhenActivated(disposable =>
 			{
-				disposable(ViewModel.ShowSelectAccountDialog.RegisterHandler(DoShowSelectAccountDialogAsync));
-				disposable(ViewModel.ShowSelectVersionDialog.RegisterHandler(DoShowSelectVersionDialogAsync));
 				disposable(ViewModel.ShowSettingsDialog.RegisterHandler(DoShowSettingsDialogAsync));
-				disposable(ViewModel.ShowAddModPackDialog.RegisterHandler(DoShowAddModPackDialogAsync));
 				disposable(ViewModel.CheckUpdates());
 			});
 			Closing += (sender, args) =>
@@ -40,35 +35,11 @@ namespace MeloncherAvalonia.Views.Windows
 			AvaloniaXamlLoader.Load(this);
 		}
 
-		private async Task DoShowSelectAccountDialogAsync(InteractionContext<AccountsViewModel, McAccount?> interaction)
-		{
-			var dialog = new AccountsWindow();
-			dialog.DataContext = interaction.Input;
-			var result = await dialog.ShowDialog<McAccount?>(this);
-			interaction.SetOutput(result);
-		}
-
-		private async Task DoShowSelectVersionDialogAsync(InteractionContext<VersionsViewModel, MVersionMetadata?> interaction)
-		{
-			var dialog = new VersionsWindow();
-			dialog.DataContext = interaction.Input;
-			var result = await dialog.ShowDialog<MVersionMetadata?>(this);
-			interaction.SetOutput(result);
-		}
-
 		private async Task DoShowSettingsDialogAsync(InteractionContext<SettingsViewModel, SettingsAction?> interaction)
 		{
 			var dialog = new SettingsWindow();
 			dialog.DataContext = interaction.Input;
 			var result = await dialog.ShowDialog<SettingsAction?>(this);
-			interaction.SetOutput(result);
-		}
-		
-		private async Task DoShowAddModPackDialogAsync(InteractionContext<AddModPackViewModel, KeyValuePair<string, ModPackInfo>> interaction)
-		{
-			var dialog = new AddModPackWindow();
-			dialog.DataContext = interaction.Input;
-			var result = await dialog.ShowDialog<KeyValuePair<string, ModPackInfo>>(this);
 			interaction.SetOutput(result);
 		}
 	}
