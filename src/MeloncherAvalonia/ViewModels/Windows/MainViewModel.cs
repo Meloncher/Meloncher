@@ -99,6 +99,14 @@ namespace MeloncherAvalonia.ViewModels.Windows
 			{
 				if (args.PropertyName == "GlassBackground") TransparencyLevelHint = _launcherSettings.GlassBackground ? WindowTransparencyLevel.Blur : WindowTransparencyLevel.None;
 			};
+			
+			var launcherProfilesPath = Path.Combine(_path.MinecraftPath, "launcherProfiles.json");
+			if (!File.Exists(launcherProfilesPath))
+			{
+				if (!Directory.Exists(_path.MinecraftPath)) Directory.CreateDirectory(_path.MinecraftPath);
+				var text = "{\"clientToken\":\"\",\"launcherVersion\":{\"format\":21,\"name\":\"Meloncher\",\"profilesFormat\":2 },\"profiles\":{},\"settings\":{}}";
+				_ = File.WriteAllTextAsync(launcherProfilesPath, text);
+			}
 		}
 
 		[Reactive] public ModPackStorage ModPackStorage { get; set; }
