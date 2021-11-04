@@ -1,6 +1,6 @@
 {
-	"version": 19,
-	"direct_link": "https://github.com/Meloncher/Meloncher/releases/download/beta-1.1.0/MeloncherSetup.exe",
+	"version": 20,
+	"direct_link": "https://github.com/Meloncher/Meloncher/releases/download/beta-1.1.1/MeloncherSetup.exe",
 	"launch_args": "/SUPPRESSMSGBOXES /NOICONS /LANG=russian /TASKS=\"\" /CLOSEAPPLICATIONS",
-	"description": "Добавлена система сборок (Beta)\nДобавлено отображение логов (Beta)"
+	"description": "Почти все всплывающие окна встроены в основное окно\nавтосоздание launcherProfiles.json"
 }
