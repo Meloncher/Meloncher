@@ -100,7 +100,7 @@ namespace MeloncherAvalonia.ViewModels.Windows
 				if (args.PropertyName == "GlassBackground") TransparencyLevelHint = _launcherSettings.GlassBackground ? WindowTransparencyLevel.Blur : WindowTransparencyLevel.None;
 			};
 			
-			var launcherProfilesPath = Path.Combine(_path.MinecraftPath, "launcherProfiles.json");
+			var launcherProfilesPath = Path.Combine(_path.MinecraftPath, "launcher_profiles.json");
 			if (!File.Exists(launcherProfilesPath))
 			{
 				if (!Directory.Exists(_path.MinecraftPath)) Directory.CreateDirectory(_path.MinecraftPath);
