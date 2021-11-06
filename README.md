@@ -30,6 +30,7 @@
 - Скинсистема
 - Интеграция CurseForge
 - Кастомный клиент (как у Badlion)
+- Поддержка нескольких языков
 
 ## Лицензия
 [EBLYA (ExtremeCode Best License Yield Again)](https://github.com/Meloncher/Meloncher/blob/master/LICENSE.md)
