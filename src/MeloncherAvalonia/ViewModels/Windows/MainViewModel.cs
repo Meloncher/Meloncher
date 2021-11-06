@@ -110,7 +110,7 @@ namespace MeloncherAvalonia.ViewModels.Windows
 		}
 
 		[Reactive] public ModPackStorage ModPackStorage { get; set; }
-		[Reactive] public string SelectedModPack { get; set; }
+		[Reactive] public string? SelectedModPack { get; set; }
 
 		[Reactive] public string Logs { get; set; } = "";
 		[Reactive] public int SelectedTabIndex { get; set; }
@@ -202,7 +202,7 @@ namespace MeloncherAvalonia.ViewModels.Windows
 
 		private void RemoveSelectedModPackCommand()
 		{
-			ModPackStorage.Remove(SelectedModPack);
+			if (SelectedModPack != null) ModPackStorage.Remove(SelectedModPack);
 		}
 
 		private void SelectModPackCommand()
@@ -214,7 +214,8 @@ namespace MeloncherAvalonia.ViewModels.Windows
 
 		private void OpenModPackFolderCommand()
 		{
-			var modPackPath = Path.Combine(_path.RootPath, "profiles", "custom", SelectedModPack);
+			var modPackPath = Path.Combine(_path.RootPath, "profiles", "custom");
+			if (SelectedModPack != null) modPackPath = Path.Combine(modPackPath, SelectedModPack);
 			Process.Start("explorer.exe", modPackPath);
 		}
 
