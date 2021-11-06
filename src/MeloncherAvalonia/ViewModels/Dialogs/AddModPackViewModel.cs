@@ -14,16 +14,22 @@ namespace MeloncherAvalonia.ViewModels.Dialogs
 		private readonly MVersionCollection? _versionCollection;
 		private readonly VersionTools _versionTools;
 
+		public AddModPackViewModel(VersionTools versionTools, MVersionCollection? versionCollection, KeyValuePair<string, ModPackInfo> modPackInfo)
+		{
+			_versionTools = versionTools;
+			_versionCollection = versionCollection;
+			Name = modPackInfo.Key;
+			SelectedVersionMetadata = versionTools.GetVersionMetadatas().GetVersionMetadata(modPackInfo.Value.VersionName);
+		}
+
 		public AddModPackViewModel(VersionTools versionTools, MVersionCollection? versionCollection)
 		{
 			_versionTools = versionTools;
 			_versionCollection = versionCollection;
 		}
 
-
-		[Reactive] public MVersionMetadata SelectedVersionMetadata { get; set; }
-		[Reactive] public string Name { get; set; }
-		public Interaction<VersionsViewModel, MVersionMetadata?> ShowSelectVersionDialog { get; } = new();
+		[Reactive] public MVersionMetadata? SelectedVersionMetadata { get; set; }
+		[Reactive] public string? Name { get; set; }
 
 		private async Task OpenVersionsWindowCommand()
 		{

@@ -41,7 +41,7 @@ namespace MeloncherCore.Version
 		{
 			if (string.IsNullOrEmpty(modPackName)) return null;
 			if (!modPackStorage.ContainsKey(modPackName)) return null;
-			var mVersion = GetVersion(modPackStorage[modPackName].VersionName);
+			var mVersion = GetVersion(modPackStorage.Get(modPackName).VersionName);
 			return mVersion != null ? new McVersion(modPackName, mVersion, ProfileType.Custom, modPackName) : null;
 		}
 

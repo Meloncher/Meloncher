@@ -112,10 +112,11 @@
 									<TextBlock Text="Сборки (Beta)" FontSize="32" Margin="16, 0, 0, 4" />
 									<StackPanel Grid.Row="1" Orientation="Horizontal">
 										<Button Content="Добавить сборку" Command="{Binding OpenAddModPackWindowCommand}" />
+										<Button Content="Редактировать сборку" Command="{Binding EditSelectedModPackCommand}" />
 										<Button Content="Удалить сборку" Command="{Binding RemoveSelectedModPackCommand}" />
 										<Button Content="Открыть папку сборки" Command="{Binding OpenModPackFolderCommand}" />
 									</StackPanel>
-									<ListBox Grid.Row="2" Items="{Binding ModPackStorage.ObservableKeys}" SelectedItem="{Binding SelectedModPack}">
+									<ListBox Grid.Row="2" Items="{Binding ModPackStorage.Keys}" SelectedItem="{Binding SelectedModPack}">
 										<i:Interaction.Behaviors>
 											<ia:EventTriggerBehavior EventName="DoubleTapped">
 												<ia:InvokeCommandAction Command="{Binding SelectModPackCommand}" CommandParameter="{x:Null}" />

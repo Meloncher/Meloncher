@@ -197,12 +197,28 @@ namespace MeloncherAvalonia.ViewModels.Windows
 				DataContext = new AddModPackViewModel(_versionTools, _versionCollection)
 			};
 			var result = await DialogHost.DialogHost.Show(dialog);
-			if (result is KeyValuePair<string, ModPackInfo> keyValuePair) ModPackStorage.Add(keyValuePair);
+			if (result is KeyValuePair<string, ModPackInfo>(var key, var value)) ModPackStorage.Add(key, value);
 		}
 
 		private void RemoveSelectedModPackCommand()
 		{
 			if (SelectedModPack != null) ModPackStorage.Remove(SelectedModPack);
+		}
+
+		private async Task EditSelectedModPackCommand()
+		{
+			if (SelectedModPack == null) return; 
+			var dialog = new AddModPackDialog
+			{
+				DataContext = new AddModPackViewModel(_versionTools, _versionCollection, new KeyValuePair<string, ModPackInfo>(SelectedModPack, ModPackStorage.Get(SelectedModPack)))
+			};
+			var result = await DialogHost.DialogHost.Show(dialog);
+			if (result is KeyValuePair<string, ModPackInfo>(var key, var value))
+			{
+				ModPackStorage.Edit(SelectedModPack, value);
+				ModPackStorage.Rename(SelectedModPack, key);
+				SelectedModPack = key;
+			}
 		}
 
 		private void SelectModPackCommand()
