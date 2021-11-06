@@ -32,7 +32,7 @@
 - Кастомный клиент (как у Badlion)
 
 ## Лицензия
-На данный момент исходный код предоставляется только для ознакомления и личного использоавния. В будущем добавлю лицензию, позволяющую использовать этот исходный код для форков и т.д.
+[EBLYA (ExtremeCode Best License Yield Again)](https://github.com/Meloncher/Meloncher/blob/master/LICENSE.md)
 ## Заюзаные либы
 - [CmlLib](https://github.com/CmlLib/CmlLib.Core)
 - [ProjBobcat](https://github.com/Corona-Studio/ProjBobcat)
