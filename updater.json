@@ -1,6 +1,6 @@
 {
-	"version": 20,
-	"direct_link": "https://github.com/Meloncher/Meloncher/releases/download/beta-1.1.1/MeloncherSetup.exe",
+	"version": 21,
+	"direct_link": "https://github.com/Meloncher/Meloncher/releases/download/beta-1.1.2/MeloncherSetup.exe",
 	"launch_args": "/SUPPRESSMSGBOXES /NOICONS /LANG=russian /TASKS=\"\" /CLOSEAPPLICATIONS",
-	"description": "Почти все всплывающие окна встроены в основное окно\nавтосоздание launcherProfiles.json"
+	"description": "Фикс крашей при удалении и открытия папки сборок\nВозможность редактировать сборки"
 }
