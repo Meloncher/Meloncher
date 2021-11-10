@@ -61,11 +61,83 @@ namespace MeloncherAvalonia.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to TestDef.
+        ///   Looks up a localized string similar to Logs (Beta).
         /// </summary>
-        public static string Test {
+        public static string LogsTabTitle {
             get {
-                return ResourceManager.GetString("Test", resourceCulture);
+                return ResourceManager.GetString("LogsTabTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create ModPack.
+        /// </summary>
+        public static string ModPackCreate {
+            get {
+                return ResourceManager.GetString("ModPackCreate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit ModPack.
+        /// </summary>
+        public static string ModPackEdit {
+            get {
+                return ResourceManager.GetString("ModPackEdit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ModPack folder.
+        /// </summary>
+        public static string ModPackFolder {
+            get {
+                return ResourceManager.GetString("ModPackFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove ModPack.
+        /// </summary>
+        public static string ModPackRemove {
+            get {
+                return ResourceManager.GetString("ModPackRemove", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ModPacks (Beta).
+        /// </summary>
+        public static string ModPackTabTitle {
+            get {
+                return ResourceManager.GetString("ModPackTabTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Play.
+        /// </summary>
+        public static string PlayButton {
+            get {
+                return ResourceManager.GetString("PlayButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Selected account.
+        /// </summary>
+        public static string SelectedAccount {
+            get {
+                return ResourceManager.GetString("SelectedAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Selected version.
+        /// </summary>
+        public static string SelectedVersion {
+            get {
+                return ResourceManager.GetString("SelectedVersion", resourceCulture);
             }
         }
     }
