@@ -38,16 +38,16 @@ namespace MeloncherCore.Discord
 					string server;
 					if (var0[1] == "25565") server = var0[0];
 					else server = var0[0] + ":" + var0[1];
-					SetStatus("Играет на сервере " + server, "");
+					SetStatus("Playing on server " + server, "");
 				}
 			}
 			else if (logLine.Text.StartsWith("Starting integrated minecraft server"))
 			{
-				SetStatus("Играет в одиночном мире", "");
+				SetStatus("Playing in singleplayer", "");
 			}
 			else if (logLine.Text.StartsWith("Stopping server"))
 			{
-				SetStatus("Главное меню", "");
+				SetStatus("Main menu", "");
 			}
 		}
 	}

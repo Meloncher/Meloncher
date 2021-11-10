@@ -76,7 +76,7 @@ namespace MeloncherAvalonia.ViewModels.Windows
 				_discordRpcTools.OnLog(e.Line);
 			};
 
-			_discordRpcTools.SetStatus("Сидит в лаунчере", "");
+			_discordRpcTools.SetStatus("Using Meloncher", "");
 
 			PropertyChanged += (_, e) =>
 			{
@@ -142,8 +142,8 @@ namespace MeloncherAvalonia.ViewModels.Windows
 				var res = await MessageBoxManager.GetMessageBoxStandardWindow(new MessageBoxStandardParams
 				{
 					ButtonDefinitions = ButtonEnum.YesNo,
-					ContentHeader = "Обновить сейчас?",
-					ContentTitle = "Обновление",
+					ContentHeader = "Update now?",
+					ContentTitle = "Update",
 					ContentMessage = updaterJson.Description,
 					WindowStartupLocation = WindowStartupLocation.CenterScreen,
 					Topmost = true
@@ -156,8 +156,8 @@ namespace MeloncherAvalonia.ViewModels.Windows
 						await MessageBoxManager.GetMessageBoxStandardWindow(new MessageBoxStandardParams
 						{
 							ButtonDefinitions = ButtonEnum.Ok,
-							ContentTitle = "Обновление",
-							ContentMessage = "Ошибка при обновлении",
+							ContentTitle = "Update",
+							ContentMessage = "Update error",
 							WindowStartupLocation = WindowStartupLocation.CenterScreen,
 							Topmost = true
 						}).Show();
@@ -171,22 +171,22 @@ namespace MeloncherAvalonia.ViewModels.Windows
 			if (e.IsChecking)
 				ProgressText = e.Type switch
 				{
-					"Resource" => "Проверка Ресурсов...",
-					"Runtime" => "Проверка Java...",
-					"Library" => "Проверка Библиотек...",
-					"Minecraft" => "Проверка Minecraft...",
-					"Optifine" => "Проверка Optifine...",
-					_ => "Проверка Файлов..."
+					"Resource" => "Checking Resources...",
+					"Runtime" => "Checking Java...",
+					"Library" => "Checking Libraries...",
+					"Minecraft" => "Checking Minecraft...",
+					"Optifine" => "Checking Optifine...",
+					_ => "Checking Files..."
 				};
 			else
 				ProgressText = e.Type switch
 				{
-					"Resource" => "Загрузка Ресурсов...",
-					"Runtime" => "Загрузка Java...",
-					"Library" => "Загрузка Библиотек...",
-					"Minecraft" => "Загрузка Minecraft...",
-					"Optifine" => "Загрузка Optifine...",
-					_ => "Загрузка..."
+					"Resource" => "Downloading Resources...",
+					"Runtime" => "Downloading Java...",
+					"Library" => "Downloading Libraries...",
+					"Minecraft" => "Downloading Minecraft...",
+					"Optifine" => "Downloading Optifine...",
+					_ => "Downloading..."
 				};
 		}
 
@@ -278,7 +278,7 @@ namespace MeloncherAvalonia.ViewModels.Windows
 				IsStarted = true;
 				ProgressHidden = false;
 				Title = "Meloncher " + SelectedVersion?.Name;
-				_discordRpcTools.SetStatus("Играет на версии " + SelectedVersion?.Name, "");
+				_discordRpcTools.SetStatus("Playing on " + SelectedVersion?.Name, "");
 				_mcLauncher.UseOptifine = _launcherSettings.UseOptifine;
 				_mcLauncher.WindowMode = _launcherSettings.WindowMode;
 				_mcLauncher.MaximumRamMb = _launcherSettings.MaximumRamMb;
@@ -306,7 +306,7 @@ namespace MeloncherAvalonia.ViewModels.Windows
 				IsStarted = false;
 				IsLaunched = false;
 				Title = "Meloncher";
-				_discordRpcTools.SetStatus("Сидит в лаунчере", "");
+				_discordRpcTools.SetStatus("Using Meloncher", "");
 			}).Start();
 		}
 	}
