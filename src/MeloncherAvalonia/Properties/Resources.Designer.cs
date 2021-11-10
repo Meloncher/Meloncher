@@ -61,11 +61,83 @@ namespace MeloncherAvalonia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add.
+        /// </summary>
+        public static string Add {
+            get {
+                return ResourceManager.GetString("Add", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add Microsoft.
+        /// </summary>
+        public static string AddMicrosoftAccount {
+            get {
+                return ResourceManager.GetString("AddMicrosoftAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to When you&apos;re done, copy your browser address bar here and click Add.
+        /// </summary>
+        public static string AddMicrosoftDialogText {
+            get {
+                return ResourceManager.GetString("AddMicrosoftDialogText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add Mojang.
+        /// </summary>
+        public static string AddMojangAccount {
+            get {
+                return ResourceManager.GetString("AddMojangAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add Offline.
+        /// </summary>
+        public static string AddOfflineAccount {
+            get {
+                return ResourceManager.GetString("AddOfflineAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Import from .minecraft.
+        /// </summary>
+        public static string ImportSettings {
+            get {
+                return ResourceManager.GetString("ImportSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Login.
+        /// </summary>
+        public static string Login {
+            get {
+                return ResourceManager.GetString("Login", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Logs (Beta).
         /// </summary>
         public static string LogsTabTitle {
             get {
                 return ResourceManager.GetString("LogsTabTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Max RAM.
+        /// </summary>
+        public static string MaxRam {
+            get {
+                return ResourceManager.GetString("MaxRam", resourceCulture);
             }
         }
         
@@ -115,11 +187,56 @@ namespace MeloncherAvalonia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Name.
+        /// </summary>
+        public static string Name {
+            get {
+                return ResourceManager.GetString("Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Old.
+        /// </summary>
+        public static string Old {
+            get {
+                return ResourceManager.GetString("Old", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password.
+        /// </summary>
+        public static string Password {
+            get {
+                return ResourceManager.GetString("Password", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Play.
         /// </summary>
         public static string PlayButton {
             get {
                 return ResourceManager.GetString("PlayButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Releases.
+        /// </summary>
+        public static string Releases {
+            get {
+                return ResourceManager.GetString("Releases", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove selected account.
+        /// </summary>
+        public static string RemoveSelectedAccount {
+            get {
+                return ResourceManager.GetString("RemoveSelectedAccount", resourceCulture);
             }
         }
         
@@ -138,6 +255,78 @@ namespace MeloncherAvalonia.Properties {
         public static string SelectedVersion {
             get {
                 return ResourceManager.GetString("SelectedVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select version.
+        /// </summary>
+        public static string SelectVersion {
+            get {
+                return ResourceManager.GetString("SelectVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Snapshots.
+        /// </summary>
+        public static string Snapshots {
+            get {
+                return ResourceManager.GetString("Snapshots", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use Optifine.
+        /// </summary>
+        public static string UseOptifine {
+            get {
+                return ResourceManager.GetString("UseOptifine", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use transparency.
+        /// </summary>
+        public static string UseTransparency {
+            get {
+                return ResourceManager.GetString("UseTransparency", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Window mode.
+        /// </summary>
+        public static string WindowMode {
+            get {
+                return ResourceManager.GetString("WindowMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Borderless.
+        /// </summary>
+        public static string WindowModeBorderless {
+            get {
+                return ResourceManager.GetString("WindowModeBorderless", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fullscreen.
+        /// </summary>
+        public static string WindowModeFullscreen {
+            get {
+                return ResourceManager.GetString("WindowModeFullscreen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Windowed.
+        /// </summary>
+        public static string WindowModeWindowed {
+            get {
+                return ResourceManager.GetString("WindowModeWindowed", resourceCulture);
             }
         }
     }

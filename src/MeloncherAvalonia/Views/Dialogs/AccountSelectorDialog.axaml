@@ -5,6 +5,7 @@
              xmlns:i="using:Avalonia.Xaml.Interactivity"
              xmlns:ia="using:Avalonia.Xaml.Interactions.Core"
              xmlns:dh="clr-namespace:DialogHost;assembly=DialogHost.Avalonia"
+             xmlns:p="clr-namespace:MeloncherAvalonia.Properties"
              mc:Ignorable="d"
              x:Class="MeloncherAvalonia.Views.Dialogs.AccountSelectorDialog"
              Width="256"
@@ -27,11 +28,11 @@
 				</i:Interaction.Behaviors>
 			</ListBox>
 			<StackPanel Grid.Row="1" Orientation="Vertical">
-				<Button HorizontalAlignment="Stretch" Command="{Binding AddOfflineCommand}" Content="Добавить Пиратку" Height="32" />
-				<Button HorizontalAlignment="Stretch" Command="{Binding AddMojangCommand}" Content="Добавить Mojang" Height="32" />
-				<Button HorizontalAlignment="Stretch" Command="{Binding AddMicrosoftCommand}" Content="Добавить Microsoft" Height="32" />
-				<Button HorizontalAlignment="Stretch" Command="{Binding DeleteAccountCommand}" Content="Удалить выбранное" Height="32" />
-				<Button Command="{Binding OkCommand}" Content="Ok" Height="32" HorizontalAlignment="Stretch" />
+				<Button HorizontalAlignment="Stretch" Command="{Binding AddOfflineCommand}" Content="{x:Static p:Resources.AddOfflineAccount}" Height="32" />
+				<Button HorizontalAlignment="Stretch" Command="{Binding AddMojangCommand}" Content="{x:Static p:Resources.AddMojangAccount}" Height="32" />
+				<Button HorizontalAlignment="Stretch" Command="{Binding AddMicrosoftCommand}" Content="{x:Static p:Resources.AddMicrosoftAccount}" Height="32" />
+				<Button HorizontalAlignment="Stretch" Command="{Binding DeleteAccountCommand}" Content="{x:Static p:Resources.RemoveSelectedAccount}" Height="32" />
+				<Button Command="{Binding OkCommand}" Content="OK" Height="32" HorizontalAlignment="Stretch" />
 			</StackPanel>
 		</Grid>
 	</dh:DialogHost>

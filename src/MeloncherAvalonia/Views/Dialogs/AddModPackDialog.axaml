@@ -3,6 +3,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:dh="clr-namespace:DialogHost;assembly=DialogHost.Avalonia"
+             xmlns:p="clr-namespace:MeloncherAvalonia.Properties"
              mc:Ignorable="d"
              x:Class="MeloncherAvalonia.Views.Dialogs.AddModPackDialog"
              Height="480"
@@ -13,15 +14,15 @@
 		</dh:DialogHost.DialogContent>
 		<Grid RowDefinitions="*,Auto">
 			<StackPanel>
-				<Label Content="Название" />
+				<Label Content="{x:Static p:Resources.Name}" />
 				<TextBox Text="{Binding Name}" Margin="4" Height="32" TextWrapping="Wrap" VerticalAlignment="Top" />
 				<StackPanel Orientation="Horizontal">
 					<Label Content="Версия" />
 					<Label Content="{Binding SelectedVersionMetadata.Name}" />
 				</StackPanel>
-				<Button Content="Выбрать версию" Command="{Binding OpenVersionsWindowCommand}" HorizontalAlignment="Stretch" Margin="4,0" />
+				<Button Content="{x:Static p:Resources.SelectVersion}" Command="{Binding OpenVersionsWindowCommand}" HorizontalAlignment="Stretch" Margin="4,0" />
 			</StackPanel>
-			<Button Grid.Row="1" HorizontalAlignment="Stretch" Command="{Binding OkCommand}" Content="Добавить" Height="40" Margin="4" />
+			<Button Grid.Row="1" HorizontalAlignment="Stretch" Command="{Binding OkCommand}" Content="{x:Static p:Resources.Add}" Height="40" Margin="4" />
 		</Grid>
 	</dh:DialogHost>
 </UserControl>

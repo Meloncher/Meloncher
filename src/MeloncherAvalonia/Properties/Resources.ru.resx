@@ -38,4 +38,67 @@
     <data name="LogsTabTitle" xml:space="preserve">
         <value>Логи (Бета)</value>
     </data>
+    <data name="RemoveSelectedAccount" xml:space="preserve">
+        <value>Удалить выбранный аккаунт</value>
+    </data>
+    <data name="AddMicrosoftAccount" xml:space="preserve">
+        <value>Добавить Microsoft</value>
+    </data>
+    <data name="AddMojangAccount" xml:space="preserve">
+        <value>Добавить Mojang</value>
+    </data>
+    <data name="AddOfflineAccount" xml:space="preserve">
+        <value>Добавить Пиратку</value>
+    </data>
+    <data name="Add" xml:space="preserve">
+        <value>Добавить</value>
+    </data>
+    <data name="Password" xml:space="preserve">
+        <value>Пароль</value>
+    </data>
+    <data name="Login" xml:space="preserve">
+        <value>Логин</value>
+    </data>
+    <data name="AddMicrosoftDialogText" xml:space="preserve">
+        <value>Когда закончишь, скопируй адресную строку браузера сюда и нажми Добавить</value>
+    </data>
+    <data name="Name" xml:space="preserve">
+        <value>Название</value>
+    </data>
+    <data name="SelectVersion" xml:space="preserve">
+        <value>Выбрать версию</value>
+    </data>
+    <data name="UseTransparency" xml:space="preserve">
+        <value>Использовать прозрачность</value>
+    </data>
+    <data name="UseOptifine" xml:space="preserve">
+        <value>Использовать Optifine</value>
+    </data>
+    <data name="ImportSettings" xml:space="preserve">
+        <value>Импорт из .minecraft</value>
+    </data>
+    <data name="WindowMode" xml:space="preserve">
+        <value>Режим окна</value>
+    </data>
+    <data name="WindowModeBorderless" xml:space="preserve">
+        <value>Безрамочный</value>
+    </data>
+    <data name="WindowModeFullscreen" xml:space="preserve">
+        <value>Полноэкранный</value>
+    </data>
+    <data name="WindowModeWindowed" xml:space="preserve">
+        <value>Оконный</value>
+    </data>
+    <data name="MaxRam" xml:space="preserve">
+        <value>Максимум ОЗУ</value>
+    </data>
+    <data name="Releases" xml:space="preserve">
+        <value>Релизы</value>
+    </data>
+    <data name="Snapshots" xml:space="preserve">
+        <value>Снапшоты</value>
+    </data>
+    <data name="Old" xml:space="preserve">
+        <value>Устаревшие</value>
+    </data>
 </root>
