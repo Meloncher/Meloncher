@@ -8,6 +8,7 @@
         xmlns:i="using:Avalonia.Xaml.Interactivity"
         xmlns:ia="using:Avalonia.Xaml.Interactions.Core"
         xmlns:dh="clr-namespace:DialogHost;assembly=DialogHost.Avalonia"
+        xmlns:p="clr-namespace:MeloncherAvalonia.Properties"
         mc:Ignorable="d"
         d:DesignWidth="800"
         d:DesignHeight="480"
@@ -72,7 +73,7 @@
 							</ControlTemplate>
 						</TabControl.Template>
 						<TabControl.Items>
-							<TabItem Header="Играть">
+							<TabItem>
 								<Grid RowDefinitions="*,64,auto">
 									<Border>
 										<Border.Background>
@@ -107,7 +108,7 @@
 									<uc:LoadingBar Grid.Row="2" Text="{Binding ProgressText}" Hidden="{Binding ProgressHidden}" Value="{Binding ProgressValue}" />
 								</Grid>
 							</TabItem>
-							<TabItem Header="Сборки">
+							<TabItem>
 								<Grid RowDefinitions="Auto, Auto, *">
 									<TextBlock Text="Сборки (Beta)" FontSize="32" Margin="16, 0, 0, 4" />
 									<StackPanel Grid.Row="1" Orientation="Horizontal">
@@ -125,7 +126,7 @@
 									</ListBox>
 								</Grid>
 							</TabItem>
-							<TabItem Header="Логи">
+							<TabItem>
 								<Grid RowDefinitions="Auto, *">
 									<TextBlock Text="Логи (Beta)" FontSize="32" Margin="16, 0, 0, 4" />
 									<ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Background="White" Foreground="Black" Content="{Binding Logs}" />
