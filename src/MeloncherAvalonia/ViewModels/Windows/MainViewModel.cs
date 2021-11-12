@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Avalonia.Controls;
@@ -13,6 +15,7 @@ using MeloncherCore.Account;
 using MeloncherCore.Discord;
 using MeloncherCore.Launcher;
 using MeloncherCore.Launcher.Events;
+using MeloncherCore.Logs;
 using MeloncherCore.ModPack;
 using MeloncherCore.Options;
 using MeloncherCore.Settings;
@@ -35,6 +38,7 @@ namespace MeloncherAvalonia.ViewModels.Windows
 		private readonly ExtMinecraftPath _path;
 		private readonly MVersionCollection _versionCollection;
 		private readonly VersionTools _versionTools;
+		private readonly McLogs _mcLogs = new();
 
 		public MainViewModel()
 		{
@@ -72,8 +76,8 @@ namespace MeloncherAvalonia.ViewModels.Windows
 			// _mcLauncher.ProgressChanged += OnMcLauncherOnProgressChanged;
 			_mcLauncher.MinecraftOutput += e =>
 			{
-				Logs += e.Line + "\n";
-				_discordRpcTools.OnLog(e.Line);
+				_mcLogs.Parse(e.Line);
+				McLogLines = new ObservableCollection<McLogLine>(_mcLogs.Lines);
 			};
 
 			_discordRpcTools.SetStatus("Using Meloncher", "");
@@ -111,27 +115,19 @@ namespace MeloncherAvalonia.ViewModels.Windows
 
 		[Reactive] public ModPackStorage ModPackStorage { get; set; }
 		[Reactive] public string? SelectedModPack { get; set; }
-
 		[Reactive] public string Logs { get; set; } = "";
 		[Reactive] public int SelectedTabIndex { get; set; }
 
 		[Reactive] public string Title { get; set; } = "Meloncher";
-		[Reactive] public WindowTransparencyLevel TransparencyLevelHint { get; set; } = WindowTransparencyLevel.None;
+		[Reactive] public WindowTransparencyLevel TransparencyLevelHint { get; set; }
 		[Reactive] public int ProgressValue { get; set; }
 		[Reactive] public string? ProgressText { get; set; }
 		[Reactive] public bool ProgressHidden { get; set; } = true;
 		[Reactive] public bool IsStarted { get; private set; }
 		[Reactive] public bool IsLaunched { get; private set; }
-
-		public Interaction<AccountsViewModel, McAccount?> ShowSelectAccountDialog { get; } = new();
-		public Interaction<VersionsViewModel, MVersionMetadata?> ShowSelectVersionDialog { get; } = new();
-		public Interaction<SettingsViewModel, SettingsAction?> ShowSettingsDialog { get; } = new();
-
-		public Interaction<AddModPackViewModel, KeyValuePair<string, ModPackInfo>> ShowAddModPackDialog { get; } = new();
-
-		// [Reactive] public MVersionMetadata? SelectedVersion { get; set; }
 		[Reactive] public McVersion? SelectedVersion { get; set; }
 		[Reactive] public McAccount? SelectedAccount { get; set; } = new("Player");
+		[Reactive] public ObservableCollection<McLogLine> McLogLines { get; set; } = new();
 
 		public async Task CheckUpdates()
 		{

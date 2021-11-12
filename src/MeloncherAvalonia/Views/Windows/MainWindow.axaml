@@ -129,7 +129,24 @@
 							<TabItem>
 								<Grid RowDefinitions="Auto, *">
 									<TextBlock Text="{x:Static p:Resources.LogsTabTitle}" FontSize="32" Margin="16, 0, 0, 4" />
-									<ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Background="White" Foreground="Black" Content="{Binding Logs}" />
+									<!-- <TextBox Grid.Row="1" TextWrapping="NoWrap" IsReadOnly="True" Text="{Binding Logs}" /> -->
+									<!-- <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Background="White" Foreground="Black" Content="{Binding Logs}" /> -->
+									<ListBox Grid.Row="1" Items="{Binding McLogLines}">
+										<ListBox.ItemTemplate>
+											<DataTemplate>
+												<StackPanel Orientation="Horizontal">
+													<TextBlock Text="[" />
+													<TextBlock Text="{Binding Time}" />
+													<TextBlock Text="] [" />
+													<TextBlock Text="{Binding Thread}" />
+													<TextBlock Text="/" />
+													<TextBlock Text="{Binding Type}" />
+													<TextBlock Text="]: " />
+													<TextBlock Text="{Binding Text}" />
+												</StackPanel>
+											</DataTemplate>
+										</ListBox.ItemTemplate>
+									</ListBox>
 								</Grid>
 							</TabItem>
 						</TabControl.Items>

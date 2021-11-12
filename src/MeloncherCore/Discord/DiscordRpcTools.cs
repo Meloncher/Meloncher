@@ -1,5 +1,6 @@
 ﻿using DiscordRPC;
 using MeloncherCore.Launcher;
+using MeloncherCore.Logs;
 
 namespace MeloncherCore.Discord
 {
@@ -29,26 +30,26 @@ namespace MeloncherCore.Discord
 
 		public void OnLog(string line)
 		{
-			var logLine = McLogLine.Parse(line);
-			if (logLine.Text.StartsWith("Connecting to "))
-			{
-				var var0 = logLine.Text.Replace("Connecting to ", "").Split(", ");
-				if (var0.Length == 2)
-				{
-					string server;
-					if (var0[1] == "25565") server = var0[0];
-					else server = var0[0] + ":" + var0[1];
-					SetStatus("Playing on server " + server, "");
-				}
-			}
-			else if (logLine.Text.StartsWith("Starting integrated minecraft server"))
-			{
-				SetStatus("Playing in singleplayer", "");
-			}
-			else if (logLine.Text.StartsWith("Stopping server"))
-			{
-				SetStatus("Main menu", "");
-			}
+			// var logLine = McLogLine.Parse(line);
+			// if (logLine.Text.StartsWith("Connecting to "))
+			// {
+			// 	var var0 = logLine.Text.Replace("Connecting to ", "").Split(", ");
+			// 	if (var0.Length == 2)
+			// 	{
+			// 		string server;
+			// 		if (var0[1] == "25565") server = var0[0];
+			// 		else server = var0[0] + ":" + var0[1];
+			// 		SetStatus("Playing on server " + server, "");
+			// 	}
+			// }
+			// else if (logLine.Text.StartsWith("Starting integrated minecraft server"))
+			// {
+			// 	SetStatus("Playing in singleplayer", "");
+			// }
+			// else if (logLine.Text.StartsWith("Stopping server"))
+			// {
+			// 	SetStatus("Main menu", "");
+			// }
 		}
 	}
 }

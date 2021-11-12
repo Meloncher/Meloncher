@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Threading.Tasks;
 using MeloncherCore.Launcher.Events;
+using MeloncherCore.Logs;
 
 namespace MeloncherCore.Launcher
 {
