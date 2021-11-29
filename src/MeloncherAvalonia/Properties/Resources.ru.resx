@@ -101,4 +101,7 @@
     <data name="Old" xml:space="preserve">
         <value>Устаревшие</value>
     </data>
+    <data name="JvmArguments" xml:space="preserve">
+        <value>Аргументы JVM</value>
+    </data>
 </root>

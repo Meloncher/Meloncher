@@ -108,4 +108,7 @@
     <data name="Old" xml:space="preserve">
         <value>Old</value>
     </data>
+    <data name="JvmArguments" xml:space="preserve">
+        <value>JVM Arguments</value>
+    </data>
 </root>

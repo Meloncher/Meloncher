@@ -278,6 +278,7 @@ namespace MeloncherAvalonia.ViewModels.Windows
 				_mcLauncher.UseOptifine = _launcherSettings.UseOptifine;
 				_mcLauncher.WindowMode = _launcherSettings.WindowMode;
 				_mcLauncher.MaximumRamMb = _launcherSettings.MaximumRamMb;
+				_mcLauncher.JvmArguments = _launcherSettings.JvmArguments;
 				// if (SelectedVersion != null) _mcLauncher.Version = _versionTools.GetMcVersion(SelectedVersion.MVersion.Id);
 				if (SelectedVersion != null) _mcLauncher.Version = SelectedVersion;
 				// var test = new DefaultVersionLoader(_path).GetVersionMetadatas().GetVersion("1.12.2");

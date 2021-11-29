@@ -115,6 +115,15 @@ namespace MeloncherAvalonia.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to JVM Arguments.
+        /// </summary>
+        public static string JvmArguments {
+            get {
+                return ResourceManager.GetString("JvmArguments", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Login.
         /// </summary>
         public static string Login {

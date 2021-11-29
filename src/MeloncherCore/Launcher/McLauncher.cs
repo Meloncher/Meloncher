@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
@@ -37,6 +38,7 @@ namespace MeloncherCore.Launcher
 		public bool UseOptifine { get; set; } = true;
 		public int MaximumRamMb { get; set; } = 2048;
 		public WindowMode WindowMode { get; set; } = WindowMode.Windowed;
+		public string JvmArguments { get; set; } = "";
 
 		public event McDownloadProgressEventHandler? McDownloadProgressChanged;
 
@@ -122,10 +124,17 @@ namespace MeloncherCore.Launcher
 				VersionLoader = new LocalVersionLoader(_minecraftPath),
 				FileDownloader = null
 			};
+			var args = new List<string>
+			{
+				"-Xmx" + MaximumRamMb + "m",
+				"-Xms" + MaximumRamMb + "m",
+				JvmArguments
+			};
 			var launchOption = new MLaunchOption
 			{
 				StartVersion = Version.MVersion,
-				MaximumRamMb = MaximumRamMb,
+				// MaximumRamMb = MaximumRamMb,
+				JVMArguments = args.ToArray(),
 				Session = Session,
 				VersionType = "Meloncher",
 				GameLauncherName = "Meloncher"
