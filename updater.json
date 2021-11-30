@@ -1,6 +1,6 @@
 {
-	"version": 21,
-	"direct_link": "https://github.com/Meloncher/Meloncher/releases/download/beta-1.1.2/MeloncherSetup.exe",
+	"version": 22,
+	"direct_link": "https://github.com/Meloncher/Meloncher/releases/download/beta-1.1.3/MeloncherSetup.exe",
 	"launch_args": "/SUPPRESSMSGBOXES /NOICONS /LANG=russian /TASKS=\"\" /CLOSEAPPLICATIONS",
-	"description": "Фикс крашей при удалении и открытия папки сборок\nВозможность редактировать сборки"
+	"description": "Добавлен английский язык (язык пока нельзя выбрать, он зависит от системы)\nПеределаны логи\nФикс того, что требовался перезапуск пк после установки (оказывается обосрался не я, а Microsoft с .NET 5.0.11)"
 }
