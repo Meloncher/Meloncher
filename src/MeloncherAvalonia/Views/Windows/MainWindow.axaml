@@ -46,7 +46,7 @@
 							<ListBox.Items>
 								<avalonia:MaterialIcon Kind="PlayCircle" />
 								<avalonia:MaterialIcon Kind="Archive" />
-								<avalonia:MaterialIcon Kind="TextBox" />
+								<!-- <avalonia:MaterialIcon Kind="TextBox" /> -->
 							</ListBox.Items>
 						</ListBox>
 						<!-- <StackPanel> -->

@@ -74,11 +74,11 @@ namespace MeloncherAvalonia.ViewModels.Windows
 
 			_mcLauncher.McDownloadProgressChanged += OnMcLauncherOnMcDownloadProgressChanged;
 			// _mcLauncher.ProgressChanged += OnMcLauncherOnProgressChanged;
-			_mcLauncher.MinecraftOutput += e =>
-			{
-				_mcLogs.Parse(e.Line);
-				McLogLines = new ObservableCollection<McLogLine>(_mcLogs.Lines);
-			};
+			// _mcLauncher.MinecraftOutput += e =>
+			// {
+			// 	_mcLogs.Parse(e.Line);
+			// 	McLogLines = new ObservableCollection<McLogLine>(_mcLogs.Lines);
+			// };
 
 			_discordRpcTools.SetStatus("Using Meloncher", "");
 
