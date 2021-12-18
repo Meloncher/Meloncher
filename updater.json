@@ -1,6 +1,6 @@
 {
-	"version": 23,
-	"direct_link": "https://github.com/Meloncher/Meloncher/releases/download/beta-1.1.4/MeloncherSetup.exe",
+	"version": 24,
+	"direct_link": "https://github.com/Meloncher/Meloncher/releases/download/beta-1.1.5/MeloncherSetup.exe",
 	"launch_args": "/SUPPRESSMSGBOXES /NOICONS /LANG=russian /TASKS=\"\" /CLOSEAPPLICATIONS",
-	"description": "Хотфикс! Временно убрана вкладка логов"
+	"description": "Фиксы\nНовые кнопки заголовка\nРусский язык"
 }
