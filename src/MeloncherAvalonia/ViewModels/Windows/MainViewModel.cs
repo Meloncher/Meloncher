@@ -35,6 +35,7 @@ namespace MeloncherAvalonia.ViewModels.Windows
 		private readonly LauncherSettings _launcherSettings;
 
 		private readonly McLauncher _mcLauncher;
+		private readonly McUpdater _mcUpdater;
 		private readonly ExtMinecraftPath _path;
 		private readonly MVersionCollection _versionCollection;
 		private readonly VersionTools _versionTools;
@@ -50,6 +51,7 @@ namespace MeloncherAvalonia.ViewModels.Windows
 
 			_accountStorage = new AccountStorage(_path);
 			_mcLauncher = new McLauncher(_path);
+			_mcUpdater = new McUpdater(_path);
 			_launcherSettings = LauncherSettings.New(_path);
 			ModPackStorage = new ModPackStorage(_path);
 			// SelectedVersion = _versionCollection.LatestReleaseVersion;
@@ -72,7 +74,7 @@ namespace MeloncherAvalonia.ViewModels.Windows
 
 			if (_launcherSettings.SelectedAccount != null) SelectedAccount = _accountStorage.Get(_launcherSettings.SelectedAccount);
 
-			_mcLauncher.McDownloadProgressChanged += OnMcLauncherOnMcDownloadProgressChanged;
+			_mcUpdater.McDownloadProgressChanged += OnMcLauncherOnMcDownloadProgressChanged;
 			// _mcLauncher.ProgressChanged += OnMcLauncherOnProgressChanged;
 			// _mcLauncher.MinecraftOutput += e =>
 			// {
@@ -267,22 +269,18 @@ namespace MeloncherAvalonia.ViewModels.Windows
 			if (result is MVersionMetadata mVersionMetadata) SelectedVersion = _versionTools.GetMcVersion(mVersionMetadata.GetVersion());
 		}
 
-		private void PlayButtonCommand()
+		private async Task PlayButtonCommand()
 		{
-			new Task(async () =>
-			{
+			// new Task(async () =>
+			// {
 				IsStarted = true;
 				ProgressHidden = false;
 				Title = "Meloncher " + SelectedVersion?.Name;
 				_discordRpcTools.SetStatus("Playing on " + SelectedVersion?.Name, "");
-				_mcLauncher.UseOptifine = _launcherSettings.UseOptifine;
 				_mcLauncher.WindowMode = _launcherSettings.WindowMode;
 				_mcLauncher.MaximumRamMb = _launcherSettings.MaximumRamMb;
 				_mcLauncher.JvmArguments = _launcherSettings.JvmArguments;
-				// if (SelectedVersion != null) _mcLauncher.Version = _versionTools.GetMcVersion(SelectedVersion.MVersion.Id);
-				if (SelectedVersion != null) _mcLauncher.Version = SelectedVersion;
-				// var test = new DefaultVersionLoader(_path).GetVersionMetadatas().GetVersion("1.12.2");
-				// _mcLauncher.Version = new McVersion(test, ProfileType.Custom, "TestModPack");
+				if (SelectedVersion == null) return;
 
 				if (SelectedAccount != null)
 				{
@@ -293,18 +291,18 @@ namespace MeloncherAvalonia.ViewModels.Windows
 					_mcLauncher.Session = SelectedAccount.GameSession;
 				}
 
-				await _mcLauncher.Update();
+				await _mcUpdater.Update(SelectedVersion, _launcherSettings.UseOptifine);
 
 				ProgressValue = 0;
 				ProgressText = null;
 				ProgressHidden = true;
 				IsLaunched = true;
-				await _mcLauncher.Launch();
+				await _mcLauncher.Launch(SelectedVersion, _launcherSettings.UseOptifine);
 				IsStarted = false;
 				IsLaunched = false;
 				Title = "Meloncher";
 				_discordRpcTools.SetStatus("Using Meloncher", "");
-			}).Start();
+			// }).Start();
 		}
 	}
 }
