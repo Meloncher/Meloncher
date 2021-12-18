@@ -1,3 +1,5 @@
+using System.Globalization;
+using System.Threading;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
@@ -15,6 +17,8 @@ namespace MeloncherAvalonia
 
 		public override void OnFrameworkInitializationCompleted()
 		{
+			Thread.CurrentThread.CurrentCulture = new CultureInfo("ru");
+			Thread.CurrentThread.CurrentUICulture = new CultureInfo("ru");
 			if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
 				desktop.MainWindow = new MainWindow
 				{
