@@ -21,9 +21,11 @@
         MinHeight="480"
         ExtendClientAreaToDecorationsHint="True"
         ExtendClientAreaTitleBarHeightHint="26"
+        ExtendClientAreaChromeHints="NoChrome"
         TransparencyLevelHint="{Binding TransparencyLevelHint}"
         Background="Transparent"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen"
+        CanResize="False">
 
 	<!-- <Window.DataContext> -->
 	<!-- 	<vm:MainViewModel /> -->
@@ -36,9 +38,61 @@
 		<dh:DialogHost.DialogContent>
 		</dh:DialogHost.DialogContent>
 		<Grid RowDefinitions="26,*">
-			<Border IsHitTestVisible="False" Background="#000000" Opacity=".5">
-				<TextBlock Text="{Binding Title}" TextAlignment="Center" VerticalAlignment="Center" />
-			</Border>
+			<Panel>
+				<Border IsHitTestVisible="False" Background="#000000" Opacity=".5">
+					<TextBlock Text="{Binding Title}" TextAlignment="Center" VerticalAlignment="Center" />
+				</Border>
+				<StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Opacity=".5">
+					<Button Width="46"
+					        Height="30"
+					        HorizontalContentAlignment="Center"
+					        BorderThickness="0"
+					        Name="MinimizeButton"
+					        ToolTip.Tip="Minimize"
+					        Foreground="White"
+					        Click="Button_Minimize_OnClick">
+						<Button.Resources>
+							<CornerRadius x:Key="ControlCornerRadius">0</CornerRadius>
+						</Button.Resources>
+						<Button.Styles>
+							<Style Selector="Button:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+								<Setter Property="Background" Value="#44AAAAAA"/>
+							</Style>
+							<Style Selector="Button:not(:pointerover) /template/ ContentPresenter#PART_ContentPresenter">
+								<Setter Property="Background" Value="Transparent"/>
+							</Style>
+						</Button.Styles>
+						<Border Width="14" Height="14">
+							<Border Width="16" Height="10" VerticalAlignment="Bottom">
+								<Path Fill="White" Stretch="Uniform" VerticalAlignment="Bottom" Margin="2,0,2,1" Data="M2048 1229v-205h-2048v205h2048z"/>
+							</Border>
+						</Border>
+					</Button>
+					<Button Width="46"
+					        VerticalAlignment="Stretch"
+					        BorderThickness="0"
+					        Name="CloseButton"
+					        ToolTip.Tip="Close"
+					        Click="Button_Close_OnClick">
+						<Button.Resources>
+							<CornerRadius x:Key="ControlCornerRadius">0</CornerRadius>
+						</Button.Resources>
+						<Button.Styles>
+							<Style Selector="Button:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+								<Setter Property="Background" Value="Red"/>
+							</Style>
+							<Style Selector="Button:not(:pointerover) /template/ ContentPresenter#PART_ContentPresenter">
+								<Setter Property="Background" Value="Transparent"/>
+							</Style>
+						</Button.Styles>
+						<Border Width="14" Height="14">
+							<Border Width="10" Height="10" VerticalAlignment="Bottom">
+								<Path Fill="White" Stretch="Uniform" VerticalAlignment="Bottom" Data="M1169 1024l879 -879l-145 -145l-879 879l-879 -879l-145 145l879 879l-879 879l145 145l879 -879l879 879l145 -145z"/>
+							</Border>
+						</Border>
+					</Button>
+				</StackPanel>
+			</Panel>
 			<Grid Grid.Row="1" ColumnDefinitions="40,*">
 				<Border Background="#202020" Opacity="0.5">
 					<Grid RowDefinitions="*,auto">

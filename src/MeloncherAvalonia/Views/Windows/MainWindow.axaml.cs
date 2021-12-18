@@ -1,4 +1,6 @@
 using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.ReactiveUI;
 using MeloncherAvalonia.ViewModels.Windows;
@@ -24,6 +26,16 @@ namespace MeloncherAvalonia.Views.Windows
 		private void InitializeComponent()
 		{
 			AvaloniaXamlLoader.Load(this);
+		}
+
+		private void Button_Close_OnClick(object? sender, RoutedEventArgs e)
+		{
+			Close();
+		}
+
+		private void Button_Minimize_OnClick(object? sender, RoutedEventArgs e)
+		{
+			WindowState = WindowState.Minimized;
 		}
 	}
 }
