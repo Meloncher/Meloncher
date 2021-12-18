@@ -151,6 +151,9 @@ namespace MeloncherCore.Launcher
 				var ofVerName = optifineInstaller.GetLatestInstalled(Version.MVersion.Id, _minecraftPath);
 				if (ofVerName != null)
 				{
+					var mcJarPath = Path.Combine(path.Versions, Version.Name, Version.Name + ".jar");
+					var ofJarPath = Path.Combine(path.Versions, ofVerName, ofVerName + ".jar");
+					if (!File.Exists(ofJarPath) && File.Exists(mcJarPath)) File.Copy(mcJarPath, ofJarPath);
 					launchOption.StartVersion = await (await launcher.VersionLoader.GetVersionMetadatasAsync()).GetVersionAsync(ofVerName);
 					FixJavaBinaryPath(_minecraftPath, launchOption.StartVersion);
 				}
