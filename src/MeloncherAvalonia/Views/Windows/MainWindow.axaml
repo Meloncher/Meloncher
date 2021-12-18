@@ -48,7 +48,6 @@
 					        HorizontalContentAlignment="Center"
 					        BorderThickness="0"
 					        Name="MinimizeButton"
-					        ToolTip.Tip="Minimize"
 					        Foreground="White"
 					        Click="Button_Minimize_OnClick">
 						<Button.Resources>
@@ -68,7 +67,6 @@
 					        VerticalAlignment="Stretch"
 					        BorderThickness="0"
 					        Name="CloseButton"
-					        ToolTip.Tip="Close"
 					        Click="Button_Close_OnClick">
 						<Button.Resources>
 							<CornerRadius x:Key="ControlCornerRadius">0</CornerRadius>
