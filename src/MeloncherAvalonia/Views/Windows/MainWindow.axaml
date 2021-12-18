@@ -62,11 +62,7 @@
 								<Setter Property="Background" Value="Transparent"/>
 							</Style>
 						</Button.Styles>
-						<Border Width="14" Height="14">
-							<Border Width="16" Height="10" VerticalAlignment="Bottom">
-								<Path Fill="White" Stretch="Uniform" VerticalAlignment="Bottom" Margin="2,0,2,1" Data="M2048 1229v-205h-2048v205h2048z"/>
-							</Border>
-						</Border>
+						<Path Margin="0,2,0, 0" Fill="White" Stretch="Uniform" Width="10" VerticalAlignment="Center" Data="M2048 1229v-205h-2048v205h2048z"/>
 					</Button>
 					<Button Width="46"
 					        VerticalAlignment="Stretch"
@@ -85,11 +81,7 @@
 								<Setter Property="Background" Value="Transparent"/>
 							</Style>
 						</Button.Styles>
-						<Border Width="14" Height="14">
-							<Border Width="10" Height="10" VerticalAlignment="Bottom">
-								<Path Fill="White" Stretch="Uniform" VerticalAlignment="Bottom" Data="M1169 1024l879 -879l-145 -145l-879 879l-879 -879l-145 145l879 879l-879 879l145 145l879 -879l879 879l145 -145z"/>
-							</Border>
-						</Border>
+						<Path Margin="0,2,0,0" Fill="White" Stretch="Uniform" Width="10" VerticalAlignment="Center" Data="M1169 1024l879 -879l-145 -145l-879 879l-879 -879l-145 145l879 879l-879 879l145 145l879 -879l879 879l145 -145z"/>
 					</Button>
 				</StackPanel>
 			</Panel>
