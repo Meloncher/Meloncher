@@ -11,32 +11,8 @@
     <resheader name="writer">
         <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
     </resheader>
-    <data name="SelectedVersion" xml:space="preserve">
-        <value>Выбранная версия</value>
-    </data>
-    <data name="PlayButton" xml:space="preserve">
-        <value>Играть</value>
-    </data>
-    <data name="SelectedAccount" xml:space="preserve">
-        <value>Выбранный аккаунт</value>
-    </data>
-    <data name="ModPackTabTitle" xml:space="preserve">
-        <value>Сборки (Бета)</value>
-    </data>
-    <data name="ModPackCreate" xml:space="preserve">
-        <value>Создать сборку</value>
-    </data>
-    <data name="ModPackRemove" xml:space="preserve">
-        <value>Удалить сборку</value>
-    </data>
-    <data name="ModPackFolder" xml:space="preserve">
-        <value>Папка сборки</value>
-    </data>
-    <data name="ModPackEdit" xml:space="preserve">
-        <value>Редактировать сборку</value>
-    </data>
-    <data name="LogsTabTitle" xml:space="preserve">
-        <value>Логи (Бета)</value>
+    <data name="Test" xml:space="preserve">
+        <value>TestRu</value>
     </data>
     <data name="RemoveSelectedAccount" xml:space="preserve">
         <value>Удалить выбранный аккаунт</value>

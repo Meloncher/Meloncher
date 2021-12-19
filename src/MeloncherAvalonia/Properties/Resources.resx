@@ -18,32 +18,8 @@
     <resheader name="writer">
         <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
     </resheader>
-    <data name="SelectedVersion" xml:space="preserve">
-        <value>Selected version</value>
-    </data>
-    <data name="PlayButton" xml:space="preserve">
-        <value>Play</value>
-    </data>
-    <data name="SelectedAccount" xml:space="preserve">
-        <value>Selected account</value>
-    </data>
-    <data name="ModPackTabTitle" xml:space="preserve">
-        <value>ModPacks (Beta)</value>
-    </data>
-    <data name="ModPackCreate" xml:space="preserve">
-        <value>Create ModPack</value>
-    </data>
-    <data name="ModPackEdit" xml:space="preserve">
-        <value>Edit ModPack</value>
-    </data>
-    <data name="ModPackRemove" xml:space="preserve">
-        <value>Remove ModPack</value>
-    </data>
-    <data name="ModPackFolder" xml:space="preserve">
-        <value>ModPack folder</value>
-    </data>
-    <data name="LogsTabTitle" xml:space="preserve">
-        <value>Logs (Beta)</value>
+    <data name="Test" xml:space="preserve">
+        <value>TestDef</value>
     </data>
     <data name="AddOfflineAccount" xml:space="preserve">
         <value>Add Offline</value>

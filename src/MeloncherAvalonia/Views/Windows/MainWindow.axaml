@@ -132,11 +132,11 @@
 														<ImageBrush Source="/Assets/Images/Grass.png" />
 													</Border.Background>
 												</Border>
-												<TextBlock Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Text="{x:Static p:Resources.SelectedVersion}" />
+												<TextBlock Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Text="Выбранная версия" />
 												<TextBlock Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" Foreground="LightGray" Text="{Binding SelectedVersion.Name}" />
 											</Grid>
 										</Button>
-										<uc:PlayButton Margin="0 -40 0 0" Grid.Column="1" Text="{x:Static p:Resources.PlayButton}" Command="{Binding PlayButtonCommand}" IsEnabled="{Binding !IsStarted}" />
+										<uc:PlayButton Margin="0 -40 0 0" Grid.Column="1" Text="Играть" Command="{Binding PlayButtonCommand}" IsEnabled="{Binding !IsStarted}" />
 										<Button Command="{Binding OpenAccountsWindowCommand}" Grid.Column="2" HorizontalAlignment="Right" Background="Transparent" BorderThickness="0">
 											<Grid ColumnDefinitions="Auto,Auto" RowDefinitions="Auto,Auto">
 												<Border CornerRadius="4" Margin="10, 0, 0, 0" Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Height="32" Width="32">
@@ -144,7 +144,7 @@
 														<ImageBrush Source="/Assets/Images/Steve.png" />
 													</Border.Background>
 												</Border>
-												<TextBlock Grid.Column="0" Grid.Row="0" HorizontalAlignment="Right" Text="{x:Static p:Resources.SelectedAccount}" />
+												<TextBlock Grid.Column="0" Grid.Row="0" HorizontalAlignment="Right" Text="Выбранный аккаунт" />
 												<TextBlock Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right" Foreground="LightGray" Text="{Binding SelectedAccount.GameSession.Username}" />
 											</Grid>
 										</Button>
@@ -154,12 +154,12 @@
 							</TabItem>
 							<TabItem>
 								<Grid RowDefinitions="Auto, Auto, *">
-									<TextBlock Text="{x:Static p:Resources.ModPackTabTitle}" FontSize="32" Margin="16, 0, 0, 4" />
+									<TextBlock Text="Сборки (Beta)" FontSize="32" Margin="16, 0, 0, 4" />
 									<StackPanel Grid.Row="1" Orientation="Horizontal">
-										<Button Content="{x:Static p:Resources.ModPackCreate}" Command="{Binding OpenAddModPackWindowCommand}" />
-										<Button Content="{x:Static p:Resources.ModPackEdit}" Command="{Binding EditSelectedModPackCommand}" />
-										<Button Content="{x:Static p:Resources.ModPackRemove}" Command="{Binding RemoveSelectedModPackCommand}" />
-										<Button Content="{x:Static p:Resources.ModPackFolder}" Command="{Binding OpenModPackFolderCommand}" />
+										<Button Content="Добавить сборку" Command="{Binding OpenAddModPackWindowCommand}" />
+										<Button Content="Редактировать сборку" Command="{Binding EditSelectedModPackCommand}" />
+										<Button Content="Удалить сборку" Command="{Binding RemoveSelectedModPackCommand}" />
+										<Button Content="Открыть папку сборки" Command="{Binding OpenModPackFolderCommand}" />
 									</StackPanel>
 									<ListBox Grid.Row="2" Items="{Binding ModPackStorage.Keys}" SelectedItem="{Binding SelectedModPack}">
 										<i:Interaction.Behaviors>
@@ -172,7 +172,7 @@
 							</TabItem>
 							<TabItem>
 								<Grid RowDefinitions="Auto, *">
-									<TextBlock Text="{x:Static p:Resources.LogsTabTitle}" FontSize="32" Margin="16, 0, 0, 4" />
+									<TextBlock Text="Логи (Beta)" FontSize="32" Margin="16, 0, 0, 4" />
 									<!-- <TextBox Grid.Row="1" TextWrapping="NoWrap" IsReadOnly="True" Text="{Binding Logs}" /> -->
 									<!-- <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Background="White" Foreground="Black" Content="{Binding Logs}" /> -->
 									<ListBox Grid.Row="1" Items="{Binding McLogLines}">
