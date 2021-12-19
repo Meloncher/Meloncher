@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Avalonia.Controls;
@@ -12,7 +11,6 @@ using MeloncherAvalonia.Models;
 using MeloncherAvalonia.ViewModels.Dialogs;
 using MeloncherAvalonia.Views.Dialogs;
 using MeloncherCore.Account;
-using MeloncherCore.Discord;
 using MeloncherCore.Launcher;
 using MeloncherCore.Launcher.Events;
 using MeloncherCore.Logs;
@@ -23,7 +21,6 @@ using MeloncherCore.Version;
 using MessageBox.Avalonia;
 using MessageBox.Avalonia.DTO;
 using MessageBox.Avalonia.Enums;
-using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 
 namespace MeloncherAvalonia.ViewModels.Windows
@@ -31,7 +28,6 @@ namespace MeloncherAvalonia.ViewModels.Windows
 	public class MainViewModel : ViewModelBase
 	{
 		private readonly AccountStorage _accountStorage;
-		private readonly DiscordRpcTools _discordRpcTools = new();
 		private readonly LauncherSettings _launcherSettings;
 
 		private readonly McLauncher _mcLauncher;
@@ -81,8 +77,6 @@ namespace MeloncherAvalonia.ViewModels.Windows
 			// 	_mcLogs.Parse(e.Line);
 			// 	McLogLines = new ObservableCollection<McLogLine>(_mcLogs.Lines);
 			// };
-
-			_discordRpcTools.SetStatus("Using Meloncher", "");
 
 			PropertyChanged += (_, e) =>
 			{
@@ -276,7 +270,6 @@ namespace MeloncherAvalonia.ViewModels.Windows
 				IsStarted = true;
 				ProgressHidden = false;
 				Title = "Meloncher " + SelectedVersion?.Name;
-				_discordRpcTools.SetStatus("Playing on " + SelectedVersion?.Name, "");
 				_mcLauncher.WindowMode = _launcherSettings.WindowMode;
 				_mcLauncher.MaximumRamMb = _launcherSettings.MaximumRamMb;
 				_mcLauncher.JvmArguments = _launcherSettings.JvmArguments;
@@ -301,7 +294,6 @@ namespace MeloncherAvalonia.ViewModels.Windows
 				IsStarted = false;
 				IsLaunched = false;
 				Title = "Meloncher";
-				_discordRpcTools.SetStatus("Using Meloncher", "");
 			// }).Start();
 		}
 	}
