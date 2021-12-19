@@ -4,7 +4,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:i="using:Avalonia.Xaml.Interactivity"
              xmlns:ia="using:Avalonia.Xaml.Interactions.Core"
-             xmlns:p="clr-namespace:MeloncherAvalonia.Properties"
              mc:Ignorable="d"
              x:Class="MeloncherAvalonia.Views.Dialogs.VersionSelectorDialog"
              Width="256"
@@ -13,9 +12,9 @@
 		<!-- <Button Content="X" Width="48" Height="26" HorizontalAlignment="Right" /> -->
 		<ComboBox Grid.Row="0" SelectedIndex="{Binding VersionType}" HorizontalAlignment="Stretch">
 			<ComboBox.Items>
-				<ComboBoxItem Content="{x:Static p:Resources.Releases}" />
-				<ComboBoxItem Content="{x:Static p:Resources.Snapshots}" />
-				<ComboBoxItem Content="{x:Static p:Resources.Old}" />
+				<ComboBoxItem Content="Релизы" />
+				<ComboBoxItem Content="Снапшоты" />
+				<ComboBoxItem Content="Устаревшие" />
 			</ComboBox.Items>
 		</ComboBox>
 		<ListBox Grid.Row="1" Items="{Binding Versions}" SelectedItem="{Binding SelectedVersion}">
