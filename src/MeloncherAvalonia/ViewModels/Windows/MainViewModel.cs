@@ -7,6 +7,7 @@ using System.Net;
 using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Media;
 using CmlLib.Core.Version;
 using MeloncherAvalonia.Models;
 using MeloncherAvalonia.ViewModels.Dialogs;
@@ -16,7 +17,6 @@ using MeloncherCore.Launcher;
 using MeloncherCore.Launcher.Events;
 using MeloncherCore.Logs;
 using MeloncherCore.ModPack;
-using MeloncherCore.Options;
 using MeloncherCore.Settings;
 using MeloncherCore.Version;
 using MessageBox.Avalonia;
@@ -97,14 +97,14 @@ namespace MeloncherAvalonia.ViewModels.Windows
 				}
 			};
 
-			TransparencyLevelHint = _launcherSettings.GlassBackground ? WindowTransparencyLevel.Blur : WindowTransparencyLevel.None;
+			SetTransparency(_launcherSettings.GlassBackground);
 			Application.Current.Resources.GetThemeLoader("LanguageLoader").SelectedThemeId = _launcherSettings.Language.ToString();
 			_launcherSettings.PropertyChanged += (sender, args) =>
 			{
-				if (args.PropertyName == "GlassBackground") TransparencyLevelHint = _launcherSettings.GlassBackground ? WindowTransparencyLevel.Blur : WindowTransparencyLevel.None;
+				if (args.PropertyName == "GlassBackground") SetTransparency(_launcherSettings.GlassBackground);
 				if (args.PropertyName == "Language") Application.Current.Resources.GetThemeLoader("LanguageLoader").SelectedThemeId = _launcherSettings.Language.ToString();
 			};
-			
+
 			var launcherProfilesPath = Path.Combine(_path.MinecraftPath, "launcher_profiles.json");
 			if (!File.Exists(launcherProfilesPath))
 			{
@@ -119,7 +119,6 @@ namespace MeloncherAvalonia.ViewModels.Windows
 		[Reactive] public string? SelectedModPack { get; set; }
 		[Reactive] public string Logs { get; set; } = "";
 		[Reactive] public int SelectedTabIndex { get; set; }
-
 		[Reactive] public string Title { get; set; } = "Meloncher";
 		[Reactive] public WindowTransparencyLevel TransparencyLevelHint { get; set; }
 		[Reactive] public int ProgressValue { get; set; }
@@ -188,6 +187,16 @@ namespace MeloncherAvalonia.ViewModels.Windows
 				};
 		}
 
+		private void SetSelectedTabIndex(int arg)
+		{
+			SelectedTabIndex = arg;
+		}
+
+		private void SetTransparency(bool value)
+		{
+			TransparencyLevelHint = value ? WindowTransparencyLevel.Blur : WindowTransparencyLevel.None;
+		}
+
 		private async Task OpenAddModPackWindowCommand()
 		{
 			var dialog = new AddModPackDialog
@@ -205,7 +214,7 @@ namespace MeloncherAvalonia.ViewModels.Windows
 
 		private async Task EditSelectedModPackCommand()
 		{
-			if (SelectedModPack == null) return; 
+			if (SelectedModPack == null) return;
 			var dialog = new AddModPackDialog
 			{
 				DataContext = new AddModPackViewModel(_versionTools, _versionCollection, new KeyValuePair<string, ModPackInfo>(SelectedModPack, ModPackStorage.Get(SelectedModPack)))
@@ -255,36 +264,33 @@ namespace MeloncherAvalonia.ViewModels.Windows
 
 		private async Task PlayButtonCommand()
 		{
-			// new Task(async () =>
-			// {
-				IsStarted = true;
-				ProgressHidden = false;
-				Title = "Meloncher " + SelectedVersion?.Name;
-				_mcLauncher.WindowMode = _launcherSettings.WindowMode;
-				_mcLauncher.MaximumRamMb = _launcherSettings.MaximumRamMb;
-				_mcLauncher.JvmArguments = _launcherSettings.JvmArguments;
-				if (SelectedVersion == null) return;
+			IsStarted = true;
+			ProgressHidden = false;
+			Title = "Meloncher " + SelectedVersion?.Name;
+			_mcLauncher.WindowMode = _launcherSettings.WindowMode;
+			_mcLauncher.MaximumRamMb = _launcherSettings.MaximumRamMb;
+			_mcLauncher.JvmArguments = _launcherSettings.JvmArguments;
+			if (SelectedVersion == null) return;
 
-				if (SelectedAccount != null)
-				{
-					if (!SelectedAccount.Validate())
-						if (SelectedAccount.Refresh())
-							_accountStorage.SaveFile();
+			if (SelectedAccount != null)
+			{
+				if (!SelectedAccount.Validate())
+					if (SelectedAccount.Refresh())
+						_accountStorage.SaveFile();
 
-					_mcLauncher.Session = SelectedAccount.GameSession;
-				}
+				_mcLauncher.Session = SelectedAccount.GameSession;
+			}
 
-				await _mcUpdater.Update(SelectedVersion, _launcherSettings.UseOptifine);
+			await _mcUpdater.Update(SelectedVersion, _launcherSettings.UseOptifine);
 
-				ProgressValue = 0;
-				ProgressText = null;
-				ProgressHidden = true;
-				IsLaunched = true;
-				await _mcLauncher.Launch(SelectedVersion, _launcherSettings.UseOptifine);
-				IsStarted = false;
-				IsLaunched = false;
-				Title = "Meloncher";
-			// }).Start();
+			ProgressValue = 0;
+			ProgressText = null;
+			ProgressHidden = true;
+			IsLaunched = true;
+			await _mcLauncher.Launch(SelectedVersion, _launcherSettings.UseOptifine);
+			IsStarted = false;
+			IsLaunched = false;
+			Title = "Meloncher";
 		}
 	}
 }
