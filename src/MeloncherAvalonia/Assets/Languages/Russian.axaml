@@ -1,5 +1,5 @@
 ﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 	<!-- Add Resources Here -->
-	<x:String x:Key="Test">Тест</x:String>
+	<x:String x:Key="PlayTab.Play">Играть</x:String>
 </ResourceDictionary>

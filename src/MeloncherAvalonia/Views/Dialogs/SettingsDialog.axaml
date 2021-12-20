@@ -6,13 +6,15 @@
              x:Class="MeloncherAvalonia.Views.Dialogs.SettingsDialog"
              Width="320"
              Height="450">
-	<Grid ColumnDefinitions="*,128" RowDefinitions="48, 48, 48, 48, 48, *, Auto, Auto">
+	<Grid RowDefinitions="*,Auto,Auto">
+		<Grid ColumnDefinitions="*,128" RowDefinitions="48, 48, 48, 48, 48, 48">
 		<!-- Названия -->
 		<TextBlock Grid.Column="0" Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0" Text="Использовать Оптифайн" />
 		<TextBlock Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0" Text="Режим окна" />
 		<TextBlock Grid.Column="0" Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0" Text="Максимум Озу" />
 		<TextBlock Grid.Column="0" Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0" Text="Использовать Прозрачность" />
 		<TextBlock Grid.Column="0" Grid.Row="4" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0" Text="Аргументы JVM" />
+		<TextBlock Grid.Column="0" Grid.Row="5" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0" Text="Язык" />
 		<!-- Настройки -->
 		<ToggleSwitch Grid.Column="1" Grid.Row="0" IsChecked="{Binding LauncherSettings.UseOptifine}" />
 		<ComboBox Grid.Column="1" Grid.Row="1" SelectedIndex="{Binding LauncherSettings.WindowMode}">
@@ -25,8 +27,15 @@
 		<NumericUpDown Grid.Column="1" Grid.Row="2" Value="{Binding LauncherSettings.MaximumRamMb}" />
 		<ToggleSwitch Grid.Column="1" Grid.Row="3" IsChecked="{Binding LauncherSettings.GlassBackground}" />
 		<TextBox Grid.Column="1" Grid.Row="4" Text="{Binding LauncherSettings.JvmArguments}" />
+		<ComboBox Grid.Column="1" Grid.Row="5" SelectedIndex="{Binding LauncherSettings.Language}">
+			<ComboBox.Items>
+				<ComboBoxItem Content="English" />
+				<ComboBoxItem Content="Русский" />
+			</ComboBox.Items>
+		</ComboBox>
 		<!-- Кнопки -->
-		<Button HorizontalAlignment="Stretch" Grid.Row="6" Grid.ColumnSpan="2" Grid.Column="0" Content="Импорт настроек из .minecraft" Command="{Binding ImportCommand}" />
-		<Button HorizontalAlignment="Stretch" Grid.Row="7" Grid.ColumnSpan="2" Grid.Column="0" Content="OK" Command="{Binding OkCommand}" />
+		</Grid>
+		<Button HorizontalAlignment="Stretch" Grid.Row="1" Grid.Column="0" Content="Импорт настроек из .minecraft" Command="{Binding ImportCommand}" />
+		<Button HorizontalAlignment="Stretch" Grid.Row="2" Grid.Column="0" Content="OK" Command="{Binding OkCommand}" />
 	</Grid>
 </UserControl>

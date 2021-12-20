@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
+using Avalonia;
 using Avalonia.Controls;
 using CmlLib.Core.Version;
 using MeloncherAvalonia.Models;
@@ -21,6 +22,7 @@ using MeloncherCore.Version;
 using MessageBox.Avalonia;
 using MessageBox.Avalonia.DTO;
 using MessageBox.Avalonia.Enums;
+using NP.Avalonia.Visuals.Behaviors;
 using ReactiveUI.Fody.Helpers;
 
 namespace MeloncherAvalonia.ViewModels.Windows
@@ -95,9 +97,11 @@ namespace MeloncherAvalonia.ViewModels.Windows
 			};
 
 			TransparencyLevelHint = _launcherSettings.GlassBackground ? WindowTransparencyLevel.Blur : WindowTransparencyLevel.None;
+			Application.Current.Resources.GetThemeLoader("LanguageLoader").SelectedThemeId = _launcherSettings.Language.ToString();
 			_launcherSettings.PropertyChanged += (sender, args) =>
 			{
 				if (args.PropertyName == "GlassBackground") TransparencyLevelHint = _launcherSettings.GlassBackground ? WindowTransparencyLevel.Blur : WindowTransparencyLevel.None;
+				if (args.PropertyName == "Language") Application.Current.Resources.GetThemeLoader("LanguageLoader").SelectedThemeId = _launcherSettings.Language.ToString();
 			};
 			
 			var launcherProfilesPath = Path.Combine(_path.MinecraftPath, "launcher_profiles.json");
