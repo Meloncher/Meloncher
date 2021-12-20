@@ -1,11 +1,12 @@
-﻿using Avalonia.Controls;
+﻿using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
-namespace MeloncherAvalonia.Views.Dialogs
+namespace MeloncherAvalonia.Views.Tabs
 {
-	public class SettingsDialog : UserControl
+	public class SettingsTab : UserControl
 	{
-		public SettingsDialog()
+		public SettingsTab()
 		{
 			InitializeComponent();
 		}

@@ -51,6 +51,7 @@ namespace MeloncherAvalonia.ViewModels.Windows
 			_mcLauncher = new McLauncher(_path);
 			_mcUpdater = new McUpdater(_path);
 			_launcherSettings = LauncherSettings.New(_path);
+			SettingsViewModel = new SettingsViewModel(_launcherSettings);
 			ModPackStorage = new ModPackStorage(_path);
 			// SelectedVersion = _versionCollection.LatestReleaseVersion;
 			SelectedVersion = _versionTools.GetMcVersion(_versionCollection.LatestReleaseVersion.GetVersion());
@@ -113,6 +114,7 @@ namespace MeloncherAvalonia.ViewModels.Windows
 			}
 		}
 
+		[Reactive] public SettingsViewModel SettingsViewModel { get; set; }
 		[Reactive] public ModPackStorage ModPackStorage { get; set; }
 		[Reactive] public string? SelectedModPack { get; set; }
 		[Reactive] public string Logs { get; set; } = "";
@@ -229,22 +231,6 @@ namespace MeloncherAvalonia.ViewModels.Windows
 			var modPackPath = Path.Combine(_path.RootPath, "profiles", "custom");
 			if (SelectedModPack != null) modPackPath = Path.Combine(modPackPath, SelectedModPack);
 			Process.Start("explorer.exe", modPackPath);
-		}
-
-		private async Task OpenSettingsWindowCommand()
-		{
-			var dialog = new SettingsDialog
-			{
-				DataContext = new SettingsViewModel(_launcherSettings)
-			};
-			var result = await DialogHost.DialogHost.Show(dialog);
-			if (result is SettingsAction.Import)
-			{
-				var importer = new McOptionsImporter(_path);
-				importer.Import();
-				var messageBoxStandardWindow = MessageBoxManager.GetMessageBoxStandardWindow("Готово", "Готово!");
-				await messageBoxStandardWindow.Show();
-			}
 		}
 
 		private async Task OpenAccountsWindowCommand()
