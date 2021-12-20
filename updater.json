@@ -1,6 +1,6 @@
 {
-  "version": 24,
-  "direct_link": "https://github.com/Meloncher/Meloncher/releases/download/beta-1.1.5/MeloncherSetup.exe",
+  "version": 25,
+  "direct_link": "https://github.com/Meloncher/Meloncher/releases/download/beta-1.2.0/MeloncherSetup.exe",
   "launch_args": "/SUPPRESSMSGBOXES /NOICONS /LANG=russian /TASKS=\"\" /CLOSEAPPLICATIONS",
-  "description": "Фиксы\nНовые кнопки заголовка\nРусский язык"
+  "description": "Многоязычность и выбор языка\nУдалена интеграция с дискордом (Работает криво)\nСкрытие лаунчера при запуске игры\nВернул логи (Но они всё ещё ужасны)\nПеределал настройки"
 }
