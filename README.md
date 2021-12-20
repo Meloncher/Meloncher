@@ -2,7 +2,7 @@
 
 ## [Скачать](https://github.com/Meloncher/Meloncher/releases/latest/download/MeloncherSetup.exe)
 
-![Meloncher](https://raw.githubusercontent.com/Meloncher/Meloncher/master/musorka/Screenshot.png)
+![Meloncher](https://raw.githubusercontent.com/Meloncher/Meloncher/master/musorka/Screenshot_RU.png)
 
 Этот майнкрафт лаунчер разрабатывается с целью сделать универсальный лаунчер, подходящий как для игры на ваниле, так и
 для создания сборок.
