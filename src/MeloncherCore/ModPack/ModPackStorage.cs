@@ -2,7 +2,9 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
+using CmlLib.Core;
 using MeloncherCore.Launcher;
+using MeloncherCore.Options;
 using Newtonsoft.Json;
 
 namespace MeloncherCore.ModPack
@@ -54,6 +56,8 @@ namespace MeloncherCore.ModPack
 			if (!Directory.Exists(modPackDir)) Directory.CreateDirectory(modPackDir);
 			var jsonStr = JsonConvert.SerializeObject(value);
 			File.WriteAllText(Path.Combine(modPackDir, "modpack.json"), jsonStr);
+			var profileMcPath = _path.CloneWithProfile("custom", key);
+			new McOptionsSync(profileMcPath).Load();
 			Load();
 		}
 
