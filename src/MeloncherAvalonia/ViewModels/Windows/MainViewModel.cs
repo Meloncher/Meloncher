@@ -77,11 +77,12 @@ namespace MeloncherAvalonia.ViewModels.Windows
 
 			_mcUpdater.McDownloadProgressChanged += OnMcLauncherOnMcDownloadProgressChanged;
 			// _mcLauncher.ProgressChanged += OnMcLauncherOnProgressChanged;
-			// _mcLauncher.MinecraftOutput += e =>
-			// {
-			// 	_mcLogs.Parse(e.Line);
-			// 	McLogLines = new ObservableCollection<McLogLine>(_mcLogs.Lines);
-			// };
+			_mcLauncher.MinecraftOutput += e =>
+			{
+				Logs += e.Line + "\n";
+				// _mcLogs.Parse(e.Line);
+				// McLogLines = new ObservableCollection<McLogLine>(_mcLogs.Lines);
+			};
 
 			PropertyChanged += (_, e) =>
 			{

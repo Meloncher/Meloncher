@@ -165,27 +165,11 @@
 									</ListBox>
 								</Grid>
 							</TabItem>
-							<TabItem Header="Логи">
+							<TabItem Header="Logs">
 								<Grid RowDefinitions="Auto, *">
 									<TextBlock Text="{DynamicResource LogsTab.Title}" FontSize="32" Margin="16, 0, 0, 4" />
 									<!-- <TextBox Grid.Row="1" TextWrapping="NoWrap" IsReadOnly="True" Text="{Binding Logs}" /> -->
-									<!-- <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Background="White" Foreground="Black" Content="{Binding Logs}" /> -->
-									<ListBox Grid.Row="1" Items="{Binding McLogLines}">
-										<ListBox.ItemTemplate>
-											<DataTemplate>
-												<StackPanel Orientation="Horizontal">
-													<TextBlock Text="[" />
-													<TextBlock Text="{Binding Time}" />
-													<TextBlock Text="] [" />
-													<TextBlock Text="{Binding Thread}" />
-													<TextBlock Text="/" />
-													<TextBlock Text="{Binding Type}" />
-													<TextBlock Text="]: " />
-													<TextBlock Text="{Binding Text}" />
-												</StackPanel>
-											</DataTemplate>
-										</ListBox.ItemTemplate>
-									</ListBox>
+									<ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" Background="White" Foreground="Black" Content="{Binding Logs}" />
 								</Grid>
 							</TabItem>
 							<TabItem Header="Settings">
