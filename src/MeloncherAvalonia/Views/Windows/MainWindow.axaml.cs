@@ -1,3 +1,5 @@
+using System.Reactive;
+using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
@@ -16,10 +18,14 @@ namespace MeloncherAvalonia.Views.Windows
 #if DEBUG
 			this.AttachDevTools();
 #endif
-			this.WhenActivated(disposable => { disposable(ViewModel.CheckUpdates()); });
+			this.WhenActivated(disposable =>
+			{
+				disposable(ViewModel!.CheckUpdates());
+				disposable(ViewModel!.SetHidden.RegisterHandler(DoSetHidden));
+			});
 			Closing += (sender, args) =>
 			{
-				if (ViewModel.IsLaunched) args.Cancel = true;
+				if (ViewModel!.IsLaunched) args.Cancel = true;
 			};
 		}
 
@@ -36,6 +42,13 @@ namespace MeloncherAvalonia.Views.Windows
 		private void Button_Minimize_OnClick(object? sender, RoutedEventArgs e)
 		{
 			WindowState = WindowState.Minimized;
+		}
+
+		private async Task DoSetHidden(InteractionContext<bool, Unit> interaction)
+		{
+			if (interaction.Input) Hide();
+			else Show();
+			interaction.SetOutput(new Unit());
 		}
 	}
 }

@@ -4,6 +4,8 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
+using System.Reactive;
+using System.Reactive.Linq;
 using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
@@ -22,6 +24,7 @@ using MessageBox.Avalonia;
 using MessageBox.Avalonia.DTO;
 using MessageBox.Avalonia.Enums;
 using NP.Avalonia.Visuals.Behaviors;
+using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 
 namespace MeloncherAvalonia.ViewModels.Windows
@@ -113,6 +116,7 @@ namespace MeloncherAvalonia.ViewModels.Windows
 			}
 		}
 
+		public Interaction<bool, Unit> SetHidden { get; } = new();
 		[Reactive] public SettingsViewModel SettingsViewModel { get; set; }
 		[Reactive] public ModPackStorage ModPackStorage { get; set; }
 		[Reactive] public string? SelectedModPack { get; set; }
@@ -286,7 +290,9 @@ namespace MeloncherAvalonia.ViewModels.Windows
 			ProgressText = null;
 			ProgressHidden = true;
 			IsLaunched = true;
+			await SetHidden.Handle(true);
 			await _mcLauncher.Launch(SelectedVersion, _launcherSettings.UseOptifine);
+			await SetHidden.Handle(false);
 			IsStarted = false;
 			IsLaunched = false;
 			Title = "Meloncher";
