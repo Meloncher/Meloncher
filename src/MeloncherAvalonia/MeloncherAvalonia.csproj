@@ -34,6 +34,7 @@
 		<PackageReference Include="FluentAvaloniaUI" Version="1.1.7" />
 		<PackageReference Include="Material.Icons.Avalonia" Version="1.0.2" />
 		<PackageReference Include="MessageBox.Avalonia" Version="1.7.1" />
+		<PackageReference Include="NP.Avalonia.Visuals" Version="1.0.8" />
 		<PackageReference Include="ReactiveUI.Fody" Version="17.1.9" />
 	</ItemGroup>
 	<ItemGroup>

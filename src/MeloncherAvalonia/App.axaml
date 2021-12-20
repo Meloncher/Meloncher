@@ -2,11 +2,23 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="using:MeloncherAvalonia"
              x:Class="MeloncherAvalonia.App"
-             xmlns:sty="using:FluentAvalonia.Styling">
+             xmlns:sty="using:FluentAvalonia.Styling"
+             xmlns:themingAndL10N="https://np.com/visuals">
 
 	<Application.DataTemplates>
 		<local:ViewLocator />
 	</Application.DataTemplates>
+
+	<Application.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<themingAndL10N:ThemeLoader Name="LanguageLoader" SelectedThemeId="English">
+					<themingAndL10N:ThemeInfo Id="English" ResourceUrl="/Assets/Languages/English.axaml" />
+					<themingAndL10N:ThemeInfo Id="Russian" ResourceUrl="/Assets/Languages/Russian.axaml" />
+				</themingAndL10N:ThemeLoader>
+			</ResourceDictionary.MergedDictionaries>
+		</ResourceDictionary>
+	</Application.Resources>
 
 	<Application.Styles>
 		<!--<FluentTheme Mode="Dark"/>-->
