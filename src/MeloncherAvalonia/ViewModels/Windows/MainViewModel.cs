@@ -7,7 +7,6 @@ using System.Net;
 using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Media;
 using CmlLib.Core.Version;
 using MeloncherAvalonia.Models;
 using MeloncherAvalonia.ViewModels.Dialogs;
@@ -33,11 +32,11 @@ namespace MeloncherAvalonia.ViewModels.Windows
 		private readonly LauncherSettings _launcherSettings;
 
 		private readonly McLauncher _mcLauncher;
+		private readonly McLogs _mcLogs = new();
 		private readonly McUpdater _mcUpdater;
 		private readonly ExtMinecraftPath _path;
 		private readonly MVersionCollection _versionCollection;
 		private readonly VersionTools _versionTools;
-		private readonly McLogs _mcLogs = new();
 
 		public MainViewModel()
 		{

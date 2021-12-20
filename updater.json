@@ -1,6 +1,6 @@
 {
-	"version": 24,
-	"direct_link": "https://github.com/Meloncher/Meloncher/releases/download/beta-1.1.5/MeloncherSetup.exe",
-	"launch_args": "/SUPPRESSMSGBOXES /NOICONS /LANG=russian /TASKS=\"\" /CLOSEAPPLICATIONS",
-	"description": "Фиксы\nНовые кнопки заголовка\nРусский язык"
+  "version": 24,
+  "direct_link": "https://github.com/Meloncher/Meloncher/releases/download/beta-1.1.5/MeloncherSetup.exe",
+  "launch_args": "/SUPPRESSMSGBOXES /NOICONS /LANG=russian /TASKS=\"\" /CLOSEAPPLICATIONS",
+  "description": "Фиксы\nНовые кнопки заголовка\nРусский язык"
 }

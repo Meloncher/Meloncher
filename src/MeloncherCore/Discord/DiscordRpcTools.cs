@@ -1,6 +1,4 @@
 ﻿using DiscordRPC;
-using MeloncherCore.Launcher;
-using MeloncherCore.Logs;
 
 namespace MeloncherCore.Discord
 {

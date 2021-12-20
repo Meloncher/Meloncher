@@ -15,7 +15,7 @@ namespace MeloncherCore.Launcher
 		{
 			_minecraftPath = minecraftPath;
 		}
-		
+
 		public event McDownloadProgressEventHandler? McDownloadProgressChanged;
 
 		public async Task<bool> Update(McVersion mcVersion, bool optifine)

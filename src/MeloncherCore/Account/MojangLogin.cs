@@ -104,10 +104,7 @@ namespace MeloncherCore.Account
 			var job = JObject.Parse(json); //json parse
 
 			var profile = job["selectedProfile"];
-			if (profile == null)
-			{
-				return new MLoginResponse(MLoginResult.NoProfile, null, null, json);
-			}
+			if (profile == null) return new MLoginResponse(MLoginResult.NoProfile, null, null, json);
 
 			var session = new MSession
 			{

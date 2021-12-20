@@ -1,11 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.ComponentModel;
-using System.Data;
 using System.IO;
-using System.Linq;
 using MeloncherCore.Launcher;
 using Newtonsoft.Json;
 
@@ -24,6 +20,9 @@ namespace MeloncherCore.ModPack
 
 		public ObservableCollection<string> Keys { get; set; }
 		public ObservableCollection<ModPackInfo> Values { get; set; }
+
+		public int Count => _dictionary.Count;
+		public event PropertyChangedEventHandler? PropertyChanged;
 
 		public ModPackInfo Get(string key)
 		{
@@ -67,13 +66,10 @@ namespace MeloncherCore.ModPack
 			return true;
 		}
 
-		public int Count => _dictionary.Count;
-
 		public bool ContainsKey(string key)
 		{
 			return _dictionary.ContainsKey(key);
 		}
-		public event PropertyChangedEventHandler? PropertyChanged;
 
 		private void Load()
 		{

@@ -4,7 +4,6 @@ using CmlLib.Core.Version;
 using MeloncherAvalonia.Views.Dialogs;
 using MeloncherCore.ModPack;
 using MeloncherCore.Version;
-using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 
 namespace MeloncherAvalonia.ViewModels.Dialogs

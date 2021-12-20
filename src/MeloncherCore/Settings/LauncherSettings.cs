@@ -20,9 +20,9 @@ namespace MeloncherCore.Settings
 		[JsonProperty("selected_account")] public string? SelectedAccount { get; set; }
 		[JsonProperty("maximum_ram_mb")] public int MaximumRamMb { get; set; } = 1024;
 		[JsonProperty("glass_background")] public bool GlassBackground { get; set; } = true;
-		
+
 		[JsonProperty("jvm_arguments")] public string JvmArguments { get; set; } = "-XX:+UnlockExperimentalVMOptions -XX:+UseG1GC -XX:G1NewSizePercent=20 -XX:G1ReservePercent=20 -XX:MaxGCPauseMillis=50 -XX:G1HeapRegionSize=16M";
-		
+
 		[JsonProperty("language")] public Language Language { get; set; } = Language.English;
 
 		public event PropertyChangedEventHandler? PropertyChanged;
