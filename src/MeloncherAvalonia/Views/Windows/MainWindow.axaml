@@ -116,7 +116,7 @@
 							</ControlTemplate>
 						</TabControl.Template>
 						<TabControl.Items>
-							<TabItem Header="Играть">
+							<TabItem Header="Play">
 								<Grid RowDefinitions="*,64,auto">
 									<Border>
 										<Border.Background>
@@ -131,7 +131,7 @@
 														<ImageBrush Source="/Assets/Images/Grass.png" />
 													</Border.Background>
 												</Border>
-												<TextBlock Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Text="Выбранная версия" />
+												<TextBlock Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Text="{DynamicResource PlayTab.SelectedVersion}" />
 												<TextBlock Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" Foreground="LightGray" Text="{Binding SelectedVersion.Name}" />
 											</Grid>
 										</Button>
@@ -143,7 +143,7 @@
 														<ImageBrush Source="/Assets/Images/Steve.png" />
 													</Border.Background>
 												</Border>
-												<TextBlock Grid.Column="0" Grid.Row="0" HorizontalAlignment="Right" Text="Выбранный аккаунт" />
+												<TextBlock Grid.Column="0" Grid.Row="0" HorizontalAlignment="Right" Text="{DynamicResource PlayTab.SelectedAccount}" />
 												<TextBlock Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right" Foreground="LightGray" Text="{Binding SelectedAccount.GameSession.Username}" />
 											</Grid>
 										</Button>
@@ -151,14 +151,14 @@
 									<uc:LoadingBar Grid.Row="2" Text="{Binding ProgressText}" Hidden="{Binding ProgressHidden}" Value="{Binding ProgressValue}" />
 								</Grid>
 							</TabItem>
-							<TabItem Header="Сборки">
+							<TabItem Header="ModPacks">
 								<Grid RowDefinitions="Auto, Auto, *">
-									<TextBlock Text="Сборки (Beta)" FontSize="32" Margin="16, 0, 0, 4" />
+									<TextBlock Text="{DynamicResource ModPacksTab.Title}" FontSize="32" Margin="16, 0, 0, 4" />
 									<StackPanel Grid.Row="1" Orientation="Horizontal">
-										<Button Content="Добавить сборку" Command="{Binding OpenAddModPackWindowCommand}" />
-										<Button Content="Редактировать сборку" Command="{Binding EditSelectedModPackCommand}" />
-										<Button Content="Удалить сборку" Command="{Binding RemoveSelectedModPackCommand}" />
-										<Button Content="Открыть папку сборки" Command="{Binding OpenModPackFolderCommand}" />
+										<Button Content="{DynamicResource ModPacksTab.Create}" Command="{Binding OpenAddModPackWindowCommand}" />
+										<Button Content="{DynamicResource ModPacksTab.Edit}" Command="{Binding EditSelectedModPackCommand}" />
+										<Button Content="{DynamicResource ModPacksTab.Remove}" Command="{Binding RemoveSelectedModPackCommand}" />
+										<Button Content="{DynamicResource ModPacksTab.OpenFolder}" Command="{Binding OpenModPackFolderCommand}" />
 									</StackPanel>
 									<ListBox Grid.Row="2" Items="{Binding ModPackStorage.Keys}" SelectedItem="{Binding SelectedModPack}">
 										<i:Interaction.Behaviors>
@@ -171,7 +171,7 @@
 							</TabItem>
 							<TabItem Header="Логи">
 								<Grid RowDefinitions="Auto, *">
-									<TextBlock Text="Логи (Beta)" FontSize="32" Margin="16, 0, 0, 4" />
+									<TextBlock Text="{DynamicResource LogsTab.Title}" FontSize="32" Margin="16, 0, 0, 4" />
 									<!-- <TextBox Grid.Row="1" TextWrapping="NoWrap" IsReadOnly="True" Text="{Binding Logs}" /> -->
 									<!-- <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Background="White" Foreground="Black" Content="{Binding Logs}" /> -->
 									<ListBox Grid.Row="1" Items="{Binding McLogLines}">

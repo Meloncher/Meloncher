@@ -27,11 +27,11 @@
 				</i:Interaction.Behaviors>
 			</ListBox>
 			<StackPanel Grid.Row="1" Orientation="Vertical">
-				<Button HorizontalAlignment="Stretch" Command="{Binding AddOfflineCommand}" Content="Добавить Пиратку" Height="32" />
-				<Button HorizontalAlignment="Stretch" Command="{Binding AddMojangCommand}" Content="Добавить Mojang" Height="32" />
-				<Button HorizontalAlignment="Stretch" Command="{Binding AddMicrosoftCommand}" Content="Добавить Microsoft" Height="32" />
-				<Button HorizontalAlignment="Stretch" Command="{Binding DeleteAccountCommand}" Content="Удалить выбранное" Height="32" />
-				<Button Command="{Binding OkCommand}" Content="Ok" Height="32" HorizontalAlignment="Stretch" />
+				<Button HorizontalAlignment="Stretch" Command="{Binding AddOfflineCommand}" Content="{DynamicResource AccountMenu.AddOffline}" Height="32" />
+				<Button HorizontalAlignment="Stretch" Command="{Binding AddMojangCommand}" Content="{DynamicResource AccountMenu.AddMojang}" Height="32" />
+				<Button HorizontalAlignment="Stretch" Command="{Binding AddMicrosoftCommand}" Content="{DynamicResource AccountMenu.AddMicrosoft}" Height="32" />
+				<Button HorizontalAlignment="Stretch" Command="{Binding DeleteAccountCommand}" Content="{DynamicResource AccountMenu.RemoveSelected}" Height="32" />
+				<Button Command="{Binding OkCommand}" Content="{DynamicResource AccountMenu.DoneButton}" Height="32" HorizontalAlignment="Stretch" />
 			</StackPanel>
 		</Grid>
 	</dh:DialogHost>

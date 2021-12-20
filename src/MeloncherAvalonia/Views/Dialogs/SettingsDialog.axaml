@@ -9,19 +9,19 @@
 	<Grid RowDefinitions="*,Auto,Auto">
 		<Grid ColumnDefinitions="*,128" RowDefinitions="48, 48, 48, 48, 48, 48">
 		<!-- Названия -->
-		<TextBlock Grid.Column="0" Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0" Text="Использовать Оптифайн" />
-		<TextBlock Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0" Text="Режим окна" />
-		<TextBlock Grid.Column="0" Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0" Text="Максимум Озу" />
-		<TextBlock Grid.Column="0" Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0" Text="Использовать Прозрачность" />
-		<TextBlock Grid.Column="0" Grid.Row="4" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0" Text="Аргументы JVM" />
-		<TextBlock Grid.Column="0" Grid.Row="5" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0" Text="Язык" />
+		<TextBlock Grid.Column="0" Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0" Text="{DynamicResource Settings.Optifine}" />
+		<TextBlock Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0" Text="{DynamicResource Settings.WindowMode}" />
+		<TextBlock Grid.Column="0" Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0" Text="{DynamicResource Settings.MaxRam}" />
+		<TextBlock Grid.Column="0" Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0" Text="{DynamicResource Settings.UseTransparency}" />
+		<TextBlock Grid.Column="0" Grid.Row="4" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0" Text="{DynamicResource Settings.JvmArguments}" />
+		<TextBlock Grid.Column="0" Grid.Row="5" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0" Text="{DynamicResource Settings.Language}" />
 		<!-- Настройки -->
 		<ToggleSwitch Grid.Column="1" Grid.Row="0" IsChecked="{Binding LauncherSettings.UseOptifine}" />
 		<ComboBox Grid.Column="1" Grid.Row="1" SelectedIndex="{Binding LauncherSettings.WindowMode}">
 			<ComboBox.Items>
-				<ComboBoxItem Content="Оконный" />
-				<ComboBoxItem Content="Полноэкранный" />
-				<ComboBoxItem Content="Безрамочный" />
+				<ComboBoxItem Content="{DynamicResource Settings.WindowMode.Windowed}" />
+				<ComboBoxItem Content="{DynamicResource Settings.WindowMode.Fullscreen}" />
+				<ComboBoxItem Content="{DynamicResource Settings.WindowMode.Borderless}" />
 			</ComboBox.Items>
 		</ComboBox>
 		<NumericUpDown Grid.Column="1" Grid.Row="2" Value="{Binding LauncherSettings.MaximumRamMb}" />
@@ -35,7 +35,7 @@
 		</ComboBox>
 		<!-- Кнопки -->
 		</Grid>
-		<Button HorizontalAlignment="Stretch" Grid.Row="1" Grid.Column="0" Content="Импорт настроек из .minecraft" Command="{Binding ImportCommand}" />
-		<Button HorizontalAlignment="Stretch" Grid.Row="2" Grid.Column="0" Content="OK" Command="{Binding OkCommand}" />
+		<Button HorizontalAlignment="Stretch" Grid.Row="1" Grid.Column="0" Content="{DynamicResource Settings.ImportButton}" Command="{Binding ImportCommand}" />
+		<Button HorizontalAlignment="Stretch" Grid.Row="2" Grid.Column="0" Content="{DynamicResource Settings.DoneButton}" Command="{Binding OkCommand}" />
 	</Grid>
 </UserControl>

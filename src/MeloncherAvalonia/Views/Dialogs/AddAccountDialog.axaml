@@ -8,13 +8,13 @@
              Width="256">
 	<Grid RowDefinitions="*,Auto">
 		<StackPanel>
-			<Label Content="Логин" />
+			<Label Content="{DynamicResource AccountMenu.AddMenu.Login}" />
 			<TextBox Text="{Binding Username}" Margin="4" Height="32" TextWrapping="Wrap" VerticalAlignment="Top" />
-			<Label Content="Пароль" IsVisible="{Binding NeedPassword}" />
+			<Label Content="{DynamicResource AccountMenu.AddMenu.Password}" IsVisible="{Binding NeedPassword}" />
 			<TextBox PasswordChar="●" Text="{Binding Password}" Margin="4" Height="32" VerticalAlignment="Top" IsVisible="{Binding NeedPassword}" />
 		</StackPanel>
 		<StackPanel Grid.Row="1" Orientation="Horizontal">
-			<Button HorizontalAlignment="Stretch" Command="{Binding OkCommand}" Content="Добавить" Height="40" Margin="4" VerticalAlignment="Top" />
+			<Button HorizontalAlignment="Stretch" Command="{Binding OkCommand}" Content="{DynamicResource AccountMenu.AddMenu.DoneButton}" Height="40" Margin="4" VerticalAlignment="Top" />
 		</StackPanel>
 	</Grid>
 </UserControl>

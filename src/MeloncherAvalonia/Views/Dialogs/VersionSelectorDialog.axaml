@@ -12,9 +12,9 @@
 		<!-- <Button Content="X" Width="48" Height="26" HorizontalAlignment="Right" /> -->
 		<ComboBox Grid.Row="0" SelectedIndex="{Binding VersionType}" HorizontalAlignment="Stretch">
 			<ComboBox.Items>
-				<ComboBoxItem Content="Релизы" />
-				<ComboBoxItem Content="Снапшоты" />
-				<ComboBoxItem Content="Устаревшие" />
+				<ComboBoxItem Content="{DynamicResource VersionMenu.Releases}" />
+				<ComboBoxItem Content="{DynamicResource VersionMenu.Snapshots}" />
+				<ComboBoxItem Content="{DynamicResource VersionMenu.Legacy}" />
 			</ComboBox.Items>
 		</ComboBox>
 		<ListBox Grid.Row="1" Items="{Binding Versions}" SelectedItem="{Binding SelectedVersion}">
@@ -29,6 +29,6 @@
 				</ia:EventTriggerBehavior>
 			</i:Interaction.Behaviors>
 		</ListBox>
-		<Button Grid.Row="2" Content="OK" Command="{Binding OkCommand}" HorizontalAlignment="Stretch" />
+		<Button Grid.Row="2" Content="{DynamicResource VersionMenu.DoneButton}" Command="{Binding OkCommand}" HorizontalAlignment="Stretch" />
 	</Grid>
 </UserControl>

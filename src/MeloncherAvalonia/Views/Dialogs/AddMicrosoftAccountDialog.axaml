@@ -8,9 +8,9 @@
              Width="256">
 	<Grid RowDefinitions="*,Auto">
 		<StackPanel>
-			<TextBlock TextWrapping="Wrap" Height="40" Text="Когда закончишь, скопируй адресную строку браузера сюда и нажми Добавить" FontSize="13" />
+			<TextBlock TextWrapping="Wrap" Height="40" Text="{DynamicResource AccountMenu.AddMicrosoftMenu.Text}" FontSize="13" />
 			<TextBox Text="{Binding RedirectUrl}" Margin="4" Height="32" TextWrapping="Wrap" VerticalAlignment="Top" />
 		</StackPanel>
-		<Button Grid.Row="1" HorizontalAlignment="Stretch" Command="{Binding OkCommand}" Content="Добавить" Margin="4" VerticalAlignment="Top" />
+		<Button Grid.Row="1" HorizontalAlignment="Stretch" Command="{Binding OkCommand}" Content="{DynamicResource AccountMenu.AddMicrosoftMenu.DoneButton}" Margin="4" VerticalAlignment="Top" />
 	</Grid>
 </UserControl>
