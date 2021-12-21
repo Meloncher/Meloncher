@@ -4,8 +4,8 @@
 	{
 		Vanilla,
 		Optifine,
-		Forge,
 		Fabric,
-		LiteLoader
+		// Forge,
+		// LiteLoader
 	}
 }

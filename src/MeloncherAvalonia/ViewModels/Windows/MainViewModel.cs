@@ -265,7 +265,6 @@ namespace MeloncherAvalonia.ViewModels.Windows
 			var result = await DialogHost.DialogHost.Show(dialog);
 			if (result is MVersionMetadata mVersionMetadata) SelectedVersion = _versionTools.GetMcVersion(mVersionMetadata.GetVersion());
 		}
-
 		private async Task PlayButtonCommand()
 		{
 			IsStarted = true;
@@ -285,14 +284,19 @@ namespace MeloncherAvalonia.ViewModels.Windows
 				_mcLauncher.Session = SelectedAccount.GameSession;
 			}
 
-			await _mcUpdater.Update(SelectedVersion, McClientType.Fabric);
+			if (SelectedVersion.ProfileType == ProfileType.Vanilla)
+			{
+				SelectedVersion.ClientType = _launcherSettings.UseOptifine ? McClientType.Optifine : McClientType.Vanilla;
+			}
+
+			await _mcUpdater.Update(SelectedVersion);
 
 			ProgressValue = 0;
 			ProgressText = null;
 			ProgressHidden = true;
 			IsLaunched = true;
 			// await SetHidden.Handle(true);
-			var qwe = await _mcLauncher.Launch(SelectedVersion, McClientType.Fabric);
+			var qwe = await _mcLauncher.Launch(SelectedVersion);
 			// await SetHidden.Handle(false);
 			IsStarted = false;
 			IsLaunched = false;

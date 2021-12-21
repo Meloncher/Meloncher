@@ -1,6 +1,7 @@
 ﻿using System;
 using CmlLib.Core;
 using CmlLib.Core.Version;
+using MeloncherCore.Launcher;
 using MeloncherCore.ModPack;
 
 namespace MeloncherCore.Version
@@ -41,7 +42,8 @@ namespace MeloncherCore.Version
 		{
 			if (string.IsNullOrEmpty(modPackName)) return null;
 			if (!modPackStorage.ContainsKey(modPackName)) return null;
-			return new McVersion(modPackName, modPackStorage.Get(modPackName).VersionName, ProfileType.Custom, modPackName);
+			var modPackInfo = modPackStorage.Get(modPackName);
+			return new McVersion(modPackName, modPackInfo.VersionName, modPackInfo.ClientType, ProfileType.Custom, modPackName);
 		}
 
 		public McVersion GetMcVersion(MVersion mVersion)
@@ -66,7 +68,7 @@ namespace MeloncherCore.Version
 			if (profileName == "pre-1.6") profileName = "legacy";
 			profileName ??= "unknown";
 
-			return new McVersion(mVersion.Id, mVersion.Id, ProfileType.Vanilla, profileName);
+			return new McVersion(mVersion.Id, mVersion.Id, McClientType.Vanilla, ProfileType.Vanilla, profileName);
 		}
 	}
 }

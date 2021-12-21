@@ -37,7 +37,7 @@ namespace MeloncherAvalonia.ViewModels.Dialogs
 			var lst = new List<MVersionMetadata>(_versionCollection);
 			foreach (var metadata in _versionCollection)
 			{
-				if (metadata.Name.ToLower().Contains("optifine")) lst.Remove(metadata);
+				if (metadata.Name.ToLower().Contains("optifine") || metadata.Name.ToLower().Contains("fabric")) lst.Remove(metadata);
 				var mtdType = metadata.MType;
 				if (mtdType == MVersionType.Custom) mtdType = metadata.GetVersion().Type;
 				if (VersionType == 0 && mtdType != MVersionType.Release) lst.Remove(metadata);

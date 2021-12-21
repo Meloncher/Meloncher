@@ -20,6 +20,14 @@
 					<Label Content="{Binding SelectedVersionMetadata.Name}" />
 				</StackPanel>
 				<Button Content="{DynamicResource ModPacksTab.CreateMenu.VersionButton}" Command="{Binding OpenVersionsWindowCommand}" HorizontalAlignment="Stretch" Margin="4,0" />
+				<Label Content="Client Type" />
+				<ComboBox HorizontalAlignment="Stretch" Margin="4" SelectedIndex="{Binding ClientType}">
+					<ComboBox.Items>
+						<ComboBoxItem Content="Vanilla" />
+						<ComboBoxItem Content="Optifine" />
+						<ComboBoxItem Content="Fabric" />
+					</ComboBox.Items>
+				</ComboBox>
 			</StackPanel>
 			<Button Grid.Row="1" HorizontalAlignment="Stretch" Command="{Binding OkCommand}" Content="{DynamicResource ModPacksTab.CreateMenu.DoneButton}" Height="40" Margin="4" />
 		</Grid>

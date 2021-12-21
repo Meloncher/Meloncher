@@ -21,7 +21,7 @@ namespace MeloncherCore.Launcher
 
 		public event McDownloadProgressEventHandler? McDownloadProgressChanged;
 
-		public async Task<bool> Update(McVersion mcVersion, McClientType mcClientType)
+		public async Task<bool> Update(McVersion mcVersion)
 		{
 			var path = _minecraftPath.CloneWithProfile(mcVersion.ProfileType.ToString().ToLower(), mcVersion.ProfileName);
 			var launcher = new CMLauncher(path);
@@ -51,7 +51,7 @@ namespace MeloncherCore.Launcher
 				var mVersion = await (await new DefaultVersionLoader(_minecraftPath).GetVersionMetadatasAsync()).GetVersionAsync(mcVersion.VersionName);
 				await launcher.CheckAndDownloadAsync(mVersion);
 
-				if (mcClientType == McClientType.Optifine)
+				if (mcVersion.ClientType == McClientType.Optifine)
 				{
 					var optifineInstaller = new OptifineInstallerBobcat();
 					optifineInstaller.ProgressChanged += (_, args) =>
@@ -72,7 +72,7 @@ namespace MeloncherCore.Launcher
 					}
 				}
 
-				if (mcClientType == McClientType.Fabric)
+				if (mcVersion.ClientType == McClientType.Fabric)
 				{
 					var fabricVersionLoader = new FabricVersionLoader();
 					var fabricVersions = await fabricVersionLoader.GetVersionMetadatasAsync();
