@@ -41,8 +41,7 @@ namespace MeloncherCore.Version
 		{
 			if (string.IsNullOrEmpty(modPackName)) return null;
 			if (!modPackStorage.ContainsKey(modPackName)) return null;
-			var mVersion = GetVersion(modPackStorage.Get(modPackName).VersionName);
-			return mVersion != null ? new McVersion(modPackName, mVersion, ProfileType.Custom, modPackName) : null;
+			return new McVersion(modPackName, modPackStorage.Get(modPackName).VersionName, ProfileType.Custom, modPackName);
 		}
 
 		public McVersion GetMcVersion(MVersion mVersion)
@@ -67,7 +66,7 @@ namespace MeloncherCore.Version
 			if (profileName == "pre-1.6") profileName = "legacy";
 			profileName ??= "unknown";
 
-			return new McVersion(mVersion.Id, mVersion, ProfileType.Vanilla, profileName);
+			return new McVersion(mVersion.Id, mVersion.Id, ProfileType.Vanilla, profileName);
 		}
 	}
 }

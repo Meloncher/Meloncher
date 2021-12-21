@@ -56,7 +56,7 @@ namespace MeloncherAvalonia.ViewModels.Windows
 			SettingsViewModel = new SettingsViewModel(_launcherSettings);
 			ModPackStorage = new ModPackStorage(_path);
 			// SelectedVersion = _versionCollection.LatestReleaseVersion;
-			SelectedVersion = _versionTools.GetMcVersion(_versionCollection.LatestReleaseVersion.GetVersion());
+			SelectedVersion = _versionTools.GetMcVersion(_versionCollection.LatestReleaseVersion.Name);
 			if (_launcherSettings.SelectedVersion != null)
 				try
 				{
@@ -285,15 +285,15 @@ namespace MeloncherAvalonia.ViewModels.Windows
 				_mcLauncher.Session = SelectedAccount.GameSession;
 			}
 
-			await _mcUpdater.Update(SelectedVersion, _launcherSettings.UseOptifine);
+			await _mcUpdater.Update(SelectedVersion, McClientType.Fabric);
 
 			ProgressValue = 0;
 			ProgressText = null;
 			ProgressHidden = true;
 			IsLaunched = true;
-			await SetHidden.Handle(true);
-			await _mcLauncher.Launch(SelectedVersion, _launcherSettings.UseOptifine);
-			await SetHidden.Handle(false);
+			// await SetHidden.Handle(true);
+			var qwe = await _mcLauncher.Launch(SelectedVersion, McClientType.Fabric);
+			// await SetHidden.Handle(false);
 			IsStarted = false;
 			IsLaunched = false;
 			Title = "Meloncher";

@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using CmlLib.Core;
+using CmlLib.Core.Installer.FabricMC;
+using CmlLib.Core.VersionLoader;
 using MeloncherCore.Launcher.Events;
 using MeloncherCore.Optifine;
 using MeloncherCore.Version;
@@ -18,9 +21,8 @@ namespace MeloncherCore.Launcher
 
 		public event McDownloadProgressEventHandler? McDownloadProgressChanged;
 
-		public async Task<bool> Update(McVersion mcVersion, bool optifine)
+		public async Task<bool> Update(McVersion mcVersion, McClientType mcClientType)
 		{
-			if (mcVersion == null) return false;
 			var path = _minecraftPath.CloneWithProfile(mcVersion.ProfileType.ToString().ToLower(), mcVersion.ProfileName);
 			var launcher = new CMLauncher(path);
 
@@ -46,9 +48,10 @@ namespace MeloncherCore.Launcher
 
 			try
 			{
-				await launcher.CheckAndDownloadAsync(mcVersion.MVersion);
+				var mVersion = await (await new DefaultVersionLoader(_minecraftPath).GetVersionMetadatasAsync()).GetVersionAsync(mcVersion.VersionName);
+				await launcher.CheckAndDownloadAsync(mVersion);
 
-				if (optifine)
+				if (mcClientType == McClientType.Optifine)
 				{
 					var optifineInstaller = new OptifineInstallerBobcat();
 					optifineInstaller.ProgressChanged += (_, args) =>
@@ -58,14 +61,26 @@ namespace MeloncherCore.Launcher
 						McDownloadProgressChanged?.Invoke(new McDownloadProgressEventArgs(downloadProgressType, downloadProgressPercentage, downloadProgressIsChecking));
 					};
 
-					var isLatestInstalled = await optifineInstaller.IsLatestInstalled(mcVersion.MVersion.Id, _minecraftPath);
+					var isLatestInstalled = await optifineInstaller.IsLatestInstalled(mVersion.Id, _minecraftPath);
 					if (!isLatestInstalled)
 					{
 						downloadProgressPercentage = 0;
 						downloadProgressType = "Optifine";
 						downloadProgressIsChecking = true;
 						McDownloadProgressChanged?.Invoke(new McDownloadProgressEventArgs(downloadProgressType, downloadProgressPercentage, downloadProgressIsChecking));
-						await optifineInstaller.InstallOptifine(mcVersion.MVersion.Id, _minecraftPath, mcVersion.MVersion.JavaBinaryPath);
+						await optifineInstaller.InstallOptifine(mVersion.Id, _minecraftPath, mVersion.JavaBinaryPath);
+					}
+				}
+
+				if (mcClientType == McClientType.Fabric)
+				{
+					var fabricVersionLoader = new FabricVersionLoader();
+					var fabricVersions = await fabricVersionLoader.GetVersionMetadatasAsync();
+					var fabricVersionMetadata = (from mVersionMetadata in fabricVersions where mVersionMetadata.Name.EndsWith(mcVersion.VersionName) select mVersionMetadata).FirstOrDefault();
+					if (fabricVersionMetadata != null)
+					{
+						await fabricVersionMetadata.SaveAsync(path);
+						await launcher.CheckAndDownloadAsync(await fabricVersionMetadata.GetVersionAsync());
 					}
 				}
 			}

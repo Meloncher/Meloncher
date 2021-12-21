@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using CmlLib.Core;
 using CmlLib.Core.Auth;
@@ -34,7 +37,7 @@ namespace MeloncherCore.Launcher
 
 		public event MinecraftOutputEventHandler? MinecraftOutput;
 
-		public async Task<bool> Launch(McVersion mcVersion, bool optifine)
+		public async Task<bool> Launch(McVersion mcVersion, McClientType mcClientType)
 		{
 			var path = _minecraftPath.CloneWithProfile(mcVersion.ProfileType.ToString().ToLower(), mcVersion.ProfileName);
 			var launcher = new CMLauncher(path)
@@ -42,6 +45,7 @@ namespace MeloncherCore.Launcher
 				VersionLoader = new LocalVersionLoader(_minecraftPath),
 				FileDownloader = null
 			};
+			MVersion mVersion = await launcher.GetVersionAsync(mcVersion.VersionName);
 			var args = new List<string>
 			{
 				"-Xmx" + MaximumRamMb + "m",
@@ -50,9 +54,9 @@ namespace MeloncherCore.Launcher
 			};
 			var launchOption = new MLaunchOption
 			{
-				StartVersion = mcVersion.MVersion,
+				StartVersion = mVersion,
 				// MaximumRamMb = MaximumRamMb,
-				JVMArguments = args.ToArray(),
+				// JVMArguments = args.ToArray(),
 				Session = Session,
 				VersionType = "Meloncher",
 				GameLauncherName = "Meloncher"
@@ -62,18 +66,44 @@ namespace MeloncherCore.Launcher
 
 			var sync = new McOptionsSync(path);
 			FixJavaBinaryPath(_minecraftPath, launchOption.StartVersion);
+			var javaBinaryPath = launchOption.StartVersion.JavaBinaryPath;
 
-			if (optifine)
+			if (mcClientType == McClientType.Optifine)
 			{
 				var optifineInstaller = new OptifineInstallerBobcat();
-				var ofVerName = optifineInstaller.GetLatestInstalled(mcVersion.MVersion.Id, _minecraftPath);
+				var ofVerName = optifineInstaller.GetLatestInstalled(mVersion.Id, _minecraftPath);
 				if (ofVerName != null)
 				{
-					var mcJarPath = Path.Combine(path.Versions, mcVersion.Name, mcVersion.Name + ".jar");
+					var mcJarPath = Path.Combine(path.Versions, mcVersion.VersionName, mcVersion.VersionName + ".jar");
 					var ofJarPath = Path.Combine(path.Versions, ofVerName, ofVerName + ".jar");
 					if (!File.Exists(ofJarPath) && File.Exists(mcJarPath)) File.Copy(mcJarPath, ofJarPath);
-					launchOption.StartVersion = await (await launcher.VersionLoader.GetVersionMetadatasAsync()).GetVersionAsync(ofVerName);
+					launchOption.StartVersion = await launcher.GetVersionAsync(ofVerName);
+					// FixJavaBinaryPath(_minecraftPath, launchOption.StartVersion);
+					launchOption.StartVersion.JavaBinaryPath = javaBinaryPath;
+				}
+			}
+			if (mcClientType == McClientType.Fabric)
+			{
+				var versionMetadatas = await launcher.VersionLoader.GetVersionMetadatasAsync();
+				string? fabricVersionName = null;
+				System.Version? fabricLoaderVersion = null;
+				foreach (var mVersionMetadata in versionMetadatas)
+				{
+					var match = Regex.Match(mVersionMetadata.Name, "fabric-loader-(?<fabricVersion>[0-9]*\\.[0-9]*\\.[0-9]*)-(?<minecraftVersion>.*)");
+					if (!match.Success || !string.Equals(mcVersion.VersionName, match.Groups["minecraftVersion"].Value)) continue;
+					System.Version loaderVersion = System.Version.Parse(match.Groups["fabricVersion"].Value);
+					if (loaderVersion.CompareTo(fabricLoaderVersion) <= 0) continue;
+					fabricVersionName = mVersionMetadata.Name;
+					fabricLoaderVersion = loaderVersion;
+				}
+				if (!string.IsNullOrEmpty(fabricVersionName))
+				{
+					var mcJarPath = Path.Combine(path.Versions, mcVersion.VersionName, mcVersion.VersionName + ".jar");
+					var fabricJarPath = Path.Combine(path.Versions, fabricVersionName, fabricVersionName + ".jar");
+					if (!File.Exists(fabricJarPath) && File.Exists(mcJarPath)) File.Copy(mcJarPath, fabricJarPath);
+					launchOption.StartVersion = await (await launcher.VersionLoader.GetVersionMetadatasAsync()).GetVersionAsync(fabricVersionName);
 					FixJavaBinaryPath(_minecraftPath, launchOption.StartVersion);
+					// launchOption.StartVersion.JavaBinaryPath = javaBinaryPath;
 				}
 			}
 
