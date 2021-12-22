@@ -1,6 +1,6 @@
 {
-  "version": 25,
-  "direct_link": "https://github.com/Meloncher/Meloncher/releases/download/beta-1.2.0/MeloncherSetup.exe",
+  "version": 26,
+  "direct_link": "https://github.com/Meloncher/Meloncher/releases/download/beta-1.2.1/MeloncherSetup.exe",
   "launch_args": "/SUPPRESSMSGBOXES /NOICONS /LANG=russian /TASKS=\"\" /CLOSEAPPLICATIONS",
-  "description": "Многоязычность и выбор языка\nУдалена интеграция с дискордом (Работает криво)\nСкрытие лаунчера при запуске игры\nВернул логи (Но они всё ещё ужасны)\nПеределал настройки"
+  "description": "Автоустановщик фабрика\nДобавил режим быстрого запуска*\nДобавил настройку отвечающую за скрытие лаунчера\nФикс краша в офлайне\nМелочь:\nПри создании модпака копируются общие настройки\nПри установке лаунчера сразу ставится язык системы\nБезрамочный режим работает лучше\n\n* В этом режиме лаунчер не проверяет целостность файлов игры, по этому в случае проблем с запуском, попробуйте отключить быстрый запуск"
 }
