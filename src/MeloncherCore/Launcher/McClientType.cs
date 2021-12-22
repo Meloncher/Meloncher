@@ -2,7 +2,7 @@
 {
 	public enum McClientType
 	{
-		Vanilla,
+		Default,
 		Optifine,
 		Fabric,
 		// Forge,

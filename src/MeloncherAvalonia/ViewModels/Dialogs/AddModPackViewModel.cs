@@ -35,7 +35,7 @@ namespace MeloncherAvalonia.ViewModels.Dialogs
 		}
 
 		[Reactive] public MVersionMetadata? SelectedVersionMetadata { get; set; }
-		[Reactive] public McClientType ClientType { get; set; } = McClientType.Vanilla;
+		[Reactive] public McClientType ClientType { get; set; } = McClientType.Default;
 		[Reactive] public string? Name { get; set; }
 
 		private async Task OpenVersionsWindowCommand()

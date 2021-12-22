@@ -284,7 +284,7 @@ namespace MeloncherAvalonia.ViewModels.Windows
 
 			if (SelectedVersion.ProfileType == ProfileType.Vanilla)
 			{
-				SelectedVersion.ClientType = _launcherSettings.UseOptifine ? McClientType.Optifine : McClientType.Vanilla;
+				SelectedVersion.ClientType = _launcherSettings.UseOptifine ? McClientType.Optifine : McClientType.Default;
 			}
 
 			await _mcUpdater.UpdateMinecraft(SelectedVersion);

@@ -26,6 +26,10 @@
 	<x:String x:Key="ModPacksTab.CreateMenu.Name">Название</x:String>
 	<x:String x:Key="ModPacksTab.CreateMenu.Version">Версия</x:String>
 	<x:String x:Key="ModPacksTab.CreateMenu.VersionButton">Выбрать версию</x:String>
+	<x:String x:Key="ModPacksTab.CreateMenu.ClientType">Тип сборки</x:String>
+	<x:String x:Key="ModPacksTab.CreateMenu.ClientType.Default">Стандарт</x:String>
+	<x:String x:Key="ModPacksTab.CreateMenu.ClientType.Optifine">Optifine</x:String>
+	<x:String x:Key="ModPacksTab.CreateMenu.ClientType.Fabric">Fabric</x:String>
 	<x:String x:Key="ModPacksTab.CreateMenu.DoneButton">Готово</x:String>
 	<x:String x:Key="LogsTab.Title">Логи (Beta)</x:String>
 	<x:String x:Key="Settings.Optifine">Использовать Optifine</x:String>
