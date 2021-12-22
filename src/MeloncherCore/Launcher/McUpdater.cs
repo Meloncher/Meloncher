@@ -84,9 +84,7 @@ namespace MeloncherCore.Launcher
 					{
 						McDownloadProgressChanged?.Invoke(new McDownloadProgressEventArgs("Optifine", 0, true));
 						FixJavaBinaryPath(_minecraftPath, mVersion);
-						var ofVerName=  await optifineInstaller.InstallOptifine(mVersion.Id, _minecraftPath, mVersion.JavaBinaryPath);
-						var ofMVersion = await (await new DefaultVersionLoader(_minecraftPath).GetVersionMetadatasAsync()).GetVersionAsync(ofVerName);
-						await launcher.CheckAndDownloadAsync(ofMVersion);
+						await optifineInstaller.InstallOptifine(mVersion.Id, _minecraftPath, mVersion.JavaBinaryPath);
 					}
 				}
 				if (mcVersion.ClientType == McClientType.Fabric)
