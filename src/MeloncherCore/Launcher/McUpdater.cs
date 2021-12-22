@@ -25,10 +25,17 @@ namespace MeloncherCore.Launcher
 
 		public event McDownloadProgressEventHandler? McDownloadProgressChanged;
 
-		public async Task<bool> UpdateMinecraft(McVersion mcVersion)
+		public async Task<bool> UpdateMinecraft(McVersion mcVersion, bool fastLaunch)
 		{
 			var path = _minecraftPath.CloneWithProfile(mcVersion.ProfileType.ToString().ToLower(), mcVersion.ProfileName);
 			var launcher = new CMLauncher(path);
+
+			if (fastLaunch)
+			{
+				var mcJarPath = Path.Combine(path.Versions, mcVersion.VersionName, mcVersion.VersionName + ".jar");
+				var mcJsonPath = Path.Combine(path.Versions, mcVersion.VersionName, mcVersion.VersionName + ".json");
+				if (File.Exists(mcJarPath) && File.Exists(mcJsonPath)) return true;
+			}
 
 			var downloadProgressIsChecking = true;
 			var downloadProgressPercentage = 0;

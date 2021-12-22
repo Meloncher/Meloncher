@@ -27,6 +27,7 @@ namespace MeloncherCore.Settings
 
 		[JsonProperty("language")] public Language Language { get; set; } = GetSystemLang();
 		[JsonProperty("hide_launcher")] public bool HideLauncher { get; set; } = true;
+		[JsonProperty("fast_launcher")] public bool FastLaunch { get; set; } = false;
 
 		public event PropertyChangedEventHandler? PropertyChanged;
 

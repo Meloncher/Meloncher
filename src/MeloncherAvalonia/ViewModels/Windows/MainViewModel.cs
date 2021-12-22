@@ -287,7 +287,7 @@ namespace MeloncherAvalonia.ViewModels.Windows
 				SelectedVersion.ClientType = _launcherSettings.UseOptifine ? McClientType.Optifine : McClientType.Default;
 			}
 
-			await _mcUpdater.UpdateMinecraft(SelectedVersion);
+			await _mcUpdater.UpdateMinecraft(SelectedVersion, _launcherSettings.FastLaunch);
 			await _mcUpdater.UpdateCustomClient(SelectedVersion);
 
 			ProgressValue = 0;

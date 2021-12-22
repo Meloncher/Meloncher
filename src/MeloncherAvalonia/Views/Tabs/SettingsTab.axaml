@@ -7,7 +7,7 @@
              d:DesignHeight="450"
              x:Class="MeloncherAvalonia.Views.Tabs.SettingsTab">
 	<Grid RowDefinitions="*,Auto">
-		<Grid ColumnDefinitions="200,*" RowDefinitions="48, 48, 48, 48, 48, 48, 48">
+		<Grid ColumnDefinitions="200,*" RowDefinitions="48, 48, 48, 48, 48, 48, 48, 48">
 			<!-- Названия -->
 			<TextBlock Grid.Column="0" Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0" Text="{DynamicResource Settings.Optifine}" />
 			<TextBlock Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0" Text="{DynamicResource Settings.WindowMode}" />
@@ -16,6 +16,7 @@
 			<TextBlock Grid.Column="0" Grid.Row="4" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0" Text="{DynamicResource Settings.JvmArguments}" />
 			<TextBlock Grid.Column="0" Grid.Row="5" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0" Text="{DynamicResource Settings.Language}" />
 			<TextBlock Grid.Column="0" Grid.Row="6" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0" Text="{DynamicResource Settings.HideOnLaunch}" />
+			<TextBlock Grid.Column="0" Grid.Row="7" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0" Text="{DynamicResource Settings.FastLaunch}" />
 			<!-- Настройки -->
 			<ToggleSwitch Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" IsChecked="{Binding LauncherSettings.UseOptifine}" />
 			<ComboBox Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" SelectedIndex="{Binding LauncherSettings.WindowMode}">
@@ -35,6 +36,7 @@
 				</ComboBox.Items>
 			</ComboBox>
 			<ToggleSwitch Grid.Column="1" Grid.Row="6" VerticalAlignment="Center" IsChecked="{Binding LauncherSettings.HideLauncher}" />
+			<ToggleSwitch Grid.Column="1" Grid.Row="7" VerticalAlignment="Center" IsChecked="{Binding LauncherSettings.FastLaunch}" />
 			<!-- Кнопки -->
 		</Grid>
 		<Button HorizontalAlignment="Stretch" Grid.Row="1" Grid.Column="0" Content="{DynamicResource Settings.ImportButton}" Command="{Binding ImportCommand}" />
