@@ -294,9 +294,9 @@ namespace MeloncherAvalonia.ViewModels.Windows
 			ProgressText = null;
 			ProgressHidden = true;
 			IsLaunched = true;
-			// await SetHidden.Handle(true);
-			var qwe = await _mcLauncher.Launch(SelectedVersion);
-			// await SetHidden.Handle(false);
+			if (_launcherSettings.HideLauncher) await SetHidden.Handle(true);
+			await _mcLauncher.Launch(SelectedVersion);
+			await SetHidden.Handle(false);
 			IsStarted = false;
 			IsLaunched = false;
 			Title = "Meloncher";

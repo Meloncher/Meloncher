@@ -37,6 +37,7 @@
 	<x:String x:Key="Settings.UseTransparency">Use transparency</x:String>
 	<x:String x:Key="Settings.JvmArguments">JVM arguments</x:String>
 	<x:String x:Key="Settings.Language">Language</x:String>
+	<x:String x:Key="Settings.HideOnLaunch">Hide launcher</x:String>
 	<x:String x:Key="Settings.ImportButton">Import from .minecraft</x:String>
 	<x:String x:Key="Settings.DoneButton">Done</x:String>
 </ResourceDictionary>
