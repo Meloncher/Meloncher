@@ -22,7 +22,7 @@ namespace MeloncherCore.Launcher
 
 		private async Task<IntPtr> GetHWnd()
 		{
-			for (var i = 0; i < 20; i++)
+			for (var i = 0; i < 60; i++)
 			{
 				if (_process.MainWindowHandle.ToInt32() != 0) return _process.MainWindowHandle;
 				await Task.Delay(1000);
