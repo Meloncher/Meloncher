@@ -61,7 +61,7 @@ namespace MeloncherCore.Launcher
 			{
 				StartVersion = mVersion,
 				// MaximumRamMb = MaximumRamMb,
-				// JVMArguments = args.ToArray(),
+				JVMArguments = args.ToArray(),
 				Session = Session,
 				VersionType = "Meloncher",
 				GameLauncherName = "Meloncher"
