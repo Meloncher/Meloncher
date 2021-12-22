@@ -70,7 +70,7 @@ namespace MeloncherCore.Launcher
 			if (WindowMode == WindowMode.Fullscreen) launchOption.FullScreen = true;
 
 			var sync = new McOptionsSync(path);
-			FixJavaBinaryPath(_minecraftPath, launchOption.StartVersion);
+			McUpdater.FixJavaBinaryPath(_minecraftPath, launchOption.StartVersion);
 			var javaBinaryPath = launchOption.StartVersion.JavaBinaryPath;
 
 			if (mcVersion.ClientType == McClientType.Optifine)
@@ -106,7 +106,7 @@ namespace MeloncherCore.Launcher
 					var fabricJarPath = Path.Combine(path.Versions, fabricVersionName, fabricVersionName + ".jar");
 					if (!File.Exists(fabricJarPath) && File.Exists(mcJarPath)) File.Copy(mcJarPath, fabricJarPath);
 					launchOption.StartVersion = await (await launcher.VersionLoader.GetVersionMetadatasAsync()).GetVersionAsync(fabricVersionName);
-					FixJavaBinaryPath(_minecraftPath, launchOption.StartVersion);
+					McUpdater.FixJavaBinaryPath(_minecraftPath, launchOption.StartVersion);
 					// launchOption.StartVersion.JavaBinaryPath = javaBinaryPath;
 				}
 			}
@@ -124,19 +124,6 @@ namespace MeloncherCore.Launcher
 			await McProcess.WaitForExitAsync();
 			if (mcVersion.ProfileType == ProfileType.Vanilla) sync.Save();
 			return true;
-		}
-
-		private void FixJavaBinaryPath(MinecraftPath path, MVersion version)
-		{
-			if (!string.IsNullOrEmpty(version.JavaBinaryPath) && File.Exists(version.JavaBinaryPath))
-				return;
-
-			var javaVersion = version.JavaVersion;
-			if (string.IsNullOrEmpty(javaVersion))
-				javaVersion = "jre-legacy";
-			var bin = "bin";
-			if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX)) bin = "jre.bundle/Contents/Home/bin";
-			version.JavaBinaryPath = Path.Combine(path.Runtime, javaVersion, bin, MJava.GetDefaultBinaryName());
 		}
 	}
 }

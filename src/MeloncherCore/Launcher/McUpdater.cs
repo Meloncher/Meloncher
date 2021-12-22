@@ -1,8 +1,12 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using CmlLib.Core;
+using CmlLib.Core.Installer;
 using CmlLib.Core.Installer.FabricMC;
+using CmlLib.Core.Version;
 using CmlLib.Core.VersionLoader;
 using MeloncherCore.Launcher.Events;
 using MeloncherCore.Optifine;
@@ -21,7 +25,7 @@ namespace MeloncherCore.Launcher
 
 		public event McDownloadProgressEventHandler? McDownloadProgressChanged;
 
-		public async Task<bool> Update(McVersion mcVersion)
+		public async Task<bool> UpdateMinecraft(McVersion mcVersion)
 		{
 			var path = _minecraftPath.CloneWithProfile(mcVersion.ProfileType.ToString().ToLower(), mcVersion.ProfileName);
 			var launcher = new CMLauncher(path);
@@ -50,28 +54,41 @@ namespace MeloncherCore.Launcher
 			{
 				var mVersion = await (await new DefaultVersionLoader(_minecraftPath).GetVersionMetadatasAsync()).GetVersionAsync(mcVersion.VersionName);
 				await launcher.CheckAndDownloadAsync(mVersion);
+			}
+			catch (Exception)
+			{
+				return false;
+			}
 
+			return true;
+		}
+
+		public async Task<bool> UpdateCustomClient(McVersion mcVersion)
+		{
+			var path = _minecraftPath.CloneWithProfile(mcVersion.ProfileType.ToString().ToLower(), mcVersion.ProfileName);
+			var launcher = new CMLauncher(path);
+			try
+			{
+				var mVersion = await (await new DefaultVersionLoader(_minecraftPath).GetVersionMetadatasAsync()).GetVersionAsync(mcVersion.VersionName);
+				
 				if (mcVersion.ClientType == McClientType.Optifine)
 				{
 					var optifineInstaller = new OptifineInstallerBobcat();
 					optifineInstaller.ProgressChanged += (_, args) =>
 					{
-						downloadProgressPercentage = args.ProgressPercentage;
-						downloadProgressIsChecking = false;
-						McDownloadProgressChanged?.Invoke(new McDownloadProgressEventArgs(downloadProgressType, downloadProgressPercentage, downloadProgressIsChecking));
+						McDownloadProgressChanged?.Invoke(new McDownloadProgressEventArgs("Optifine", args.ProgressPercentage, false));
 					};
 
 					var isLatestInstalled = await optifineInstaller.IsLatestInstalled(mVersion.Id, _minecraftPath);
 					if (!isLatestInstalled)
 					{
-						downloadProgressPercentage = 0;
-						downloadProgressType = "Optifine";
-						downloadProgressIsChecking = true;
-						McDownloadProgressChanged?.Invoke(new McDownloadProgressEventArgs(downloadProgressType, downloadProgressPercentage, downloadProgressIsChecking));
-						await optifineInstaller.InstallOptifine(mVersion.Id, _minecraftPath, mVersion.JavaBinaryPath);
+						McDownloadProgressChanged?.Invoke(new McDownloadProgressEventArgs("Optifine", 0, true));
+						FixJavaBinaryPath(_minecraftPath, mVersion);
+						var ofVerName=  await optifineInstaller.InstallOptifine(mVersion.Id, _minecraftPath, mVersion.JavaBinaryPath);
+						var ofMVersion = await (await new DefaultVersionLoader(_minecraftPath).GetVersionMetadatasAsync()).GetVersionAsync(ofVerName);
+						await launcher.CheckAndDownloadAsync(ofMVersion);
 					}
 				}
-
 				if (mcVersion.ClientType == McClientType.Fabric)
 				{
 					var fabricVersionLoader = new FabricVersionLoader();
@@ -88,8 +105,21 @@ namespace MeloncherCore.Launcher
 			{
 				return false;
 			}
-
+			
 			return true;
+		}
+		
+		public static void FixJavaBinaryPath(MinecraftPath path, MVersion version)
+		{
+			if (!string.IsNullOrEmpty(version.JavaBinaryPath) && File.Exists(version.JavaBinaryPath))
+				return;
+
+			var javaVersion = version.JavaVersion;
+			if (string.IsNullOrEmpty(javaVersion))
+				javaVersion = "jre-legacy";
+			var bin = "bin";
+			if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX)) bin = "jre.bundle/Contents/Home/bin";
+			version.JavaBinaryPath = Path.Combine(path.Runtime, javaVersion, bin, MJava.GetDefaultBinaryName());
 		}
 	}
 }
