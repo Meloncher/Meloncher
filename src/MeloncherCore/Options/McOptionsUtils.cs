@@ -26,6 +26,7 @@ namespace MeloncherCore.Options
 			options.SetValue("skipMultiplayerWarning", true);
 			options.SetValue("soundCategory_master", 0.5);
 			options.SetValue("soundCategory_music", 0.1);
+			options.SetValue("enableVsync", false);
 			if (launcherSettings == null) return;
 			if (launcherSettings.Language == Language.Russian)options.SetValue("lang", "ru_RU");
 		}
