@@ -14,9 +14,9 @@ namespace MeloncherCore.Options
 		private readonly string[] _optifineOptionsNoSyncKeys = Array.Empty<string>();
 		private readonly string _profileGameOptionsPath;
 		private readonly string _profileOptifineOptionsPath;
-		private readonly LauncherSettings _launcherSettings;
+		private readonly LauncherSettings? _launcherSettings;
 
-		public McOptionsSync(ExtMinecraftPath path, LauncherSettings launcherSettings)
+		public McOptionsSync(ExtMinecraftPath path, LauncherSettings? launcherSettings)
 		{
 			_profileGameOptionsPath = Path.Combine(path.BasePath, "options.txt");
 			_launcherGameOptionsPath = Path.Combine(path.RootPath, "options.txt");

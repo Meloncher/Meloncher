@@ -57,7 +57,7 @@ namespace MeloncherCore.ModPack
 			var jsonStr = JsonConvert.SerializeObject(value);
 			File.WriteAllText(Path.Combine(modPackDir, "modpack.json"), jsonStr);
 			var profileMcPath = _path.CloneWithProfile("custom", key);
-			new McOptionsSync(profileMcPath).Load();
+			new McOptionsSync(profileMcPath, null).Load();
 			Load();
 		}
 

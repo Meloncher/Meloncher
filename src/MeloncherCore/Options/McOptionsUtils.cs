@@ -17,16 +17,17 @@ namespace MeloncherCore.Options
 			return (int) Math.Round(2 * scale + 0.1);
 		}
 
-		public static void SetDefaults(ExtGameOptionsFile options, LauncherSettings launcherSettings)
+		public static void SetDefaults(ExtGameOptionsFile options, LauncherSettings? launcherSettings)
 		{
 			options.SetValue("gamma", 0.5);
-			if (launcherSettings.Language == Language.Russian) options.SetValue("lang", "ru_RU");
 			options.SetValue("guiScale", GetDefaultScale());
 			options.SetValue("autoJump", false);
 			options.SetValue("fov", 0.5);
 			options.SetValue("skipMultiplayerWarning", true);
 			options.SetValue("soundCategory_master", 0.5);
 			options.SetValue("soundCategory_music", 0.1);
+			if (launcherSettings == null) return;
+			if (launcherSettings.Language == Language.Russian)options.SetValue("lang", "ru_RU");
 		}
 	}
 }

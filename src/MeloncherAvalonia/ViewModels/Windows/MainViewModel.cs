@@ -50,10 +50,10 @@ namespace MeloncherAvalonia.ViewModels.Windows
 			_versionTools = new VersionTools(_path);
 			_versionCollection = _versionTools.GetVersionMetadatas();
 
-			_accountStorage = new AccountStorage(_path);
-			_mcLauncher = new McLauncher(_path);
-			_mcUpdater = new McUpdater(_path);
 			_launcherSettings = LauncherSettings.New(_path);
+			_accountStorage = new AccountStorage(_path);
+			_mcLauncher = new McLauncher(_path, _launcherSettings);
+			_mcUpdater = new McUpdater(_path);
 			SettingsViewModel = new SettingsViewModel(_launcherSettings);
 			ModPackStorage = new ModPackStorage(_path);
 			if (_versionCollection.LatestReleaseVersion != null) SelectedVersion = _versionTools.GetMcVersion(_versionCollection.LatestReleaseVersion.Name);
@@ -271,9 +271,6 @@ namespace MeloncherAvalonia.ViewModels.Windows
 			IsStarted = true;
 			ProgressHidden = false;
 			Title = "Meloncher " + SelectedVersion?.Name;
-			_mcLauncher.WindowMode = _launcherSettings.WindowMode;
-			_mcLauncher.MaximumRamMb = _launcherSettings.MaximumRamMb;
-			_mcLauncher.JvmArguments = _launcherSettings.JvmArguments;
 			if (SelectedVersion == null) return;
 
 			if (SelectedAccount != null)

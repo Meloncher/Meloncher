@@ -1,13 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Reflection.Metadata.Ecma335;
-using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using CmlLib.Core;
 using CmlLib.Core.Auth;
-using CmlLib.Core.Installer;
 using CmlLib.Core.Version;
 using CmlLib.Core.VersionLoader;
 using MeloncherCore.Launcher.Events;
@@ -21,20 +17,16 @@ namespace MeloncherCore.Launcher
 	public class McLauncher
 	{
 		private readonly ExtMinecraftPath _minecraftPath;
+		private readonly LauncherSettings _launcherSettings;
 		public McProcess? McProcess;
 
-		public McLauncher(ExtMinecraftPath minecraftPath)
+		public McLauncher(ExtMinecraftPath minecraftPath, LauncherSettings launcherSettings)
 		{
 			_minecraftPath = minecraftPath;
+			_launcherSettings = launcherSettings;
 		}
 
 		public MSession Session { get; set; } = MSession.GetOfflineSession("Player");
-
-		// public bool Offline { get; set; }
-		public int MaximumRamMb { get; set; } = 2048;
-		public WindowMode WindowMode { get; set; } = WindowMode.Windowed;
-		public string JvmArguments { get; set; } = "";
-
 		public event MinecraftOutputEventHandler? MinecraftOutput;
 
 		public async Task<bool> Launch(McVersion mcVersion)
@@ -53,9 +45,9 @@ namespace MeloncherCore.Launcher
 			MVersion mVersion = await launcher.GetVersionAsync(mcVersion.VersionName);
 			var args = new List<string>
 			{
-				"-Xmx" + MaximumRamMb + "m",
-				"-Xms" + MaximumRamMb + "m",
-				JvmArguments
+				"-Xmx" + _launcherSettings.MaximumRamMb + "m",
+				"-Xms" + _launcherSettings.MaximumRamMb + "m",
+				_launcherSettings.JvmArguments
 			};
 			var launchOption = new MLaunchOption
 			{
@@ -67,9 +59,9 @@ namespace MeloncherCore.Launcher
 				GameLauncherName = "Meloncher"
 			};
 
-			if (WindowMode == WindowMode.Fullscreen) launchOption.FullScreen = true;
+			if (_launcherSettings.WindowMode == WindowMode.Fullscreen) launchOption.FullScreen = true;
 
-			var sync = new McOptionsSync(path);
+			var sync = new McOptionsSync(path, _launcherSettings);
 			McUpdater.FixJavaBinaryPath(_minecraftPath, launchOption.StartVersion);
 			var javaBinaryPath = launchOption.StartVersion.JavaBinaryPath;
 
@@ -79,12 +71,10 @@ namespace MeloncherCore.Launcher
 				var ofVerName = optifineInstaller.GetLatestInstalled(mVersion.Id, _minecraftPath);
 				if (ofVerName != null)
 				{
-					
 					var ofJarPath = Path.Combine(path.Versions, ofVerName, ofVerName + ".jar");
 					if (!File.Exists(ofJarPath) && File.Exists(mcJarPath)) File.Copy(mcJarPath, ofJarPath);
 					launchOption.StartVersion = await launcher.GetVersionAsync(ofVerName);
-					// FixJavaBinaryPath(_minecraftPath, launchOption.StartVersion);
-					launchOption.StartVersion.JavaBinaryPath = javaBinaryPath;
+					McUpdater.FixJavaBinaryPath(_minecraftPath, launchOption.StartVersion);
 				}
 			}
 			if (mcVersion.ClientType == McClientType.Fabric)
@@ -107,7 +97,6 @@ namespace MeloncherCore.Launcher
 					if (!File.Exists(fabricJarPath) && File.Exists(mcJarPath)) File.Copy(mcJarPath, fabricJarPath);
 					launchOption.StartVersion = await (await launcher.VersionLoader.GetVersionMetadatasAsync()).GetVersionAsync(fabricVersionName);
 					McUpdater.FixJavaBinaryPath(_minecraftPath, launchOption.StartVersion);
-					// launchOption.StartVersion.JavaBinaryPath = javaBinaryPath;
 				}
 			}
 
@@ -115,7 +104,7 @@ namespace MeloncherCore.Launcher
 			McProcess.MinecraftOutput += args => MinecraftOutput?.Invoke(args);
 			if (mcVersion.ProfileType == ProfileType.Vanilla) sync.Load();
 			McProcess.Start();
-			if (WindowMode == WindowMode.Borderless)
+			if (_launcherSettings.WindowMode == WindowMode.Borderless)
 			{
 				var wt = new WindowTweaks(McProcess.Process);
 				_ = wt.Borderless();
