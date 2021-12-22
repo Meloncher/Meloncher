@@ -12,6 +12,7 @@ using Avalonia.Controls;
 using CmlLib.Core.Version;
 using MeloncherAvalonia.Models;
 using MeloncherAvalonia.ViewModels.Dialogs;
+using MeloncherAvalonia.ViewModels.Tabs;
 using MeloncherAvalonia.Views.Dialogs;
 using MeloncherCore.Account;
 using MeloncherCore.Launcher;

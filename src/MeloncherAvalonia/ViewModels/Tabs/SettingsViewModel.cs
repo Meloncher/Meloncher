@@ -1,7 +1,7 @@
 ﻿using MeloncherCore.Settings;
 using ReactiveUI.Fody.Helpers;
 
-namespace MeloncherAvalonia.ViewModels.Dialogs
+namespace MeloncherAvalonia.ViewModels.Tabs
 {
 	public class SettingsViewModel : ViewModelBase
 	{
