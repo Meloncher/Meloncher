@@ -1,5 +1,7 @@
 ﻿#nullable enable
+using System;
 using System.ComponentModel;
+using System.Globalization;
 using System.IO;
 using MeloncherCore.Launcher;
 using MeloncherCore.Version;
@@ -23,7 +25,8 @@ namespace MeloncherCore.Settings
 
 		[JsonProperty("jvm_arguments")] public string JvmArguments { get; set; } = "-XX:+UnlockExperimentalVMOptions -XX:+UseG1GC -XX:G1NewSizePercent=20 -XX:G1ReservePercent=20 -XX:MaxGCPauseMillis=50 -XX:G1HeapRegionSize=16M";
 
-		[JsonProperty("language")] public Language Language { get; set; } = Language.English;
+		[JsonProperty("language")] public Language Language { get; set; } = GetSystemLang();
+		[JsonProperty("hide_launcher")] public bool HideLauncher { get; set; } = true;
 
 		public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -42,6 +45,14 @@ namespace MeloncherCore.Settings
 		{
 			var jsonStr = JsonConvert.SerializeObject(this);
 			if (_storagePath != null) File.WriteAllTextAsync(_storagePath, jsonStr);
+		}
+
+		private static Language GetSystemLang()
+		{
+			string sysLang = CultureInfo.InstalledUICulture.Name;
+			if (sysLang.Equals("ru-RU")) return Language.Russian;
+			if (sysLang.Equals("uk-UA")) return Language.Russian;
+			return Language.English;
 		}
 	}
 

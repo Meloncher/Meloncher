@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using MeloncherCore.Settings;
 using Microsoft.Win32;
 
 namespace MeloncherCore.Options
 {
-	internal class McOptionsUtils
+	internal static class McOptionsUtils
 	{
-		public static int GetDefaultScale()
+		private static int GetDefaultScale()
 		{
 			double scale = 1;
 
@@ -16,10 +17,10 @@ namespace MeloncherCore.Options
 			return (int) Math.Round(2 * scale + 0.1);
 		}
 
-		public static void SetDefaults(ExtGameOptionsFile options)
+		public static void SetDefaults(ExtGameOptionsFile options, LauncherSettings launcherSettings)
 		{
 			options.SetValue("gamma", 0.5);
-			options.SetValue("lang", "ru_RU");
+			if (launcherSettings.Language == Language.Russian) options.SetValue("lang", "ru_RU");
 			options.SetValue("guiScale", GetDefaultScale());
 			options.SetValue("autoJump", false);
 			options.SetValue("fov", 0.5);

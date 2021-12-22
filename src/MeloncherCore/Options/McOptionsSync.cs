@@ -2,6 +2,7 @@
 using System.IO;
 using System.Text;
 using MeloncherCore.Launcher;
+using MeloncherCore.Settings;
 
 namespace MeloncherCore.Options
 {
@@ -13,13 +14,15 @@ namespace MeloncherCore.Options
 		private readonly string[] _optifineOptionsNoSyncKeys = Array.Empty<string>();
 		private readonly string _profileGameOptionsPath;
 		private readonly string _profileOptifineOptionsPath;
+		private readonly LauncherSettings _launcherSettings;
 
-		public McOptionsSync(ExtMinecraftPath path)
+		public McOptionsSync(ExtMinecraftPath path, LauncherSettings launcherSettings)
 		{
 			_profileGameOptionsPath = Path.Combine(path.BasePath, "options.txt");
 			_launcherGameOptionsPath = Path.Combine(path.RootPath, "options.txt");
 			_profileOptifineOptionsPath = Path.Combine(path.BasePath, "optionsof.txt");
 			_launcherOptifineOptionsPath = Path.Combine(path.RootPath, "optionsof.txt");
+			_launcherSettings = launcherSettings;
 		}
 
 		private void save(string launcherOptionsPath, string profileOptionsPath, string[] noSyncKeys)
@@ -44,7 +47,7 @@ namespace MeloncherCore.Options
 			{
 				File.WriteAllText(launcherOptionsPath, "", Encoding.Default);
 				var sync = ExtGameOptionsFile.ReadFile(launcherOptionsPath, Encoding.Default);
-				McOptionsUtils.SetDefaults(sync);
+				McOptionsUtils.SetDefaults(sync, _launcherSettings);
 				sync.Save(launcherOptionsPath, Encoding.Default);
 			}
 
