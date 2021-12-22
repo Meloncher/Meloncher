@@ -56,8 +56,8 @@ namespace MeloncherAvalonia.ViewModels.Windows
 			_launcherSettings = LauncherSettings.New(_path);
 			SettingsViewModel = new SettingsViewModel(_launcherSettings);
 			ModPackStorage = new ModPackStorage(_path);
-			// SelectedVersion = _versionCollection.LatestReleaseVersion;
-			SelectedVersion = _versionTools.GetMcVersion(_versionCollection.LatestReleaseVersion.Name);
+			if (_versionCollection.LatestReleaseVersion != null) SelectedVersion = _versionTools.GetMcVersion(_versionCollection.LatestReleaseVersion.Name);
+
 			if (_launcherSettings.SelectedVersion != null)
 				try
 				{
